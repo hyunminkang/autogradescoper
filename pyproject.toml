@@ -1,0 +1,25 @@
+[project]
+name = "autogradescoper"
+description = "Tools for Automatic Grading using GradeScope for R"
+version = "0.0.1"
+authors = [{name = "Hyun Min Kang", email = "hmkang@umich.edu"}]
+license = {text = "MIT license"}
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy", "pandas"
+]
+
+[project.scripts]
+autogradescoper = "autogradescoper.cli:main"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-data]
+scripts = ["*.txt", "*.rst", "*.html"]
+
+[project.urls]
+"Homepage" = "https://hyunminkang.github.io/autogradescoper/"
+"Bug Tracker" = "https://github.com/hyunminkang/autogradescoper/issues"
