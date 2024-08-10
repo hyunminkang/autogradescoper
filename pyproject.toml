@@ -7,7 +7,7 @@ license = {text = "MIT license"}
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
-    "numpy", "pandas"
+    "numpy", "pandas", "PyYAML"
 ]
 
 [project.scripts]
