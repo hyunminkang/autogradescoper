@@ -123,7 +123,9 @@ def write_r_eval_func_script(func_name, out_prefix, in_func_path, in_params, out
                 n_args += 1
                 (type, value) = line.split(":", maxsplit=1)
                 value = value.strip()
-                if type == "int" or type == "numeric":
+                if type == "int":
+                    cmd = f"arg{n_args} <- c(" + "L, ".join(value.split()) + "L)"
+                elif type == "numeric":
                     cmd = f"arg{n_args} <- c(" + ",".join(value.split()) + ")"
                 elif type == "str":
                     values = value.split()
