@@ -63,7 +63,7 @@ def eval_r_func_probset(_args):
     total_time = 0
     total_max_score = 0
     for j in jsons:
-        total_score += j["scores"]
+        total_score += j["score"]
         total_time += j["elapsed"]
         total_max_score += j["max_score"]
 
