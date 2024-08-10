@@ -31,10 +31,10 @@ def eval_r_func_problem(_args):
 
     log_path = f"{args.out_prefix}.log"
     logger = create_custom_logger(__name__, log_path if args.log else None)
-    logger.info("Analysis Started")
+#    logger.info("Analysis Started")
 
     ## read the config file
-    logger.info(f"Reading the config file: {args.config}")
+#    logger.info(f"Reading the config file: {args.config}")
     config = load_file_to_dict(args.config)
 
     n_config = len(config)
@@ -42,17 +42,9 @@ def eval_r_func_problem(_args):
         argval= v["args"]
         maxtime = v["maxtime"]
 
-        # print(params, maxtime)
-
-        # print("\n".join(["--r-func", args.r_func] +
-        #                 ["--solution", args.solution] +
-        #                 ["--params", params] + 
-        #                 ["--out-prefix", f"{args.out_prefix}.{i}"] +
-        #                 ["--max-time", str(maxtime)] +
-        #                 ["--digits", str(args.digits)] +
-        #                 ["--submission", args.submission] +
-        #                 (["--log"] if args.log else [])
-        # ), file=sys.stderr)
+        logger.info("--------------------------------------------------------------------")
+        logger.info(f"Evaluating the test case {i+1}/{n_config}:")
+        logger.info("--------------------------------------------------------------------")
 
         get_func("eval_r_func_args")(  
                         ["--r-func", args.r_func] +
@@ -63,8 +55,6 @@ def eval_r_func_problem(_args):
                         ["--digits", str(args.digits)] +
                         ["--submission", args.submission] +
                         (["--log"] if args.log else []))                
-        logger.info(f"Analysis for config {i+1}/{n_config} finished with argument {argval} and maxtime {maxtime}")
-        logger.info(f"----------------------------------------------")
 
     ## collect the results and store into a single output file
     outdict = {}
@@ -89,10 +79,10 @@ def eval_r_func_problem(_args):
     outdict["output"] = f"Score: {sum_scores}/{n_config}\nTotal elapsed time: {sum_elapsed:.3f}s\nTest Cases:\n" + "\n".join(out_strs) + "\n"
 
     ## write the output to a file
-    logger.info(f"Writing the evaluation output to {args.out_prefix}.json")
+#    logger.info(f"Writing the evaluation output to {args.out_prefix}.json")
     write_dict_to_file(outdict, f"{args.out_prefix}.json")
         
-    logger.info(f"Analysis finished")
+#    logger.info(f"Analysis finished")
 
 if __name__ == "__main__":
     # Get the base file name without extension

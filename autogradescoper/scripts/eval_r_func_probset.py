@@ -28,10 +28,10 @@ def eval_r_func_probset(_args):
 
     log_path = f"{args.out_prefix}.log"
     logger = create_custom_logger(__name__, log_path if args.log else None)
-    logger.info("Analysis Started")
+    logger.info("Started evaluating the whole problem set")
 
     ## read the config file
-    logger.info(f"Reading the config file: {args.config}")
+    #logger.info(f"Reading the config file: {args.config}")
     config = load_file_to_dict(args.config)
 
     n_config = len(config)
@@ -41,6 +41,10 @@ def eval_r_func_probset(_args):
         conf = v["config"]
         digits = v["digits"]
         preload = v.get("preload", None)
+
+        logger.info("====================================================================")
+        logger.info(f"Starting the evaluation of the problem {i+1}/{n_config}: {func}")
+        logger.info("====================================================================")
 
         out_prefix = f"{args.out_prefix}.{func}"
         get_func("eval_r_func_problem")(  
@@ -52,8 +56,6 @@ def eval_r_func_probset(_args):
                         ["--digits", str(digits)] +
                         (["--preload-script", preload] if preload else []) +
                         (["--log"] if args.log else []))                
-        logger.info(f"Analysis for config {i+1}/{n_config} finished")
-        logger.info(f"----------------------------------------------")
 
         ## loading the json output
         jsons.append(load_file_to_dict(f"{out_prefix}.json"))

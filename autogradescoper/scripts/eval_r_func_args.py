@@ -33,25 +33,27 @@ def eval_r_func_args(_args):
 
     log_path = args.log_path if args.log_path is not None else f"{args.out_prefix}.log"
     logger = create_custom_logger(__name__, log_path if args.log else None)
-    logger.info("Analysis Started")
+#    logger.info("Analysis Started")
 
- 
     # write an R script to run the test
     out_usr_prefix = f"{args.out_prefix}.usr"
     out_sol_prefix = f"{args.out_prefix}.sol"
 
-    logger.info(f"Writing the R scripts to evaluate the function {args.r_func}")
+#    logger.info(f"Writing the R scripts to evaluate the function {args.r_func}")
     write_r_eval_func_script(args.r_func, out_usr_prefix, args.submission, args.args, args.digits)
     write_r_eval_func_script(args.r_func, out_sol_prefix, args.solution, args.args, args.digits)
 
     ## run the R script
-    logger.info(f"Running the R scripts and storing the outputs")
+#    logger.info(f"Running the R scripts and storing the outputs")
     (sol_elapsed_time, sol_exit_code) = run_r_eval_script(out_sol_prefix, None)
     (usr_elapsed_time, usr_exit_code) = run_r_eval_script(out_usr_prefix, args.max_time)
 
     ## calculate score
-    logger.info(f"Evaluating the outputs and calculating the score")
-    if usr_elapsed_time < args.max_time:
+#    logger.info(f"Evaluating the outputs and calculating the score")
+    if usr_exit_code != 0:
+        score = "error"
+        logger.info(f"ERROR: The code returned an error, with exit code {usr_exit_code}.")
+    elif usr_elapsed_time < args.max_time:
         ## compare if the output if identical
         with open(f"{args.out_prefix}.sol.out", 'r') as fsolout:
             with open(f"{args.out_prefix}.usr.out", 'r') as fusrout:
@@ -59,14 +61,19 @@ def eval_r_func_args(_args):
                 usrout = fusrout.read().strip()
                 if solout == usrout:
                     score = "pass"
+                    logger.info(f"PASS: The code returned a correct output: {usrout}.")
                 else:
                     score = "incorrect"
+                    logger.info(f"INCORRECT: The code returned an incorrect output")
+                    logger.info(f"Expected output: {solout}")
+                    logger.info(f"Observed output: {usrout}")
     else:
         score = "timeout"
+        logger.info(f"TIMEOUT: The code took {usr_elapsed_time}s, which exceeds the limit {args.max_time}s.")
     with open(f"{args.out_prefix}.score", 'w') as fscore:
         fscore.write(f"{score}\n")
 
-    logger.info(f"Analysis finished with the final score: {score} and elapsed time: {usr_elapsed_time:.3f}s")
+#    logger.info(f"Analysis finished with the final score: {score} and elapsed time: {usr_elapsed_time:.3f}s")
 
 if __name__ == "__main__":
     # Get the base file name without extension
