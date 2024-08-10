@@ -81,7 +81,7 @@ def eval_r_func_problem(_args):
             if score == "pass":
                 sum_scores += 1
         out_strs.append(f"  Case {i+1}: {score} in {elapsed}s")
-    outdict["scores"] = sum_scores
+    outdict["score"] = sum_scores
     outdict["elapsed"] = sum_elapsed
     outdict["max_score"] = n_config
     outdict["name"] = args.r_func
