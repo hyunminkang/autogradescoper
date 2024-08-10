@@ -124,7 +124,18 @@ def write_r_eval_func_script(func_name, out_prefix, in_func_path, in_params, out
                 (type, value) = line.split(":", maxsplit=1)
                 value = value.strip()
                 if type == "int":
-                    cmd = f"arg{n_args} <- c(" + "L, ".join(value.split()) + "L)"
+                    values = value.split()
+                    cmd = f"arg{n_args} <- c(" #+ "L, ".join(value.split()) + "L)"
+                    for v in values:
+                        try:
+                            iv = int(v)
+                            if -2147483648 <= iv <= 2147483647:
+                                cmd += f"{iv}L, "
+                            else:
+                                cmd += f"{iv}, "
+                        except ValueError:
+                            cmd += f"{v}, "
+                    cmd = cmd[:-2] + ")"
                 elif type == "numeric":
                     cmd = f"arg{n_args} <- c(" + ",".join(value.split()) + ")"
                 elif type == "str":
