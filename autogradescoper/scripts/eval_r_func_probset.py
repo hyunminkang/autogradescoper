@@ -15,6 +15,8 @@ def parse_arguments(_args):
     key_params.add_argument('--submission-dir', type=str, default="/autograder/submission", help='R script containing the submitted solution')
     key_params.add_argument('--out-prefix', type=str, default="/autograder/results/autogradescoper", help='Prefix of output files')
     key_params.add_argument('--log', action='store_true', default=False, help='Write log to file')
+    key_params.add_argument('--show-args', action='store_true', default=False, help='Show the arguments to user output')
+    key_params.add_argument('--show-output', action='store_true', default=False, help='Show the correct and incorrect output to user output')
 
     if len(_args) == 0:
         parser.print_help()
@@ -55,8 +57,10 @@ def eval_r_func_probset(_args):
                         ["--out-prefix", out_prefix] +
                         ["--digits", str(digits)] +
                         (["--preload-script", preload] if preload else []) +
-                        (["--log"] if args.log else []))                
-
+                        (["--log"] if args.log else [])) +
+                        (["--show-args"] if args.show_args else []) +
+                        (["--show-output"] if args.show_output else [])    
+        
         ## loading the json output
         jsons.append(load_file_to_dict(f"{out_prefix}.json"))
 

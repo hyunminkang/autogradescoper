@@ -19,6 +19,8 @@ def parse_arguments(_args):
     key_params.add_argument('--digits', type=int, default=8, help='Number of digits to to write the output')
     key_params.add_argument('--preload-script', type=str, help='R script to load before the R function')
     key_params.add_argument('--default-maxtime', type=int, default=10, help='Maximum time in seconds to run the R function')
+    key_params.add_argument('--show-args', action='store_true', default=False, help='Show the arguments to user output')
+    key_params.add_argument('--show-details', action='store_true', default=False, help='Show the correct and incorrect output to user output')
 
     if len(_args) == 0:
         parser.print_help()
@@ -43,9 +45,9 @@ def eval_r_func_problem(_args):
         argval= v["args"]
         maxtime = v.get("maxtime", args.default_maxtime)
 
-        logger.info("--------------------------------------------------------------------")
+        logger.info("====================================================================")
         logger.info(f"Evaluating the test case {i+1}/{n_config}:")
-        logger.info("--------------------------------------------------------------------")
+        logger.info("====================================================================")
 
         get_func("eval_r_func_args")(  
                         ["--r-func", args.r_func] +
@@ -71,13 +73,21 @@ def eval_r_func_problem(_args):
             score = fscore.read().strip()
             if score == "pass":
                 sum_scores += 1
-        out_strs.append(f"  Case {i+1}: {score} in {elapsed}s")
+        #out_strs.append(f"Case {i+1}: {score} in {elapsed}s")
+        out_str = f"Case {i+1}: {score} in {elapsed}s\n-----------------------------\n"
+        if args.show_args:
+            with open(f"{args.out_prefix}.{i}.args", 'r') as fargs:
+                out_str += f"{fargs.read()}-----------------------------\n"
+        if args.show_details:
+            with open(f"{args.out_prefix}.{i}.args", 'r') as fdetails:
+                out_str += f"{fdetails.read()}-----------------------------\n"
+        out_strs.append(out_str)
     outdict["score"] = sum_scores
     outdict["elapsed"] = sum_elapsed
     outdict["max_score"] = n_config
     outdict["name"] = args.r_func
     outdict["name_format"] = "text"
-    outdict["output"] = f"Score: {sum_scores}/{n_config}\nTotal elapsed time: {sum_elapsed:.3f}s\nTest Cases:\n" + "\n".join(out_strs) + "\n"
+    outdict["output"] = f"Score: {sum_scores}/{n_config}\nTotal elapsed time: {sum_elapsed:.3f}s\n----------------------------\nTest Cases:\n----------------------------\n" + "\n".join(out_strs) + "\n"
 
     ## write the output to a file
 #    logger.info(f"Writing the evaluation output to {args.out_prefix}.json")

@@ -53,9 +53,11 @@ def eval_r_func_args(_args):
 
     ## calculate score
 #    logger.info(f"Evaluating the outputs and calculating the score")
+    str_details = ""
     if usr_exit_code != 0:
         score = "error"
-        logger.info(f"ERROR: The code returned an error, with exit code {usr_exit_code}.")
+        #logger.info(f"ERROR: The code returned an error, with exit code {usr_exit_code}.")
+        str_details = f"ERROR: The code returned an error, with exit code {usr_exit_code}."
     elif usr_elapsed_time < args.max_time:
         ## compare if the output if identical
         with open(f"{args.out_prefix}.sol.out", 'r') as fsolout:
@@ -64,17 +66,34 @@ def eval_r_func_args(_args):
                 usrout = fusrout.read().strip()
                 if solout == usrout:
                     score = "pass"
-                    logger.info(f"PASS: The code returned a correct output: {usrout}.")
+                    #logger.info(f"PASS: The code returned a correct output: {usrout}.")
+                    str_details = f"PASS: The code returned a correct output: {usrout}."
                 else:
                     score = "incorrect"
-                    logger.info(f"INCORRECT: The code returned an incorrect output")
-                    logger.info(f"Expected output: {solout}")
-                    logger.info(f"Observed output: {usrout}")
+                    #logger.info(f"INCORRECT: The code returned an incorrect output")
+                    #logger.info(f"Expected output: {solout}")
+                    #logger.info(f"Observed output: {usrout}")
+                    str_details = f"INCORRECT: The code returned an incorrect output\nExpected output: {solout}\nObserved output: {usrout}"
     else:
         score = "timeout"
-        logger.info(f"TIMEOUT: The code took {usr_elapsed_time}s, which exceeds the limit {args.max_time}s.")
+        #logger.info(f"TIMEOUT: The code took {usr_elapsed_time}s, which exceeds the limit {args.max_time}s.")
+        str_details = f"TIMEOUT: The code took {usr_elapsed_time}s, which exceeds the limit {args.max_time}s."
+
+    logger.info(str_details)
+
     with open(f"{args.out_prefix}.score", 'w') as fscore:
         fscore.write(f"{score}\n")
+    
+    ## write the input arguments to the output file
+    with open(f"{args.out_prefix}.args", 'w') as fargs:
+        fargs.write(str_args)
+        fargs.write("\n")
+    
+    ## write the detailed output to the output file
+    with open(f"{args.out_prefix}.details", 'w') as fdetails
+        fdetails.write(str_details)
+        fdetails.write("\n")
+
 
 #    logger.info(f"Analysis finished with the final score: {score} and elapsed time: {usr_elapsed_time:.3f}s")
 
