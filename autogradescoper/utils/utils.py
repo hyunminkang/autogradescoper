@@ -139,21 +139,11 @@ def params2str(in_params):
 
 
 # write an R script based on the R function, input parameters, and output prefix
-def write_r_eval_func_script(func_name, out_prefix, in_func_path, in_params, out_digits, preload_script, prevent_func_loading):
+def write_r_eval_func_script(func_name, out_prefix, in_func_path, in_params, out_digits, preload_script):
     n_args = 0
     with open(f"{out_prefix}.R", 'w') as fout:
         if preload_script is not None: ## preload the script if needed
             fout.write(f"source('{preload_script}')\n")
-        if prevent_func_loading: ## prevent loading additional packages for user's code
-            fout.write("""
-library <- function(...) {
-  stop("Loading additional packages is not allowed.")
-}
-
-require <- function(...) {
-  stop("Loading additional packages is not allowed.")
-}
-""")
         fout.write(f"source('{in_func_path}')\n")
         out_cmds = []
         include_read_binary_matrix = False

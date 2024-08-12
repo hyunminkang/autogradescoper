@@ -42,7 +42,8 @@ def eval_r_func_probset(_args):
         func = v["func"]
         conf = v["config"]
         digits = v["digits"]
-        preload = v.get("preload", None)
+        preload_usr = v.get("preload_usr", None)
+        preload_sol = v.get("preload_sol", None)
 
         logger.info("====================================================================")
         logger.info(f"Starting the evaluation of the problem {i+1}/{n_config}: {func}")
@@ -56,7 +57,8 @@ def eval_r_func_probset(_args):
                         ["--config", conf] +
                         ["--out-prefix", out_prefix] +
                         ["--digits", str(digits)] +
-                        (["--preload-script", preload] if preload else []) +
+                        (["--preload-usr", preload_usr] if preload_usr is not None else []) +
+                        (["--preload-sol", preload_sol] if preload_sol is not None else []) +
                         (["--log"] if args.log else []) +
                         (["--show-args"] if args.show_args else []) +
                         (["--show-details"] if args.show_details else []))

@@ -19,7 +19,8 @@ def parse_arguments(_args):
     key_params.add_argument('--log-path', type=str, help='The suffix for the log file. Default: {out_prefix}.log')
     key_params.add_argument('--max-time', type=int, default=10, help='Maximum time in seconds to run the R function')
     key_params.add_argument('--digits', type=int, default=8, help='Number of digits to to write the output')
-    key_params.add_argument('--preload-script', type=str, help='R script to load before the R function')
+    key_params.add_argument('--preload-usr', type=str, help='User R script to load before the R function')
+    key_params.add_argument('--preload-sol', type=str, help='Solution R script to load before the R function')
 
     if len(_args) == 0:
         parser.print_help()
@@ -43,8 +44,8 @@ def eval_r_func_args(_args):
     logger.info(str_args)
 
 #    logger.info(f"Writing the R scripts to evaluate the function {args.r_func}")
-    write_r_eval_func_script(args.r_func, out_usr_prefix, args.submission, args.args, args.digits, args.preload_script, True)
-    write_r_eval_func_script(args.r_func, out_sol_prefix, args.solution, args.args, args.digits, args.preload_script, False)
+    write_r_eval_func_script(args.r_func, out_usr_prefix, args.submission, args.args, args.digits, args.preload_usr)
+    write_r_eval_func_script(args.r_func, out_sol_prefix, args.solution, args.args, args.digits, args.preload_sol)
 
     ## run the R script
 #    logger.info(f"Running the R scripts and storing the outputs")
