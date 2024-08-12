@@ -135,7 +135,7 @@ def params2str(in_params):
             else:
                 raise ValueError(f"Unknown type {type}")
             str_params.append(str_param)
-    return "{n_args} Arguments:\n"+ "\n".join(str_params)
+    return f"{n_args} Argument(s):\n"+ "\n".join(str_params)
 
 
 # write an R script based on the R function, input parameters, and output prefix
