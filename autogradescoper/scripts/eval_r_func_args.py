@@ -90,7 +90,7 @@ def eval_r_func_args(_args):
         fargs.write("\n")
     
     ## write the detailed output to the output file
-    with open(f"{args.out_prefix}.details", 'w') as fdetails
+    with open(f"{args.out_prefix}.details", 'w') as fdetails:
         fdetails.write(str_details)
         fdetails.write("\n")
 
