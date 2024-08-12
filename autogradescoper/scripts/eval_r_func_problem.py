@@ -79,7 +79,7 @@ def eval_r_func_problem(_args):
             with open(f"{args.out_prefix}.{i}.args", 'r') as fargs:
                 out_str += f"{fargs.read()}-----------------------------\n"
         if args.show_details:
-            with open(f"{args.out_prefix}.{i}.args", 'r') as fdetails:
+            with open(f"{args.out_prefix}.{i}.details", 'r') as fdetails:
                 out_str += f"{fdetails.read()}-----------------------------\n"
         out_strs.append(out_str)
     outdict["score"] = sum_scores
