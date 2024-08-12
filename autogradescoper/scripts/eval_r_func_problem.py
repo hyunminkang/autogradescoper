@@ -74,20 +74,20 @@ def eval_r_func_problem(_args):
             if score == "pass":
                 sum_scores += 1
         #out_strs.append(f"Case {i+1}: {score} in {elapsed}s")
-        out_str = f"Case {i+1}: {score} in {elapsed}s\n-----------------------------\n"
+        out_str = f"Case {i+1}: {score} in {elapsed}s\n"
         if args.show_args:
             with open(f"{args.out_prefix}.{i}.args", 'r') as fargs:
-                out_str += f"{fargs.read()}-----------------------------\n"
+                out_str += f"-----------------------------\n{fargs.read()}"
         if args.show_details:
             with open(f"{args.out_prefix}.{i}.details", 'r') as fdetails:
-                out_str += f"{fdetails.read()}-----------------------------\n"
+                out_str += f"-----------------------------\n{fdetails.read()}"
         out_strs.append(out_str)
     outdict["score"] = sum_scores
     outdict["elapsed"] = sum_elapsed
     outdict["max_score"] = n_config
     outdict["name"] = args.r_func
     outdict["name_format"] = "text"
-    outdict["output"] = f"Score: {sum_scores}/{n_config}\nTotal elapsed time: {sum_elapsed:.3f}s\n----------------------------\nTest Cases:\n----------------------------\n" + "\n".join(out_strs) + "\n"
+    outdict["output"] = f"Score: {sum_scores}/{n_config}\nTotal elapsed time: {sum_elapsed:.3f}s\n================================\nTest Cases:\n================================\n" + "================================\n".join(out_strs) + "\n"
 
     ## write the output to a file
 #    logger.info(f"Writing the evaluation output to {args.out_prefix}.json")
