@@ -1,6 +1,6 @@
 import sys, os, gzip, argparse, logging, warnings, shutil, subprocess, ast, json, time
 
-from autogradescoper.utils.utils import create_custom_logger, load_file_to_dict, write_dict_to_file, write_r_eval_func_script, run_r_eval_script
+from autogradescoper.utils.utils import create_custom_logger, load_file_to_dict, write_dict_to_file, write_r_eval_func_script, run_r_eval_script, params2str
 
 def parse_arguments(_args):
     repo_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
@@ -39,9 +39,12 @@ def eval_r_func_args(_args):
     out_usr_prefix = f"{args.out_prefix}.usr"
     out_sol_prefix = f"{args.out_prefix}.sol"
 
+    str_args = params2str(args.args)
+    logger.info(str_args)
+
 #    logger.info(f"Writing the R scripts to evaluate the function {args.r_func}")
-    write_r_eval_func_script(args.r_func, out_usr_prefix, args.submission, args.args, args.digits)
-    write_r_eval_func_script(args.r_func, out_sol_prefix, args.solution, args.args, args.digits)
+    write_r_eval_func_script(args.r_func, out_usr_prefix, args.submission, args.args, args.digits, args.preload_script, True)
+    write_r_eval_func_script(args.r_func, out_sol_prefix, args.solution, args.args, args.digits, args.preload_script, False)
 
     ## run the R script
 #    logger.info(f"Running the R scripts and storing the outputs")

@@ -18,6 +18,7 @@ def parse_arguments(_args):
     key_params.add_argument('--log', action='store_true', default=False, help='Write log to file')
     key_params.add_argument('--digits', type=int, default=8, help='Number of digits to to write the output')
     key_params.add_argument('--preload-script', type=str, help='R script to load before the R function')
+    key_params.add_argument('--default-maxtime', type=int, default=10, help='Maximum time in seconds to run the R function')
 
     if len(_args) == 0:
         parser.print_help()
@@ -40,7 +41,7 @@ def eval_r_func_problem(_args):
     n_config = len(config)
     for i, v in enumerate(config):
         argval= v["args"]
-        maxtime = v["maxtime"]
+        maxtime = v.get("maxtime", args.default_maxtime)
 
         logger.info("--------------------------------------------------------------------")
         logger.info(f"Evaluating the test case {i+1}/{n_config}:")

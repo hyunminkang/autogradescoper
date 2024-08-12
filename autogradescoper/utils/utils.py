@@ -111,10 +111,49 @@ def run_r_eval_script(out_prefix, timeout = None):
     return (elapsed_time, exit_code)
 
 
+def params2str(in_params):
+    str_params = []
+    n_args = 0
+    with open(in_params, 'r') as fparams:
+        for line in fparams:
+            n_args += 1
+            (type, value) = line.split(":", maxsplit=1)
+            value = value.strip()
+            if type == "int" or type == "numeric":
+                str_param = f"arg{n_args} ({type}) = c(" + ",".join(value.split()) + ")"
+            elif type == "str":
+                values = value.split()
+                str_param = f"arg{n_args} ({type}) = c(" + ",".join([f"'{v}'" for v in values]) + ")"
+            elif type == "df":
+                cmd = f"arg{n_args} ({type}) = {value}"
+            elif type == "rds":
+                cmd = f"arg{n_args} ({type}) = {value}"
+            elif type == "mat":
+                cmd = f"arg{n_args} ({type}) = {value}"
+            elif type == "bin":
+                cmd = f"arg{n_args} ({type}) = {value}"
+            else:
+                raise ValueError(f"Unknown type {type}")
+            str_params.append(str_param)
+    return "{n_args} Arguments:\n"+ "\n".join(str_params)
+
+
 # write an R script based on the R function, input parameters, and output prefix
-def write_r_eval_func_script(func_name, out_prefix, in_func_path, in_params, out_digits):
+def write_r_eval_func_script(func_name, out_prefix, in_func_path, in_params, out_digits, preload_script, prevent_func_loading):
     n_args = 0
     with open(f"{out_prefix}.R", 'w') as fout:
+        if preload_script is not None: ## preload the script if needed
+            fout.write(f"source('{preload_script}')\n")
+        if prevent_func_loading: ## prevent loading additional packages for user's code
+            fout.write("""
+library <- function(...) {
+  stop("Loading additional packages is not allowed.")
+}
+
+require <- function(...) {
+  stop("Loading additional packages is not allowed.")
+}
+""")
         fout.write(f"source('{in_func_path}')\n")
         out_cmds = []
         include_read_binary_matrix = False
