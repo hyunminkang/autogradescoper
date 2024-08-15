@@ -125,13 +125,13 @@ def params2str(in_params):
                 values = value.split()
                 str_param = f"arg{n_args} ({type}) = c(" + ",".join([f"'{v}'" for v in values]) + ")"
             elif type == "df":
-                cmd = f"arg{n_args} ({type}) = {value}"
+                str_param = f"arg{n_args} ({type}) = {value}"
             elif type == "rds":
-                cmd = f"arg{n_args} ({type}) = {value}"
+                str_param = f"arg{n_args} ({type}) = {value}"
             elif type == "mat":
-                cmd = f"arg{n_args} ({type}) = {value}"
+                str_param = f"arg{n_args} ({type}) = {value}"
             elif type == "bin":
-                cmd = f"arg{n_args} ({type}) = {value}"
+                str_param = f"arg{n_args} ({type}) = {value}"
             else:
                 raise ValueError(f"Unknown type {type}")
             str_params.append(str_param)
