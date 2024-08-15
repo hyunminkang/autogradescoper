@@ -177,7 +177,7 @@ def write_r_eval_func_script(func_name, out_prefix, in_func_path, in_params, out
                 elif type == "mat":
                     cmd = f"arg{n_args} <- as.matrix(read.table('{value}', header=FALSE)"
                 elif type == "bin":
-                    cmd = f"arg{n_args} <- read_binary_matrix('{value}')"
+                    cmd = f"arg{n_args} <- read.binary.matrix('{value}')"
                     include_read_binary_matrix = True
                 else:
                     raise ValueError(f"Unknown type {type}")
