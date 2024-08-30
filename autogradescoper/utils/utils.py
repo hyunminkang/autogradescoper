@@ -109,10 +109,10 @@ def run_r_eval_script(out_prefix, timeout = None):
     with open(f"{out_prefix}.exitcode", 'w') as fexit:
         fexit.write(f"{exit_code}\n")
             
-    # Print any error messages if there are any
     if proc.stderr:
-        print("Error message:")
-        print(proc.stderr.decode())
+        error_message = proc.stderr.decode()
+        with open(f"{out_prefix}.err", 'w') as ferr:
+            ferr.write(error_message)
         
     return (elapsed_time, exit_code)
 
