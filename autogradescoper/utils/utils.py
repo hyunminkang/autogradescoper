@@ -114,7 +114,7 @@ def run_r_eval_script(out_prefix, timeout = None):
         with open(f"{out_prefix}.err", 'w') as ferr:
             ferr.write(error_message)
         
-    return (elapsed_time, exit_code)
+    return (elapsed_time, exit_code, error_message)
 
 
 def params2str(in_params):
