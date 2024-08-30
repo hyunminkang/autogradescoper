@@ -47,18 +47,19 @@ def eval_r_func_args(_args):
     write_r_eval_func_script(args.r_func, out_usr_prefix, args.submission, args.args, args.digits, args.preload_usr)
     write_r_eval_func_script(args.r_func, out_sol_prefix, args.solution, args.args, args.digits, args.preload_sol)
 
-    ## run the R script
-#    logger.info(f"Running the R scripts and storing the outputs")
-    (sol_elapsed_time, sol_exit_code) = run_r_eval_script(out_sol_prefix, None)
-    (usr_elapsed_time, usr_exit_code) = run_r_eval_script(out_usr_prefix, args.max_time)
+    # Run the R scripts and store the outputs
+    (sol_elapsed_time, sol_exit_code, sol_error_message) = run_r_eval_script(out_sol_prefix, None)
+    (usr_elapsed_time, usr_exit_code, usr_error_message) = run_r_eval_script(out_usr_prefix, args.max_time)
 
-    ## calculate score
-#    logger.info(f"Evaluating the outputs and calculating the score")
+    # Calculate score and handle errors
     str_details = ""
     if usr_exit_code != 0:
-        score = "error"
-        #logger.info(f"ERROR: The code returned an error, with exit code {usr_exit_code}.")
-        str_details = f"ERROR: The code returned an error, with exit code {usr_exit_code}."
+       score = "error"
+       # Print or log the error message
+       str_details = f"ERROR: The code returned an error, with exit code {usr_exit_code}.\nError message: {usr_error_message}"
+    
+    
+    
     elif usr_elapsed_time < args.max_time:
         ## compare if the output if identical
         with open(f"{args.out_prefix}.sol.out", 'r') as fsolout:
