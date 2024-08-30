@@ -56,7 +56,7 @@ def eval_r_func_args(_args):
     if usr_exit_code != 0:
        score = "error"
        # Print or log the error message
-       str_details = f"ERROR: The code returned an error, with exit code {usr_exit_code}. Error message: {usr_error_message}"
+       str_details = f"ERROR: The code returned an error, with exit code {usr_exit_code}.\n Error message: {usr_error_message}"
     
     
     
