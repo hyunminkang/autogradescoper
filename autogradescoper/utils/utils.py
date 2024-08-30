@@ -100,7 +100,7 @@ def run_r_eval_script(out_prefix, timeout = None):
             cmd = f"Rscript {out_prefix}.R"
         else:
             cmd = f"timeout {timeout}s Rscript {out_prefix}.R"
-        proc = subprocess.run(cmd, shell=True, stdout=fout)
+        proc = subprocess.run(cmd, shell=True, stdout=fout, stderr=subprocess.PIPE)
     end_time = time.time()
     elapsed_time = end_time - start_time
     with open(f"{out_prefix}.time", 'w') as ftime:
