@@ -17,6 +17,7 @@ def parse_arguments(_args):
     key_params.add_argument('--log', action='store_true', default=False, help='Write log to file')
     key_params.add_argument('--show-args', action='store_true', default=False, help='Show the arguments to user output')
     key_params.add_argument('--show-details', action='store_true', default=False, help='Show the correct and incorrect output to user output')
+    key_params.add_argument('--show-errors', action='store_true', default=False, help='Show the detailed errors to user output')
 
     if len(_args) == 0:
         parser.print_help()
@@ -61,7 +62,8 @@ def eval_r_func_probset(_args):
                         (["--preload-sol", preload_sol] if preload_sol is not None else []) +
                         (["--log"] if args.log else []) +
                         (["--show-args"] if args.show_args else []) +
-                        (["--show-details"] if args.show_details else []))
+                        (["--show-details"] if args.show_details else [])) +
+                        (["--show-errors"] if args.show_errors else []))
         
         ## loading the json output
         jsons.append(load_file_to_dict(f"{out_prefix}.json"))
