@@ -85,6 +85,9 @@ def eval_r_func_problem(_args):
         if args.show_details:
             with open(f"{args.out_prefix}.{i}.details", 'r') as fdetails:
                 out_str += f"-----------------------------\n{fdetails.read()}"
+        if args.show_errors:
+            with open(f"{args.out_prefix}.{i}.errors", 'r') as ferrors:
+                out_str += f"-----------------------------\n{ferrors.read()}"
         out_strs.append(out_str)
     outdict["score"] = sum_scores
     outdict["elapsed"] = sum_elapsed
