@@ -100,8 +100,8 @@ def eval_r_func_args(_args):
 
     ## write the detailed errors to the output file
     with open(f"{args.out_prefix}.errors", 'w') as ferrors:
-        fdetails.write(str_errors)
-        fdetails.write("\n")
+        ferrors.write(str_errors)
+        ferrors.write("\n")
 
 
 #    logger.info(f"Analysis finished with the final score: {score} and elapsed time: {usr_elapsed_time:.3f}s")
