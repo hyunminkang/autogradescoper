@@ -53,10 +53,12 @@ def eval_r_func_args(_args):
 
     # Calculate score and handle errors
     str_details = ""
+    str_errors = ""
     if usr_exit_code != 0:
        score = "error"
        # Print or log the error message
-       str_details = f"ERROR: The code returned an error, with exit code {usr_exit_code}.\nError message: {usr_error_message}"
+       str_details = f"ERROR: The code returned an error, with exit code {usr_exit_code}.\n"
+       str_errors = f"Error message: {usr_error_message}"
     
     
     
@@ -94,6 +96,11 @@ def eval_r_func_args(_args):
     ## write the detailed output to the output file
     with open(f"{args.out_prefix}.details", 'w') as fdetails:
         fdetails.write(str_details)
+        fdetails.write("\n")
+
+    ## write the detailed errors to the output file
+    with open(f"{args.out_prefix}.errors", 'w') as ferrors:
+        fdetails.write(str_errors)
         fdetails.write("\n")
 
 
