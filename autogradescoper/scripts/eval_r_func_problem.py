@@ -22,6 +22,7 @@ def parse_arguments(_args):
     key_params.add_argument('--default-maxtime', type=int, default=10, help='Maximum time in seconds to run the R function')
     key_params.add_argument('--show-args', action='store_true', default=False, help='Show the arguments to user output')
     key_params.add_argument('--show-details', action='store_true', default=False, help='Show the correct and incorrect output to user output')
+    key_params.add_argument('--show-errors', action='store_true', default=False, help='Show the detailed errors to user output')
 
     if len(_args) == 0:
         parser.print_help()
