@@ -62,7 +62,7 @@ def eval_r_func_probset(_args):
                         (["--preload-sol", preload_sol] if preload_sol is not None else []) +
                         (["--log"] if args.log else []) +
                         (["--show-args"] if args.show_args else []) +
-                        (["--show-details"] if args.show_details else [])) +
+                        (["--show-details"] if args.show_details else []) +
                         (["--show-errors"] if args.show_errors else []))
         
         ## loading the json output
