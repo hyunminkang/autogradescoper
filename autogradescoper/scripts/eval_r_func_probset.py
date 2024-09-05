@@ -8,7 +8,7 @@ def parse_arguments(_args):
     parser = argparse.ArgumentParser(prog=f"autogradescoper eval_r_func_probset", description="Automatic grading of multiple problem sets implementing R functions")
 
     inout_params = parser.add_argument_group("Required Input/Output Parameters", "Input/output directory/files.")
-    inout_params.add_argument('--config', type=str, default="/autograder/source/config/config.yaml", required=True, help='JSON/YAML files containing "func", "config", "digits", "preload" for each problem')
+    inout_params.add_argument('--config', type=str, default="/autograder/source/config/config.yaml", help='JSON/YAML files containing "func", "config", "digits", "preload" for each problem')
 
     key_params = parser.add_argument_group("Key Parameters with default values", "Key parameters frequently used by users")
     key_params.add_argument('--solution-dir', type=str, default="/autograder/source/solution", help='R script containing the correct solution')
