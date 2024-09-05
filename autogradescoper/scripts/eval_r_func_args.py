@@ -85,13 +85,16 @@ def eval_r_func_args(_args):
     str_errors = ""
     str_diffs = ""
     if usr_exit_code != 0:
-       score = "error"
-       # Print or log the error message
-       str_details = f"ERROR: The code returned an error, with exit code {usr_exit_code}.\n"
-       str_errors = f"Error message: {usr_error_message}"
-    
-    
-    
+        if usr_exit_code == 124 and usr_elapsed_time < args.max_time: ## timeout
+            score = "timeout"
+            #logger.info(f"TIMEOUT: The code took {usr_elapsed_time}s, which exceeds the limit {args.max_time}s.")
+            str_details = f"TIMEOUT: The code returned a timeout error, taking {usr_elapsed_time}s, which exceeds the limit {args.max_time}s."
+            str_diffs = f"TIMEOUT: The code returned a timeout error, taking {usr_elapsed_time}s, which exceeds the limit {args.max_time}s."
+        else: ## other errors
+            score = "error"
+            # Print or log the error message
+            str_details = f"ERROR: The code returned an error, with exit code {usr_exit_code}.\n"
+            str_errors = f"Error message: {usr_error_message}"
     elif usr_elapsed_time < args.max_time:
         ## compare if the output if identical
         with open(f"{args.out_prefix}.sol.out", 'r') as fsolout:
@@ -111,10 +114,11 @@ def eval_r_func_args(_args):
 
                     str_details = f"INCORRECT: The code returned an incorrect output\nExpected output: {solout}\nObserved output: {usrout}"
                     str_diffs = f"INCORRECT: The code an incorrect output with the following diff\n" + show_diff_with_line_numbers(solout, usrout)
-    else:
+    else: ## undetected timeout without error code.. does this ever happen?
         score = "timeout"
         #logger.info(f"TIMEOUT: The code took {usr_elapsed_time}s, which exceeds the limit {args.max_time}s.")
         str_details = f"TIMEOUT: The code took {usr_elapsed_time}s, which exceeds the limit {args.max_time}s."
+        str_diffs = f"TIMEOUT: The code took {usr_elapsed_time}s, which exceeds the limit {args.max_time}s."
 
     ## print log messages to the autograder output (hidden from students)
     if len(str_details) > 0:
