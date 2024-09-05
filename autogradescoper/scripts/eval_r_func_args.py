@@ -67,7 +67,10 @@ def eval_r_func_args(_args):
     out_sol_prefix = f"{args.out_prefix}.sol"
 
     str_args = params2str(args.args)
-    # logger.info(str_args)
+    if len(str_args) > args.log_show_chars:
+        logger.info(str_args[0:args.log_show_chars] + "\n... (truncated)")
+    else:
+        logger.info(str_args)
 
 #    logger.info(f"Writing the R scripts to evaluate the function {args.r_func}")
     write_r_eval_func_script(args.r_func, out_usr_prefix, args.submission, args.args, args.digits, args.preload_usr)
@@ -80,6 +83,7 @@ def eval_r_func_args(_args):
     # Calculate score and handle errors
     str_details = ""
     str_errors = ""
+    str_diffs = ""
     if usr_exit_code != 0:
        score = "error"
        # Print or log the error message
@@ -98,7 +102,7 @@ def eval_r_func_args(_args):
                     score = "pass"
                     #logger.info(f"PASS: The code returned a correct output: {usrout}.")
                     str_details = f"PASS: The code returned a correct output: {usrout}."
-                    str_diffs = f"PASS: The code returned the same output:."
+                    str_diffs = f"PASS: The code returned the same output to the expected output."
                 else:
                     score = "incorrect"
                     #logger.info(f"INCORRECT: The code returned an incorrect output")
