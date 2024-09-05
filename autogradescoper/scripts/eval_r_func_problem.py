@@ -22,6 +22,7 @@ def parse_arguments(_args):
     key_params.add_argument('--default-maxtime', type=int, default=10, help='Maximum time in seconds to run the R function')
     key_params.add_argument('--show-args', action='store_true', default=False, help='Show the arguments to user output')
     key_params.add_argument('--show-details', action='store_true', default=False, help='Show the correct and incorrect output to user output')
+    key_params.add_argument('--show-diffs', action='store_true', default=False, help='Show the difference between correct and incorrect output')
     key_params.add_argument('--show-errors', action='store_true', default=False, help='Show the detailed errors to user output')
 
     if len(_args) == 0:
@@ -85,6 +86,9 @@ def eval_r_func_problem(_args):
         if args.show_details:
             with open(f"{args.out_prefix}.{i}.details", 'r') as fdetails:
                 out_str += f"-----------------------------\n{fdetails.read()}"
+        if args.show_diffs:
+            with open(f"{args.out_prefix}.{i}.diffs", 'r') as fdiffs:
+                out_str += f"-----------------------------\n{fdiffs.read()}"
         if args.show_errors:
             with open(f"{args.out_prefix}.{i}.errors", 'r') as ferrors:
                 out_str += f"-----------------------------\n{ferrors.read()}"
