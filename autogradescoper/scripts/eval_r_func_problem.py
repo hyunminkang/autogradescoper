@@ -17,6 +17,7 @@ def parse_arguments(_args):
     key_params = parser.add_argument_group("Key Parameters with default values", "Key parameters frequently used by users")
     key_params.add_argument('--log', action='store_true', default=False, help='Write log to file')
     key_params.add_argument('--digits', type=int, default=8, help='Number of digits to to write the output')
+    key_params.add_argument('--format', type=str, default="g", help='C-style format out output ("d", "f", "g", "e", "s", ..) to write the output')
     key_params.add_argument('--preload-usr', type=str, help='User R script to load before the R function')
     key_params.add_argument('--preload-sol', type=str, help='Solution R script to load before the R function')
     key_params.add_argument('--default-maxtime', type=int, default=10, help='Maximum time in seconds to run the R function')
@@ -59,6 +60,7 @@ def eval_r_func_problem(_args):
                         ["--out-prefix", f"{args.out_prefix}.{i}"] +
                         ["--max-time", str(maxtime)] +
                         ["--digits", str(args.digits)] +
+                        ["--format", args.format] +
                         ["--submission", args.submission] +
                         (["--preload-usr", args.preload_usr] if args.preload_usr is not None else []) +
                         (["--preload-sol", args.preload_sol] if args.preload_sol is not None else []) +

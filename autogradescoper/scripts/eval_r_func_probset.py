@@ -8,12 +8,12 @@ def parse_arguments(_args):
     parser = argparse.ArgumentParser(prog=f"autogradescoper eval_r_func_probset", description="Automatic grading of multiple problem sets implementing R functions")
 
     inout_params = parser.add_argument_group("Required Input/Output Parameters", "Input/output directory/files.")
-    inout_params.add_argument('--config', type=str, required=True, help='JSON/YAML files containing "func", "config", "digits", "preload" for each problem')
+    inout_params.add_argument('--config', type=str, default="/autograder/source/config/config.yaml", required=True, help='JSON/YAML files containing "func", "config", "digits", "preload" for each problem')
 
     key_params = parser.add_argument_group("Key Parameters with default values", "Key parameters frequently used by users")
     key_params.add_argument('--solution-dir', type=str, default="/autograder/source/solution", help='R script containing the correct solution')
     key_params.add_argument('--submission-dir', type=str, default="/autograder/submission", help='R script containing the submitted solution')
-    key_params.add_argument('--out-prefix', type=str, default="/autograder/results/autogradescoper", help='Prefix of output files')
+    key_params.add_argument('--out-prefix', type=str, default="/autograder/results/results", help='Prefix of output files')
     key_params.add_argument('--log', action='store_true', default=False, help='Write log to file')
     key_params.add_argument('--show-args', action='store_true', default=False, help='Show the arguments to user output')
     key_params.add_argument('--show-details', action='store_true', default=False, help='Show the correct and incorrect output to user output')
@@ -43,7 +43,8 @@ def eval_r_func_probset(_args):
     for i, v in enumerate(config):
         func = v["func"]
         conf = v["config"]
-        digits = v["digits"]
+        digits = v.get("digits", 8)
+        format = v.get("format", "g")
         preload_usr = v.get("preload_usr", None)
         preload_sol = v.get("preload_sol", None)
 
@@ -59,6 +60,7 @@ def eval_r_func_probset(_args):
                         ["--config", conf] +
                         ["--out-prefix", out_prefix] +
                         ["--digits", str(digits)] +
+                        ["--format", format] +
                         (["--preload-usr", preload_usr] if preload_usr is not None else []) +
                         (["--preload-sol", preload_sol] if preload_sol is not None else []) +
                         (["--log"] if args.log else []) +
