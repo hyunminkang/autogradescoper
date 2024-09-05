@@ -85,11 +85,11 @@ def eval_r_func_args(_args):
     str_errors = ""
     str_diffs = ""
     if usr_exit_code != 0:
-        if usr_exit_code == 124 and usr_elapsed_time < args.max_time: ## timeout
+        if usr_exit_code == 124: ## timeout
             score = "timeout"
             #logger.info(f"TIMEOUT: The code took {usr_elapsed_time}s, which exceeds the limit {args.max_time}s.")
-            str_details = f"TIMEOUT: The code returned a timeout error, taking {usr_elapsed_time}s, which exceeds the limit {args.max_time}s."
-            str_diffs = f"TIMEOUT: The code returned a timeout error, taking {usr_elapsed_time}s, which exceeds the limit {args.max_time}s."
+            str_details = f"TIMEOUT: The code returned a timeout error, terminated at {usr_elapsed_time}s, because it exceeds the limit {args.max_time}s."
+            str_diffs = f"TIMEOUT: The code returned a timeout error, terminated at {usr_elapsed_time}s, because it exceeds the limit {args.max_time}s."
         else: ## other errors
             score = "error"
             # Print or log the error message
