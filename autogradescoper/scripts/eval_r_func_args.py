@@ -21,7 +21,7 @@ def parse_arguments(_args):
     key_params.add_argument('--digits', type=int, default=8, help='Number of digits to to write the output')
     key_params.add_argument('--preload-usr', type=str, help='User R script to load before the R function')
     key_params.add_argument('--preload-sol', type=str, help='Solution R script to load before the R function')
-    key_params.add_argument('--max-show-chars', type=int, default=200, help='Maximum number of characters to show in the output')
+    key_params.add_argument('--max-show-chars', type=int, default=500, help='Maximum number of characters to show in the output')
     key_params.add_argument('--log-show-chars', type=int, default=500, help='Maximum number of characters to show in the log')
 
     if len(_args) == 0:
