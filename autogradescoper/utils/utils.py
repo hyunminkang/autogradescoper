@@ -92,6 +92,14 @@ def write_dict_to_file(data, file_path, file_type=None):
             yaml.safe_dump(data, file, default_flow_style=False)
     else:
         raise ValueError("Unsupported file type. Please provide 'json' or 'yaml'/'yml' as file_type.")
+    
+def diff_files(file1, file2, max_chars=500):
+    cmd = f"diff {file1} {file2}"
+    proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
+    diff_output = proc.stdout.decode()
+    if len(diff_output) > max_chars:
+        diff_output = diff_output[:max_chars] + "\n... (truncated)"
+    return diff_output
 
 def run_r_eval_script(out_prefix, timeout = None):
     start_time = time.time()

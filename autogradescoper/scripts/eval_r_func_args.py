@@ -1,6 +1,6 @@
 import sys, os, gzip, argparse, logging, warnings, shutil, subprocess, ast, json, time, difflib
 
-from autogradescoper.utils.utils import create_custom_logger, load_file_to_dict, write_dict_to_file, write_r_eval_func_script, run_r_eval_script, params2str
+from autogradescoper.utils.utils import create_custom_logger, load_file_to_dict, write_dict_to_file, write_r_eval_func_script, run_r_eval_script, params2str, diff_files
 
 def parse_arguments(_args):
     repo_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
@@ -31,30 +31,30 @@ def parse_arguments(_args):
 
     return parser.parse_args(_args)
 
-def show_diff_with_line_numbers(string1, string2):
-    diff = difflib.ndiff(string1.splitlines(), string2.splitlines())
-    result = []
+# def show_diff_with_line_numbers(string1, string2):
+#     diff = difflib.ndiff(string1.splitlines(), string2.splitlines())
+#     result = []
     
-    # Variables to track line numbers
-    line_num1 = 0
-    line_num2 = 0
+#     # Variables to track line numbers
+#     line_num1 = 0
+#     line_num2 = 0
 
-    for line in diff:
-        if line.startswith(' '):
-            # If the line is the same, increment both line numbers
-            line_num1 += 1
-            line_num2 += 1
-        elif line.startswith('-'):
-            # If the line is in string1 but not in string2, increment line number for string1
-            result.append(f"Line {line_num1 + 1} [Solution Only]: {line[1:]}")
-            line_num1 += 1
-        elif line.startswith('+'):
-            # If the line is in string2 but not in string1, increment line number for string2
-            result.append(f"Line {line_num2 + 1} [Submission Only]: {line[1:]}")
-            line_num2 += 1
-        if ( len(result) > 50 ): ## show only the first 50 differences if too many
-            break
-    return '\n'.join(result)
+#     for line in diff:
+#         if line.startswith(' '):
+#             # If the line is the same, increment both line numbers
+#             line_num1 += 1
+#             line_num2 += 1
+#         elif line.startswith('-'):
+#             # If the line is in string1 but not in string2, increment line number for string1
+#             result.append(f"Line {line_num1 + 1} [Solution Only]: {line[1:]}")
+#             line_num1 += 1
+#         elif line.startswith('+'):
+#             # If the line is in string2 but not in string1, increment line number for string2
+#             result.append(f"Line {line_num2 + 1} [Submission Only]: {line[1:]}")
+#             line_num2 += 1
+#         if ( len(result) > 50 ): ## show only the first 50 differences if too many
+#             break
+#     return '\n'.join(result)
 
 def eval_r_func_args(_args):
     # parse argument
@@ -115,7 +115,8 @@ def eval_r_func_args(_args):
                     #logger.info(f"Observed output: {usrout}")
 
                     str_details = f"INCORRECT: The code returned an incorrect output\nExpected output: {solout}\nObserved output: {usrout}"
-                    str_diffs = f"INCORRECT: The code an incorrect output with the following diff\n" + show_diff_with_line_numbers(solout, usrout)
+                    #str_diffs = f"INCORRECT: The code an incorrect output with the following diff\n" + show_diff_with_line_numbers(solout, usrout)
+                    str_diffs = f"INCORRECT: The code an incorrect output with the following diff\n" + diff_files(f"{args.out_prefix}.sol.out", f"{args.out_prefix}.usr.out")
     else: ## undetected timeout without error code.. does this ever happen?
         score = "timeout"
         #logger.info(f"TIMEOUT: The code took {usr_elapsed_time}s, which exceeds the limit {args.max_time}s.")
