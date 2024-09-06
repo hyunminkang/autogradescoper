@@ -52,7 +52,8 @@ def show_diff_with_line_numbers(string1, string2):
             # If the line is in string2 but not in string1, increment line number for string2
             result.append(f"Line {line_num2 + 1} [Submission Only]: {line[1:]}")
             line_num2 += 1
-
+        if ( len(result) > 50 ): ## show only the first 50 differences if too many
+            break
     return '\n'.join(result)
 
 def eval_r_func_args(_args):
