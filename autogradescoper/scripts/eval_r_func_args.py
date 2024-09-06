@@ -116,7 +116,7 @@ def eval_r_func_args(_args):
 
                     str_details = f"INCORRECT: The code returned an incorrect output\nExpected output: {solout}\nObserved output: {usrout}"
                     #str_diffs = f"INCORRECT: The code an incorrect output with the following diff\n" + show_diff_with_line_numbers(solout, usrout)
-                    str_diffs = f"INCORRECT: The code an incorrect output with the following diff\n" + diff_files(f"{args.out_prefix}.sol.out", f"{args.out_prefix}.usr.out")
+                    str_diffs = f"INCORRECT: The code an incorrect output with the following diff (solution vs. submission)\n" + diff_files(f"{args.out_prefix}.sol.out", f"{args.out_prefix}.usr.out")
     else: ## undetected timeout without error code.. does this ever happen?
         score = "timeout"
         #logger.info(f"TIMEOUT: The code took {usr_elapsed_time}s, which exceeds the limit {args.max_time}s.")
