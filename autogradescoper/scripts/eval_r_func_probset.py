@@ -89,7 +89,7 @@ def eval_r_func_probset(_args):
         "leaderboard": [
             {"name":"Time", "value": total_time, "order": "asc"},
             {"name":"Score", "value": total_score}
-        ]
+        ],
         "tests": jsons,
     }
     
