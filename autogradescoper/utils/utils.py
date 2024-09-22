@@ -231,6 +231,8 @@ def write_r_eval_func_script(func_name, out_prefix, in_func_path, in_params, out
         cmd += f"    cat('NA',sep='\\n',file='{out_prefix}.out')\n"
         cmd += "} else if ( class(rst) == 'data.frame') {\n"
         cmd += f"    utils::write.table(format(rst, scientific=TRUE, digits={out_digits}), file='{out_prefix}.out', sep='\\t', quote=FALSE, row.names=FALSE)\n"
+        cmd += "} else if ( inherits(rst, 'TsparseMatrix') ) {\n"  ## triplet sparse matrix, print as data frame
+        cmd += f"    utils::write.table(format(data.frame(i=rst@i+1,j=rst@j+1,x=rst@x), scientific=TRUE, digits={out_digits}), file='{out_prefix}.out', sep='\\t', quote=FALSE, row.names=FALSE)\n"
         cmd += "} else if ( is.na(rst) || is.nan(rst) ) {\n"
         cmd += f"    cat('NA',sep='\\n',file='{out_prefix}.out')\n"
         cmd += "} else {\n"
