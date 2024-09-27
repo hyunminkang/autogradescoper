@@ -19,6 +19,7 @@ def parse_arguments(_args):
     key_params.add_argument('--show-details', action='store_true', default=False, help='Show the correct and incorrect output to user output')
     key_params.add_argument('--show-diffs', action='store_true', default=False, help='Show the differences between correct and incorrect output')
     key_params.add_argument('--show-errors', action='store_true', default=False, help='Show the detailed errors to user output')
+    key_params.add_argument('--skip-solution', action='store_true', default=False, help='Ignore the solution, and parse the output as a JSON file. "score" and "details" are key attributes')
 
     if len(_args) == 0:
         parser.print_help()
@@ -68,7 +69,8 @@ def eval_r_func_probset(_args):
                         (["--show-args"] if args.show_args else []) +
                         (["--show-details"] if args.show_details else []) +
                         (["--show-diffs"] if args.show_diffs else []) +
-                        (["--show-errors"] if args.show_errors else []))
+                        (["--show-errors"] if args.show_errors else []) +
+                        (["--skip-solution"] if args.skip_solution else []))
         
         ## loading the json output
         jsons.append(load_file_to_dict(f"{out_prefix}.json"))

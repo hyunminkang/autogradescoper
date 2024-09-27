@@ -9,10 +9,11 @@ def parse_arguments(_args):
 
     inout_params = parser.add_argument_group("Required Input/Output Parameters", "Input/output directory/files.")
     inout_params.add_argument('--r-func', type=str, required=True, help='Name of the R function to evaluate')
-    inout_params.add_argument('--solution', type=str, required=True, help='R script containing the correct solution')
+    inout_params.add_argument('--solution', type=str, help='R script containing the correct solution')
     inout_params.add_argument('--submission', type=str, required=True, help='R script containing the submitted solution')
     inout_params.add_argument('--args', type=str, required=True, help='File containing the input arguments of the R function. Each argument is a separate line in the format of [type]:[value] (e.g. int:5, str:"hello", df:/path/to/df.csv)')
     inout_params.add_argument('--out-prefix', type=str, required=True, help='Prefix output files -- .diff, .out, .err')
+    inout_params.add_argument('--skip-solution', action='store_true', default=False, help='Ignore the solution, and parse the output as a JSON file. "score" and "details" are key attributes')
 
     key_params = parser.add_argument_group("Key Parameters with default values", "Key parameters frequently used by users")
     key_params.add_argument('--log', action='store_true', default=False, help='Write log to file')
@@ -22,6 +23,7 @@ def parse_arguments(_args):
     key_params.add_argument('--format', type=str, default="g", help='C-style format out output ("d", "f", "g", "e", "s", ..) to write the output')
     key_params.add_argument('--preload-usr', type=str, help='User R script to load before the R function')
     key_params.add_argument('--preload-sol', type=str, help='Solution R script to load before the R function')
+    key_params.add_argument('--preload-all', type=str, help='For all cases, load this R script before the R function')
     key_params.add_argument('--max-show-chars', type=int, default=500, help='Maximum number of characters to show in the output')
     key_params.add_argument('--log-show-chars', type=int, default=500, help='Maximum number of characters to show in the log')
 
@@ -30,31 +32,6 @@ def parse_arguments(_args):
         sys.exit(1)
 
     return parser.parse_args(_args)
-
-# def show_diff_with_line_numbers(string1, string2):
-#     diff = difflib.ndiff(string1.splitlines(), string2.splitlines())
-#     result = []
-    
-#     # Variables to track line numbers
-#     line_num1 = 0
-#     line_num2 = 0
-
-#     for line in diff:
-#         if line.startswith(' '):
-#             # If the line is the same, increment both line numbers
-#             line_num1 += 1
-#             line_num2 += 1
-#         elif line.startswith('-'):
-#             # If the line is in string1 but not in string2, increment line number for string1
-#             result.append(f"Line {line_num1 + 1} [Solution Only]: {line[1:]}")
-#             line_num1 += 1
-#         elif line.startswith('+'):
-#             # If the line is in string2 but not in string1, increment line number for string2
-#             result.append(f"Line {line_num2 + 1} [Submission Only]: {line[1:]}")
-#             line_num2 += 1
-#         if ( len(result) > 50 ): ## show only the first 50 differences if too many
-#             break
-#     return '\n'.join(result)
 
 def eval_r_func_args(_args):
     # parse argument
@@ -74,12 +51,12 @@ def eval_r_func_args(_args):
     else:
         logger.info(str_args)
 
-#    logger.info(f"Writing the R scripts to evaluate the function {args.r_func}")
-    write_r_eval_func_script(args.r_func, out_usr_prefix, args.submission, args.args, args.digits, args.format, args.preload_usr)
-    write_r_eval_func_script(args.r_func, out_sol_prefix, args.solution, args.args, args.digits, args.format, args.preload_sol)
+    # logger.info(f"Writing the R scripts to evaluate the function {args.r_func}")
+    if ( not args.skip_solution ):
+        write_r_eval_func_script(args.r_func, out_sol_prefix, args.solution, args.args, args.digits, args.format, [args.preload_all, args.preload_sol])
+        (sol_elapsed_time, sol_exit_code, sol_error_message) = run_r_eval_script(out_sol_prefix, None)
 
-    # Run the R scripts and store the outputs
-    (sol_elapsed_time, sol_exit_code, sol_error_message) = run_r_eval_script(out_sol_prefix, None)
+    write_r_eval_func_script(args.r_func, out_usr_prefix, args.submission, args.args, args.digits, args.format, [args.preload_all, args.preload_usr])
     (usr_elapsed_time, usr_exit_code, usr_error_message) = run_r_eval_script(out_usr_prefix, args.max_time)
 
     # Calculate score and handle errors
@@ -98,25 +75,46 @@ def eval_r_func_args(_args):
             str_details = f"ERROR: The code returned an error, with exit code {usr_exit_code}.\n"
             str_errors = f"Error message: {usr_error_message}"
     elif usr_elapsed_time < args.max_time:
-        ## compare if the output if identical
-        with open(f"{args.out_prefix}.sol.out", 'r') as fsolout:
+        if ( args.skip_solution ):
+            ## parse the usr output as a JSON file
             with open(f"{args.out_prefix}.usr.out", 'r') as fusrout:
-                solout = fsolout.read().strip()
                 usrout = fusrout.read().strip()
-                if solout == usrout:
-                    score = "pass"
-                    #logger.info(f"PASS: The code returned a correct output: {usrout}.")
-                    str_details = f"PASS: The code returned a correct output: {usrout}."
-                    str_diffs = f"PASS: The code returned the same output to the expected output."
-                else:
-                    score = "incorrect"
-                    #logger.info(f"INCORRECT: The code returned an incorrect output")
-                    #logger.info(f"Expected output: {solout}")
-                    #logger.info(f"Observed output: {usrout}")
+                try:
+                    usr_json = json.loads(usrout)
+                    score = usr_json.get("score", "error")
+                    if score == "0" or score == 0:
+                        score = "incorrect"
+                    elif score == "1" or score == 1:
+                        score = "pass"
+                    else:
+                        str_errors = f"Error message: The score {score} could not be recognized"
+                        score = "error"
+                    str_details = usr_json.get("details", "")
+                    str_diffs = usr_json.get("diffs", "")
+                except json.JSONDecodeError as e:
+                    score = "error"
+                    str_details = f"ERROR: The code returned an error in parsing the JSON output: {usrout}\n"
+                    str_errors = f"Error message: the output JSON file could not be parsed\n"
+        else:
+            ## compare if the output if identical
+            with open(f"{args.out_prefix}.sol.out", 'r') as fsolout:
+                with open(f"{args.out_prefix}.usr.out", 'r') as fusrout:
+                    solout = fsolout.read().strip()
+                    usrout = fusrout.read().strip()
+                    if solout == usrout:
+                        score = "pass"
+                        #logger.info(f"PASS: The code returned a correct output: {usrout}.")
+                        str_details = f"PASS: The code returned a correct output: {usrout}."
+                        str_diffs = f"PASS: The code returned the same output to the expected output."
+                    else:
+                        score = "incorrect"
+                        #logger.info(f"INCORRECT: The code returned an incorrect output")
+                        #logger.info(f"Expected output: {solout}")
+                        #logger.info(f"Observed output: {usrout}")
 
-                    str_details = f"INCORRECT: The code returned an incorrect output\nExpected output: {solout}\nObserved output: {usrout}"
-                    #str_diffs = f"INCORRECT: The code an incorrect output with the following diff\n" + show_diff_with_line_numbers(solout, usrout)
-                    str_diffs = f"INCORRECT: The code an incorrect output with the following diff (solution vs. submission)\n" + diff_files(f"{args.out_prefix}.sol.out", f"{args.out_prefix}.usr.out")
+                        str_details = f"INCORRECT: The code returned an incorrect output\nExpected output: {solout}\nObserved output: {usrout}"
+                        #str_diffs = f"INCORRECT: The code an incorrect output with the following diff\n" + show_diff_with_line_numbers(solout, usrout)
+                        str_diffs = f"INCORRECT: The code an incorrect output with the following diff (solution vs. submission)\n" + diff_files(f"{args.out_prefix}.sol.out", f"{args.out_prefix}.usr.out")
     else: ## undetected timeout without error code.. does this ever happen?
         score = "timeout"
         #logger.info(f"TIMEOUT: The code took {usr_elapsed_time}s, which exceeds the limit {args.max_time}s.")

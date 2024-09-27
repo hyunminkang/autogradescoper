@@ -163,25 +163,12 @@ def write_r_eval_func_script(func_name, out_prefix, in_func_path, in_params, out
             fout.write(f"source('{preload_script}')\n")
         fout.write(f"source('{in_func_path}')\n")
         out_cmds = []
-        include_read_binary_matrix = False
+#        include_read_binary_matrix = False
         with open(in_params, 'r') as fparams:
             for line in fparams:
                 n_args += 1
                 (type, value) = line.split(":", maxsplit=1)
                 value = value.strip()
-                # if type == "int":
-                #     values = value.split()
-                #     cmd = f"arg{n_args} <- c(" #+ "L, ".join(value.split()) + "L)"
-                #     for v in values:
-                #         try:
-                #             iv = int(v)
-                #             if -2147483647 <= iv <= 2147483647:
-                #                 cmd += f"{iv}L, "
-                #             else:
-                #                 cmd += f"{iv}, "
-                #         except ValueError:
-                #             cmd += f"{v}, "
-                #     cmd = cmd[:-2] + ")"
                 if type == "int" or type == "numeric":
                     cmd = f"arg{n_args} <- c(" + ",".join(value.split()) + ")"
                 elif type == "str":
@@ -195,7 +182,7 @@ def write_r_eval_func_script(func_name, out_prefix, in_func_path, in_params, out
                     cmd = f"arg{n_args} <- as.matrix(read.table('{value}', header=FALSE)"
                 elif type == "bin":
                     cmd = f"arg{n_args} <- read.binary.matrix('{value}')"
-                    include_read_binary_matrix = True
+#                    include_read_binary_matrix = True
                 elif type == "eval":
                     cmd = f"arg{n_args} <- (function()" + "{" + value + "})()"
                 else:
@@ -205,18 +192,18 @@ def write_r_eval_func_script(func_name, out_prefix, in_func_path, in_params, out
         if len(out_cmds) == 0:
             raise ValueError("No input parameters found")
         
-        if include_read_binary_matrix:
-            cmd = """read.binary.matrix = function(filename) {
-    fh = file(filename,"rb")
-    dims = readBin(fh,what="integer",n=2L,size=4L)
-    n = dims[1]
-    p = dims[2]
-    X = matrix(readBin(fh,what="numeric",n=n*p,size=8L),nrow=n,ncol=p)
-    close(fh)
-    return(X)
-}
-"""
-            fout.write(cmd)
+#         if include_read_binary_matrix:
+#             cmd = """read.binary.matrix = function(filename) {
+#     fh = file(filename,"rb")
+#     dims = readBin(fh,what="integer",n=2L,size=4L)
+#     n = dims[1]
+#     p = dims[2]
+#     X = matrix(readBin(fh,what="numeric",n=n*p,size=8L),nrow=n,ncol=p)
+#     close(fh)
+#     return(X)
+# }
+# """
+#             fout.write(cmd)
         fout.write("\n".join(out_cmds))
         fout.write("\n")    
 
@@ -231,6 +218,8 @@ def write_r_eval_func_script(func_name, out_prefix, in_func_path, in_params, out
         cmd += f"    cat('NA',sep='\\n',file='{out_prefix}.out')\n"
         cmd += "} else if ( class(rst) == 'data.frame') {\n"
         cmd += f"    utils::write.table(format(rst, scientific=TRUE, digits={out_digits}), file='{out_prefix}.out', sep='\\t', quote=FALSE, row.names=FALSE)\n"
+        cmd += "} else if ( class(rst) == 'list') {\n"
+        cmd += f"    write_list_to_json(rst, file_path='{out_prefix}.out')\n"
         cmd += "} else if ( inherits(rst, 'TsparseMatrix') ) {\n"  ## triplet sparse matrix, print as data frame
         cmd += f"    utils::write.table(format(data.frame(i=rst@i+1,j=rst@j+1,x=rst@x), scientific=TRUE, digits={out_digits}), file='{out_prefix}.out', sep='\\t', quote=FALSE, row.names=FALSE)\n"
         cmd += "} else if ( is.na(rst) || is.nan(rst) ) {\n"

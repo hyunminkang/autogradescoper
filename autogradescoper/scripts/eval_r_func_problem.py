@@ -13,6 +13,7 @@ def parse_arguments(_args):
     inout_params.add_argument('--submission', type=str, required=True, help='R script containing the submitted solution')
     inout_params.add_argument('--config', type=str, required=True, help='JSON/YAML files containing the input arguments and other parameter values')
     inout_params.add_argument('--out-prefix', type=str, required=True, help='Prefix output files')
+    inout_params.add_argument('--skip-solution', action='store_true', default=False, help='Ignore the solution, and parse the output as a JSON file. "score" and "details" are key attributes')
 
     key_params = parser.add_argument_group("Key Parameters with default values", "Key parameters frequently used by users")
     key_params.add_argument('--log', action='store_true', default=False, help='Write log to file')
@@ -20,6 +21,7 @@ def parse_arguments(_args):
     key_params.add_argument('--format', type=str, default="g", help='C-style format out output ("d", "f", "g", "e", "s", ..) to write the output')
     key_params.add_argument('--preload-usr', type=str, help='User R script to load before the R function')
     key_params.add_argument('--preload-sol', type=str, help='Solution R script to load before the R function')
+    key_params.add_argument('--preload-all', type=str, default=f"{repo_dir}/assets/autogradescoper_utils.R", help='For all cases, load this R script before the R function')
     key_params.add_argument('--default-maxtime', type=int, default=10, help='Maximum time in seconds to run the R function')
     key_params.add_argument('--show-args', action='store_true', default=False, help='Show the arguments to user output')
     key_params.add_argument('--show-details', action='store_true', default=False, help='Show the correct and incorrect output to user output')
@@ -64,6 +66,7 @@ def eval_r_func_problem(_args):
                         ["--submission", args.submission] +
                         (["--preload-usr", args.preload_usr] if args.preload_usr is not None else []) +
                         (["--preload-sol", args.preload_sol] if args.preload_sol is not None else []) +
+                        (["--preload-all", args.preload_all] if args.preload_all is not None else []) +
                         (["--log"] if args.log else []))                
 
     ## collect the results and store into a single output file
