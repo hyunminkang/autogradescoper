@@ -78,7 +78,7 @@ def eval_r_func_args(_args):
         if ( args.skip_solution ):
             ## parse the usr output as a JSON file
             with open(f"{args.out_prefix}.usr.out", 'r') as fusrout:
-                usrout = fusrout.read().strip()
+                usrout = fusrout.read()
                 try:
                     usr_json = json.loads(usrout)
                     score = usr_json.get("score", "error")
