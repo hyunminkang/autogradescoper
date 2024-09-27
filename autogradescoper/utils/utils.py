@@ -156,10 +156,10 @@ def params2str(in_params):
 
 
 # write an R script based on the R function, input parameters, and output prefix
-def write_r_eval_func_script(func_name, out_prefix, in_func_path, in_params, out_digits, out_format, preload_script):
+def write_r_eval_func_script(func_name, out_prefix, in_func_path, in_params, out_digits, out_format, preload_scripts):
     n_args = 0
     with open(f"{out_prefix}.R", 'w') as fout:
-        if preload_script is not None: ## preload the script if needed
+        for preload_script in preload_scripts: ## preload the script if needed
             fout.write(f"source('{preload_script}')\n")
         fout.write(f"source('{in_func_path}')\n")
         out_cmds = []
