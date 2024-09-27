@@ -55,6 +55,5 @@ write_list_to_json <- function(mylist, file_path) {
   
   # Write the JSON string to the file
   write(json_str, file = file_path)
-  
-  return(TRUE)
+  #return(TRUE)
 }
