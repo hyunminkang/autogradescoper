@@ -67,7 +67,7 @@ def eval_r_func_problem(_args):
                         (["--preload-usr", args.preload_usr] if args.preload_usr is not None else []) +
                         (["--preload-sol", args.preload_sol] if args.preload_sol is not None else []) +
                         (["--preload-all", args.preload_all] if args.preload_all is not None else []) +
-                        (["--skip-solution"] if args.skip_solution else []))
+                        (["--skip-solution"] if args.skip_solution else []) +
                         (["--log"] if args.log else []))                
 
     ## collect the results and store into a single output file
