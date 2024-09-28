@@ -48,9 +48,11 @@ def eval_r_func_problem(_args):
     config = load_file_to_dict(args.config)
 
     n_config = len(config)
+    max_score = 0
     for i, v in enumerate(config):
         argval= v["args"]
         maxtime = v.get("maxtime", args.default_maxtime)
+        max_score += v.get("maxscore", 1)
 
         logger.info("====================================================================")
         logger.info(f"Evaluating the test case {i+1}/{n_config}:")
@@ -77,6 +79,7 @@ def eval_r_func_problem(_args):
     sum_elapsed = 0
     out_strs = []
     for i, v in enumerate(config):
+        max_scores += maxscores[i]
         with open(f"{args.out_prefix}.{i}.usr.time", 'r') as ftime:
             elapsed = ftime.read().strip()
             sum_elapsed += float(elapsed)
@@ -108,10 +111,10 @@ def eval_r_func_problem(_args):
         out_strs.append(out_str)
     outdict["score"] = sum_scores
     outdict["elapsed"] = sum_elapsed
-    outdict["max_score"] = n_config
+    outdict["max_score"] = max_score
     outdict["name"] = args.filename
     outdict["name_format"] = "text"
-    outdict["output"] = f"Score: {sum_scores}/{n_config}\nTotal elapsed time: {sum_elapsed:.3f}s\n================================\nTest Cases:\n================================\n" + "================================\n".join(out_strs) + "\n"
+    outdict["output"] = f"Score: {sum_scores}/{max_score}\nTotal elapsed time: {sum_elapsed:.3f}s\n================================\nTest Cases:\n================================\n" + "================================\n".join(out_strs) + "\n"
 
     ## write the output to a file
 #    logger.info(f"Writing the evaluation output to {args.out_prefix}.json")
