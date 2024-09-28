@@ -91,8 +91,8 @@ def eval_r_func_probset(_args):
         "output": f"Total Score: {total_score}/{total_max_score}\nTotal Elapsed Time: " + ("%.3f" % (total_time)) + " seconds",
         "stdout_visibility": "hidden", # Optional stdout visibility setting
         "leaderboard": [
-            {"name":"Time", "value": total_time, "order": "asc"},
-            {"name":"Score", "value": total_score}
+            {"name":"Score", "value": total_score},
+            {"name":"Time", "value": total_time, "order": "asc"}
         ],
         "tests": jsons,
     }
