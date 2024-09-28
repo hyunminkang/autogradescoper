@@ -8,7 +8,8 @@ def parse_arguments(_args):
     parser = argparse.ArgumentParser(prog=f"autogradescoper eval_r_func_problem", description="Automatic grading of a single R function for a set of parameters")
 
     inout_params = parser.add_argument_group("Required Input/Output Parameters", "Input/output directory/files.")
-    inout_params.add_argument('--r-func', type=str, required=True, help='Name of the R function to evaluate. R script should be found at /autograder/submission/{r_func}.R')
+    inout_params.add_argument('--r-func', type=str, required=True, help='Name of the R function to evaluate.')
+    inout_params.add_argument('--filename', type=str, required=True, help='Name of the R file to run. R script should be found at /autograder/submission/{filename}.R')
     inout_params.add_argument('--solution', type=str, required=True, help='R script containing the correct solution')
     inout_params.add_argument('--submission', type=str, required=True, help='R script containing the submitted solution')
     inout_params.add_argument('--config', type=str, required=True, help='JSON/YAML files containing the input arguments and other parameter values')
@@ -102,7 +103,7 @@ def eval_r_func_problem(_args):
     outdict["score"] = sum_scores
     outdict["elapsed"] = sum_elapsed
     outdict["max_score"] = n_config
-    outdict["name"] = args.r_func
+    outdict["name"] = args.filename
     outdict["name_format"] = "text"
     outdict["output"] = f"Score: {sum_scores}/{n_config}\nTotal elapsed time: {sum_elapsed:.3f}s\n================================\nTest Cases:\n================================\n" + "================================\n".join(out_strs) + "\n"
 

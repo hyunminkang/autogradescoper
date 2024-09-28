@@ -54,9 +54,10 @@ def eval_r_func_probset(_args):
         logger.info(f"Starting the evaluation of the problem {i+1}/{n_config}: {func}")
         logger.info("====================================================================")
 
-        out_prefix = f"{args.out_prefix}.{func}"
+        out_prefix = f"{args.out_prefix}.{filename}"
         get_func("eval_r_func_problem")(  
                         ["--r-func", func] +
+                        ["--filename", filename] +
                         ["--solution", f"{args.solution_dir}/{filename}.R"] +
                         ["--submission", f"{args.submission_dir}/{filename}.R"] +
                         ["--config", conf] +
