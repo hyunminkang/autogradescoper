@@ -79,7 +79,6 @@ def eval_r_func_problem(_args):
     sum_elapsed = 0
     out_strs = []
     for i, v in enumerate(config):
-        max_scores += maxscores[i]
         with open(f"{args.out_prefix}.{i}.usr.time", 'r') as ftime:
             elapsed = ftime.read().strip()
             sum_elapsed += float(elapsed)
