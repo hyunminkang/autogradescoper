@@ -82,13 +82,14 @@ def eval_r_func_args(_args):
                 try:
                     usr_json = json.loads(usrout)
                     score = usr_json.get("score", "error")
-                    if score == "0" or score == 0:
-                        score = "incorrect"
-                    elif score == "1" or score == 1:
-                        score = "pass"
-                    else:
-                        str_errors = f"Error message: The score {score} could not be recognized"
+                    try:
+                        fscore = float(score)
+                        if score < 0 or score > 10:
+                            score = "error"
+                            str_errors = f"Error message: The score {score} is not within the range [0, 1]"
+                    except ValueError as e:
                         score = "error"
+                        str_errors = f"Error message: The score {score} could not be converted to a numeric value"
                     str_details = usr_json.get("details", "")
                     str_diffs = usr_json.get("diffs", "")
                 except json.JSONDecodeError as e:

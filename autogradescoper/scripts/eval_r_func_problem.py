@@ -85,6 +85,12 @@ def eval_r_func_problem(_args):
             score = fscore.read().strip()
             if score == "pass":
                 sum_scores += 1
+            else:
+                try:
+                    fscore = float(score)
+                    sum_scores += fscore
+                except ValueError:
+                    pass
         #out_strs.append(f"Case {i+1}: {score} in {elapsed}s")
         out_str = f"Case {i+1}: {score} in {elapsed}s\n"
         if args.show_args:
