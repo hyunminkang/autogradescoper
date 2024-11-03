@@ -1,0 +1,5 @@
+- func: "mypexp"
+  filename: "mypexp"
+  digits: 8
+  config: /autograder/source/config/config.prob.yaml
+  preload_usr: /autograder/source/config/preload.baseonly.R
