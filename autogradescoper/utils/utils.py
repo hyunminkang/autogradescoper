@@ -160,7 +160,8 @@ def write_r_eval_func_script(func_name, out_prefix, in_func_path, in_params, out
     n_args = 0
     with open(f"{out_prefix}.R", 'w') as fout:
         for preload_script in preload_scripts: ## preload the script if needed
-            fout.write(f"source('{preload_script}')\n")
+            if preload_script is not None:
+                fout.write(f"source('{preload_script}')\n")
         fout.write(f"source('{in_func_path}')\n")
         out_cmds = []
 #        include_read_binary_matrix = False
