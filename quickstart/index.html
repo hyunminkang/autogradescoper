@@ -442,7 +442,7 @@
         <li class="md-nav__item">
   <a href="#create-an-account-or-log-in-to-gradescope" class="md-nav__link">
     <span class="md-ellipsis">
-      Create an account or Log in to Gradescope
+      Create an account or log in to Gradescope
     </span>
   </a>
   
@@ -615,6 +615,16 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -697,6 +707,48 @@
   
   
     <li class="md-nav__item">
+      <a href="../full/setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup Script
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../full/run/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Startup Script
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../full/config/" class="md-nav__link">
         
   
@@ -722,7 +774,7 @@
         
   
   <span class="md-ellipsis">
-    Arguments for Test Cases
+    Test Cases
   </span>
   
 
@@ -744,6 +796,69 @@
   
   <span class="md-ellipsis">
     Preload Scripts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../full/solution/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Solution Files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../full/test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Testing Autograder
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../full/debug/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Debugging Autograder
   </span>
   
 
@@ -818,7 +933,7 @@
         <li class="md-nav__item">
   <a href="#create-an-account-or-log-in-to-gradescope" class="md-nav__link">
     <span class="md-ellipsis">
-      Create an account or Log in to Gradescope
+      Create an account or log in to Gradescope
     </span>
   </a>
   
@@ -889,49 +1004,41 @@
 
 <h1 id="quickstart-for-autogradescoper">Quickstart for autogradescoper<a class="headerlink" href="#quickstart-for-autogradescoper" title="Permanent link">&para;</a></h1>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>To use <code>autogradscoper</code> for your course, you do not have to install the software on your local machine. However, you need to have a valid account that allows to to create a programming assignment in Gradescope.
-Please see the <a href="https://www.gradescope.com/saml" target="_blank">List of Schools</a> that supports single-sign-on (SSO) with Gradescope.</p>
-<p>Here, we will use a prepared example to autograde a R programming assignment that reproduces
-<code>pexp()</code> function in R only using the <code>base</code> package. Here are basic steps to get started with the example.</p>
+<p>To use <code>autogradscoper</code> for your course, you do not need to install the software on your local machine. However, you must have a valid account that allows you to create a programming assignment in Gradescope. Please see the <a href="https://www.gradescope.com/saml" target="_blank">List of Schools</a> that support single-sign-on (SSO) with Gradescope.</p>
+<p>Here, we will use a prepared example to autograde an R programming assignment that reproduces the <code>pexp()</code> function in R using only the <code>base</code> package. Here are the basic steps to get started with the example:</p>
 <ol>
-<li>Create an account or Log in Gradescope.</li>
+<li>Create an account or log in to Gradescope.</li>
 <li>Create a course in Gradescope.</li>
 <li>Create a programming assignment in Gradescope.</li>
 <li>Upload your Autograder file.</li>
 <li>Test your Autograder file.</li>
 <li>Release the programming assignments to students.</li>
 </ol>
-<h2 id="create-an-account-or-log-in-to-gradescope">Create an account or Log in to Gradescope<a class="headerlink" href="#create-an-account-or-log-in-to-gradescope" title="Permanent link">&para;</a></h2>
-<p>Please visit <a href="https://www.gradescope.com/login" target="_blank">Gradescope Login Page</a> to create an account or log in. Most likely, 
-instructors will have to use their school email address to create an account or sign in.</p>
+<h2 id="create-an-account-or-log-in-to-gradescope">Create an account or log in to Gradescope<a class="headerlink" href="#create-an-account-or-log-in-to-gradescope" title="Permanent link">&para;</a></h2>
+<p>Please visit the <a href="https://www.gradescope.com/login" target="_blank">Gradescope Login Page</a> to create an account or log in. Instructors will likely need to use their school email address to create an account or sign in.</p>
 <h2 id="create-a-course-in-gradescope">Create a course in Gradescope<a class="headerlink" href="#create-a-course-in-gradescope" title="Permanent link">&para;</a></h2>
-<p>You can create a new course by selecting "+Create Course" button from the dashboard as shown below.</p>
+<p>You can create a new course by selecting the "+Create Course" button from the dashboard, as shown below.</p>
 <p><img alt="Creating a new course" src="../images/autogradscoper_screenshot_create_course.png" /></p>
 <h2 id="create-a-programming-assignment-in-gradescope">Create a programming assignment in Gradescope<a class="headerlink" href="#create-a-programming-assignment-in-gradescope" title="Permanent link">&para;</a></h2>
-<p>You can create a new programming assignment by selecting "Create Assignment" button from the 
-course dashboard. When selecting Assignment Type, select "Programming Assignment" as shown below.</p>
+<p>You can create a new programming assignment by selecting the "Create Assignment" button from the course dashboard. When selecting Assignment Type, choose "Programming Assignment," as shown below.</p>
 <p><img alt="Select Assignment Type" src="../images/autogradescoper_create_assignment_1.png" /></p>
-<p>Next, specify the Assignment Settings by providing an Assignment Name, Total Points (use 10 in this example),
-Release Date, and Due Date as shown below.</p>
+<p>Next, specify the Assignment Settings by providing an Assignment Name, Total Points (use 10 in this example), Release Date, and Due Date, as shown below.</p>
 <p><img alt="Specify Assignment Settings" src="../images/autogradescoper_create_assignment_2.png" /></p>
 <h2 id="download-the-example-autograder-file">Download the Example Autograder file<a class="headerlink" href="#download-the-example-autograder-file" title="Permanent link">&para;</a></h2>
-<p>You can download the example autograder file from the following available at the <a href="https://github.com/hyunminkang/autogradescoper/blob/main/examples/mypexp_autograder.zip" target="_blank">GitHub repository</a>. </p>
+<p>You can download the example autograder file from the <a href="https://github.com/hyunminkang/autogradescoper/blob/main/examples/mypexp_autograder.zip" target="_blank">GitHub repository</a>. </p>
 <p>You may click the <a href="https://github.com/hyunminkang/autogradescoper/raw/refs/heads/main/examples/mypexp_autograder.zip">following link</a> to download the autograder file (5.6 KB) directly to your local computer.</p>
-<p>To understand the details of the example autograder file, please see the <a href="../use_cases/example_assignment/">Use Cases</a> section for the detailed explanation.</p>
+<p>To understand the details of the example autograder file, please see the <a href="../use_cases/example_assignment/">Use Cases</a> section for a detailed explanation.</p>
 <h2 id="upload-your-autograder-file">Upload your Autograder file<a class="headerlink" href="#upload-your-autograder-file" title="Permanent link">&para;</a></h2>
-<p>After downloading the autograder file, you can upload the file to the Gradescope to set up the autograder for the programming assignment as shown in the following screenshot.</p>
+<p>After downloading the autograder file, you can upload it to Gradescope to set up the autograder for the programming assignment, as shown in the following screenshot.</p>
 <p><img alt="Upload the Autograder file" src="../images/autogradescoper_configure_assignment.png" /></p>
-<p>Note that it will typically take a few minutes to build the autograder from the uploaded file. 
-If the autograder is successfully built, 
-under the "<strong>Docker Image Status</strong>" section, you can see "built as of (Date and time)" message.</p>
+<p>Note that it will typically take a few minutes to build the autograder from the uploaded file. If the autograder is successfully built, under the "<strong>Docker Image Status</strong>" section, you will see a "built as of (Date and time)" message.</p>
 <h2 id="test-your-autograder">Test your Autograder<a class="headerlink" href="#test-your-autograder" title="Permanent link">&para;</a></h2>
-<p>You can test the autograder file by selecting "Test Autograder" link after the build is completed, which will shown the following screenshot to allow you to upload a test submission.</p>
+<p>You can test the autograder file by selecting the "Test Autograder" link after the build is completed, which will show the following screenshot to allow you to upload a test submission.</p>
 <p><img alt="Test the Autograder" src="../images/autogradescoper_test_assignment_1.png" /></p>
-<p>There are three example answers you can download and submit at the <a href="https://github.com/hyunminkang/autogradescoper/tree/main/examples/mypexp/example_answers" target="_blank">GitHub repository</a>. All files are named as <code>mypexp.R</code>. You can drag and drop the downloaded file to submit a file for testing.</p>
-<p>For example, if you submit the correct answer under <code>v1_correct/mypexp.R</code>, you will see the following screenshot, showing that the test is passed with the full score.</p>
+<p>There are three example answers you can download and submit from the <a href="https://github.com/hyunminkang/autogradescoper/tree/main/examples/mypexp/example_answers" target="_blank">GitHub repository</a>. All files are named <code>mypexp.R</code>. You can drag and drop the downloaded file to submit it for testing.</p>
+<p>For example, if you submit the correct answer under <code>v1_correct/mypexp.R</code>, you will see the following screenshot, showing that the test passed with a full score.</p>
 <p><img alt="Test the Autograder" src="../images/autogradescoper_test_assignment_2.png" /></p>
-<p>If you finished until this step, you are ready to set up your own programming assignments for students.
-Please see <a href="../use_cases/example_assignment/">Use Cases</a> section for the detailed explanation of how to prepare your own Autograder for your class.</p>
+<p>If you have completed this step, you are ready to set up your own programming assignments for students. Please see the <a href="../use_cases/example_assignment/">Use Cases</a> section for a detailed explanation of how to prepare your own Autograder for your class.</p>
 
 
 

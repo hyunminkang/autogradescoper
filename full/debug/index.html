@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://hyunminkang.github.io/autogradescoper/full/install/">
+        <link rel="canonical" href="https://hyunminkang.github.io/autogradescoper/full/debug/">
       
       
-        <link rel="prev" href="../intro/">
+        <link rel="prev" href="../test/">
       
       
-        <link rel="next" href="../setup/">
+        <link rel="next" href="../../development/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Installation - autogradescoper</title>
+        <title>Debugging Autograder - autogradescoper</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#installation" class="md-skip">
+        <a href="#debugging-the-autograder" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Installation
+              Debugging Autograder
             
           </span>
         </div>
@@ -585,30 +585,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Installation
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../install/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -617,44 +597,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#installation-not-required" class="md-nav__link">
-    <span class="md-ellipsis">
-      Installation Not Required
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installing-autogradescoper-for-development" class="md-nav__link">
-    <span class="md-ellipsis">
-      Installing autogradescoper for Development
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -811,10 +753,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../debug/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Debugging Autograder
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -823,6 +785,53 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debugging-the-autograder-with-ssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debugging the Autograder with SSH
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional Troubleshooting
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -882,18 +891,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#installation-not-required" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
-      Installation Not Required
+      Overview
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#installing-autogradescoper-for-development" class="md-nav__link">
+  <a href="#debugging-the-autograder-with-ssh" class="md-nav__link">
     <span class="md-ellipsis">
-      Installing autogradescoper for Development
+      Debugging the Autograder with SSH
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional Troubleshooting
     </span>
   </a>
   
@@ -917,45 +935,13 @@
   
 
 
-<h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h1>
-<h2 id="installation-not-required">Installation Not Required<a class="headerlink" href="#installation-not-required" title="Permanent link">&para;</a></h2>
-<p>To use the <code>autogradscoper</code> package, users do NOT need to install <code>autogradescoper</code> in their local computer.</p>
-<p>The package is designed to be downloaded (via GitHub) and executed by the Gradescope Autograder. </p>
-<p>Users only need to prepare the Autograder files and upload them to the Gradescope platform.
-See <a href="../../use_cases/example_assignment/">Example Use Cases</a> or <a href="../../use_cases/new_assignment/">Creating a New Assignment</a> for setup instructions.</p>
-<h2 id="installing-autogradescoper-for-development">Installing <code>autogradescoper</code> for Development<a class="headerlink" href="#installing-autogradescoper-for-development" title="Permanent link">&para;</a></h2>
-<p>If you want to develop the <code>autogradescoper</code> package, you can install the package from the GitHub repository.</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
-<span class="normal"><a href="#__codelineno-0-2">2</a></span>
-<span class="normal"><a href="#__codelineno-0-3">3</a></span>
-<span class="normal"><a href="#__codelineno-0-4">4</a></span>
-<span class="normal"><a href="#__codelineno-0-5">5</a></span>
-<span class="normal"><a href="#__codelineno-0-6">6</a></span>
-<span class="normal"><a href="#__codelineno-0-7">7</a></span>
-<span class="normal"><a href="#__codelineno-0-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1"># Install the `autogradescoper` package from GitHub</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/hyunminkang/autogradescoper.git
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1"># Change the directory to the `autogradescoper` package</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="nb">cd</span><span class="w"> </span>autogradescoper
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="c1"># Install the package in development mode</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
-</span></code></pre></div></td></tr></table></div>
-<p>This will allow you to modify the <code>autogradescoper</code> package and test the changes locally.</p>
-<p>To check whether the package is installed correctly, you can run the following command:</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>autogradescoper<span class="w"> </span>
-</span></code></pre></div></td></tr></table></div>
-<p>Then the following message should appear:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
-<span class="normal"><a href="#__codelineno-2-2">2</a></span>
-<span class="normal"><a href="#__codelineno-2-3">3</a></span>
-<span class="normal"><a href="#__codelineno-2-4">4</a></span>
-<span class="normal"><a href="#__codelineno-2-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>Usage: autogradescoper &lt;command&gt; &lt;args&gt;, autogradescoper &lt;command&gt; -h to see arguments for each command
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>Available commands:
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>    eval_r_func_args
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>    eval_r_func_problem
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>    eval_r_func_probset
-</span></code></pre></div></td></tr></table></div>
+<h1 id="debugging-the-autograder">Debugging the Autograder<a class="headerlink" href="#debugging-the-autograder" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The <a href="https://gradescope-autograders.readthedocs.io/en/latest/" target="_blank">Gradescope Autograder Documentation</a> provides a detailed guide on setting up the Autograder. If you encounter any technical issues, this documentation provides a comprehensive details on the autograder setup.</p>
+<h2 id="debugging-the-autograder-with-ssh">Debugging the Autograder with SSH<a class="headerlink" href="#debugging-the-autograder-with-ssh" title="Permanent link">&para;</a></h2>
+<p>If the autograder does not behave as expected, typical way to debug the code is to run the autograder in the container and connect via SSH. See <a href="https://gradescope-autograders.readthedocs.io/en/latest/ssh/">Gradescope Debugging via SSH</a>. </p>
+<h2 id="additional-troubleshooting">Additional Troubleshooting<a class="headerlink" href="#additional-troubleshooting" title="Permanent link">&para;</a></h2>
+<p>See also <a href="https://gradescope-autograders.readthedocs.io/en/latest/troubleshooting/">Additional Troubleshooting Tips</a> for any other issues you may encounter.</p>
 
 
 

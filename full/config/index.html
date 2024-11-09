@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://hyunminkang.github.io/autogradescoper/full/config/">
       
       
-        <link rel="prev" href="../install/">
+        <link rel="prev" href="../run/">
       
       
         <link rel="next" href="../args/">
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#full-documentation-configuration-files" class="md-skip">
+        <a href="#configuration-files" class="md-skip">
           Skip to content
         </a>
       
@@ -514,6 +514,16 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -596,6 +606,48 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup Script
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../run/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Startup Script
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -608,6 +660,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Configuration Files
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -617,6 +680,223 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-general-configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      The General Configuration File
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The General Configuration File">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#required-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      Required Fields
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Required Fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detail-func-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : func field
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detail-filename-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : filename field
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detail-config-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : config field
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optional Fields
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Optional Fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detail-digits-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : digits field
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detail-format-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : format field
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detail-preload_usr-and-preload_sol-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : preload_usr and preload_sol fields
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-problems-in-a-single-assignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple Problems in a Single Assignment
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-problem-specific-configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Problem-Specific Configuration File
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Problem-Specific Configuration File">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#required-fields_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Required Fields
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Required Fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detail-args-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : args field
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-fields_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optional Fields
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Optional Fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detail-maxtime-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : maxtime field
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detail-maxscore-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : maxscore field
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -634,7 +914,7 @@
         
   
   <span class="md-ellipsis">
-    Arguments for Test Cases
+    Test Cases
   </span>
   
 
@@ -656,6 +936,69 @@
   
   <span class="md-ellipsis">
     Preload Scripts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../solution/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Solution Files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Testing Autograder
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../debug/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Debugging Autograder
   </span>
   
 
@@ -712,6 +1055,212 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-general-configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      The General Configuration File
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The General Configuration File">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#required-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      Required Fields
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Required Fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detail-func-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : func field
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detail-filename-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : filename field
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detail-config-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : config field
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optional Fields
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Optional Fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detail-digits-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : digits field
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detail-format-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : format field
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detail-preload_usr-and-preload_sol-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : preload_usr and preload_sol fields
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-problems-in-a-single-assignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple Problems in a Single Assignment
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-problem-specific-configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Problem-Specific Configuration File
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Problem-Specific Configuration File">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#required-fields_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Required Fields
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Required Fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detail-args-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : args field
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-fields_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optional Fields
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Optional Fields">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detail-maxtime-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : maxtime field
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detail-maxscore-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detail : maxscore field
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -728,8 +1277,202 @@
   
 
 
-<h1 id="full-documentation-configuration-files">Full Documentation : Configuration Files<a class="headerlink" href="#full-documentation-configuration-files" title="Permanent link">&para;</a></h1>
-<p>TBD</p>
+<h1 id="configuration-files">Configuration files<a class="headerlink" href="#configuration-files" title="Permanent link">&para;</a></h1>
+<p>The <code>config/</code> directory contains the configuration files for the autograder.</p>
+<h2 id="the-general-configuration-file">The General Configuration File<a class="headerlink" href="#the-general-configuration-file" title="Permanent link">&para;</a></h2>
+<h3 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h3>
+<p>The <code>config/config.yaml</code> file to specify the basic settings of the assignments, such as 
+the function name used for evaluation or the filename students are required to submit. </p>
+<p>A typical example of the <code>config/config.yaml</code> file is shown below:</p>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span>
+<span class="normal"><a href="#__codelineno-0-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">func</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[replace_me]&quot;</span><span class="w">      </span><span class="c1">## change [replace_me] to the function to evaluate the code</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">  </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[replace_me]&quot;</span><span class="w">  </span><span class="c1">## change [replace_me] to the R filename of the submission file (excluding .R)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w">  </span><span class="nt">digits</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">replace_me</span><span class="p p-Indicator">]</span><span class="w">      </span><span class="c1">## change [replace_me] to number of digits to compare the output</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="w">  </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/config/config.prob.yaml</span><span class="w">  </span><span class="c1">## problem-specific configuration</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="w">  </span><span class="nt">preload_usr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/config/preload.baseonly.R</span><span class="w">  </span><span class="c1">## preload script for student submissions </span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w">  </span><span class="nt">preload_sol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/config/preload.baseonly.R</span><span class="w">  </span><span class="c1">## preload script for solution</span>
+</span></code></pre></div></td></tr></table></div>
+<h3 id="required-fields">Required Fields<a class="headerlink" href="#required-fields" title="Permanent link">&para;</a></h3>
+<p>Here are required fields to include in the <code>config/config.yaml</code> file for each problem</p>
+<ul>
+<li><code>func</code>: The name of the function to be evaluated. </li>
+<li><code>filename</code>: The filename students are required to submit.</li>
+<li><code>config</code>: The path to the problem-specific configuration file.</li>
+</ul>
+<h4 id="detail-func-field">Detail : <code>func</code> field<a class="headerlink" href="#detail-func-field" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>func</code> field typically should be identical to the name of the name of the function students are required to implement in the submission file.<ul>
+<li>For example, if the students are asked to implement a function named <code>mypexp()</code>, the field  <code>[replace_me]</code> with <code>myexp</code>. </li>
+</ul>
+</li>
+<li>However, sometimes you may want to take the output of the function students implemented and pass it to another function for evaluation. <ul>
+<li>For example, you may ask students to implement <code>my_estimator(data)</code> function and evaluate the estimator by simulating the data such as <code>my_evaluator(nreps, nsamples, param1, param2)</code> function. In this case, you should specify the function name as <code>my_evaluator</code> and provide arguments corresponding to <code>my_evaluator()</code>.</li>
+<li>See <a href="../preload/#custom-evaluation-function">Custom Evaluation Function</a> for more details.</li>
+</ul>
+</li>
+</ul>
+<h4 id="detail-filename-field">Detail : <code>filename</code> field<a class="headerlink" href="#detail-filename-field" title="Permanent link">&para;</a></h4>
+<ul>
+<li>The file name students are required to submit should end with <code>.R</code>. <ul>
+<li>For example, if the students are asked to submit a file named <code>prob1.R</code>, you should replace <code>[replace_me]</code> with <code>prob1</code>.</li>
+</ul>
+</li>
+</ul>
+<h4 id="detail-config-field">Detail : <code>config</code> field<a class="headerlink" href="#detail-config-field" title="Permanent link">&para;</a></h4>
+<ul>
+<li>The <code>config</code> field contains the path of problem-specific configuration file. </li>
+<li>The path should be specified with <code>/autograder/source/</code> prefix, as the input files are located at <code>/autograder/source/</code> in the autograder container.</li>
+<li>Typically, recommend using <code>/autograder/source/config/config.prob.yaml</code> as the path.</li>
+<li>If you want to modify the name of the file, or have multiple problems in the assignments, you may replace this file name.</li>
+</ul>
+<h3 id="optional-fields">Optional Fields<a class="headerlink" href="#optional-fields" title="Permanent link">&para;</a></h3>
+<p>Here are optional fields to include in the <code>config/config.yaml</code> file for each problem</p>
+<ul>
+<li><code>digits</code>: The number of digits to compare between the outputs of student's submission and the solution (default: 8)</li>
+<li><code>format</code>: The format of the output values to compare (default: "g")</li>
+<li><code>preload_usr</code>: The path to the preload script for student submissions.</li>
+<li><code>preload_sol</code>: The path to the preload script for solutions.</li>
+</ul>
+<h4 id="detail-digits-field">Detail : <code>digits</code> field<a class="headerlink" href="#detail-digits-field" title="Permanent link">&para;</a></h4>
+<ul>
+<li>The <code>digits</code> field specifies the number of digits to compare the output. </li>
+<li>For example, if you want to compare the output up to 8 digits, you should replace <code>[replace_me]</code> with <code>8</code>.</li>
+<li>See the details of the <code>format</code> field to understand more specific examples.</li>
+</ul>
+<h4 id="detail-format-field">Detail : <code>format</code> field<a class="headerlink" href="#detail-format-field" title="Permanent link">&para;</a></h4>
+<ul>
+<li>The <code>format</code> field specifies the format of the output values to compare. </li>
+<li>The default format is <code>g</code>, which is typical way R prints out numeric values dynamic as scientific or fixed-point representation. </li>
+<li>If you want to compare the output as a fixed floating point number, set <code>format</code> field it to <code>"f"</code>. </li>
+</ul>
+<p>For example:</p>
+<ul>
+<li>When <code>digits</code> is 8 and the output value is <code>1.2345678e-07</code>...<ul>
+<li>Using <code>format: "g"</code> (default) will compare the output as <code>1.2345678e-07</code></li>
+<li>Using <code>format: "f"</code> will compare the output as <code>0.00000012</code> (i.e. 8 digits below the decimal point).</li>
+</ul>
+</li>
+<li>If you want to force the output to be compared as integer values...<ul>
+<li>Set <code>digits</code> to be <code>0</code> and select <code>format: "f"</code>. </li>
+<li>This will use 0 digits below the decimal point. </li>
+</ul>
+</li>
+</ul>
+<h4 id="detail-preload_usr-and-preload_sol-fields">Detail : <code>preload_usr</code> and <code>preload_sol</code> fields<a class="headerlink" href="#detail-preload_usr-and-preload_sol-fields" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>preload_usr</code> specifies the preload script for student submissions, and <code>preload_sol</code> specifies the preload script for solutions.  </li>
+<li>In most cases, you may want to use the same preload file for both submissions and solutions. </li>
+<li>If you want to use different preload files for submissions and solutions, you can specify different preload files for <code>preload_usr</code> and <code>preload_sol</code>.</li>
+<li>You may choose to skip specifying the preload script in  <code>preload_sol</code>.</li>
+</ul>
+<h3 id="multiple-problems-in-a-single-assignment">Multiple Problems in a Single Assignment<a class="headerlink" href="#multiple-problems-in-a-single-assignment" title="Permanent link">&para;</a></h3>
+<p>While we recommend having a single problem in a single assignment, you can add multiple problems in a single assignment by adding additional configurations, by simpling adding additional elements in the list of <code>config/config.yaml</code> file.</p>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1">## example of multiple problems in a single assignment</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">func</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[func_name_for_problem_1]&quot;</span><span class="w">      </span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="w">  </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[file_name_for_problem_1]&quot;</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="w">  </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/config/config.prob1.yaml</span><span class="w">   </span><span class="c1">## configuration for problem 1</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="w">  </span><span class="nt">preload_usr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/config/preload.prob1.R</span><span class="w">  </span><span class="c1">## preload script for problem 1 </span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="w">  </span><span class="nt">preload_sol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/config/preload.prob1.R</span><span class="w">  </span><span class="c1">## preload script for problem 1</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">func</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[func_name_for_problem_2]&quot;</span><span class="w">      </span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="w">  </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;[file_name_for_problem_2]&quot;</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">  </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/config/config.prob2.yaml</span><span class="w">   </span><span class="c1">## configuration for problem 2</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="w">  </span><span class="nt">preload_usr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/config/preload.prob2.R</span><span class="w">  </span><span class="c1">## preload script for problem 2 </span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="w">  </span><span class="nt">preload_sol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/config/preload.prob2.R</span><span class="w">  </span><span class="c1">## preload script for problem 2</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="c1">## add more problems ....</span>
+</span></code></pre></div></td></tr></table></div>
+<h2 id="the-problem-specific-configuration-file">The Problem-Specific Configuration File<a class="headerlink" href="#the-problem-specific-configuration-file" title="Permanent link">&para;</a></h2>
+<h3 id="overview_1">Overview<a class="headerlink" href="#overview_1" title="Permanent link">&para;</a></h3>
+<p>The <code>config/config.prob.yaml</code> file typically contains the problem-specific configuration for the autograder.
+The YAML file should have a list of each test case, and each test case is typically considered to have 1
+point. </p>
+<p>A typical example of a problem-specific configuration file is shown below:</p>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span>
+<span class="normal"><a href="#__codelineno-2-18">18</a></span>
+<span class="normal"><a href="#__codelineno-2-19">19</a></span>
+<span class="normal"><a href="#__codelineno-2-20">20</a></span>
+<span class="normal"><a href="#__codelineno-2-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1">## config/config.prob.yaml - contains the problem-specific configuration for the autograder</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.1.args</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.2.args</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.3.args</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.4.args</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.5.args</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.6.args</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.7.args</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.8.args</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.9.args</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.10.args</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span></code></pre></div></td></tr></table></div>
+<h3 id="required-fields_1">Required Fields<a class="headerlink" href="#required-fields_1" title="Permanent link">&para;</a></h3>
+<p>Each test case must have the following field:</p>
+<ul>
+<li><code>args</code>: the path to the input arguments file for the test case.</li>
+</ul>
+<h4 id="detail-args-field">Detail : <code>args</code> field<a class="headerlink" href="#detail-args-field" title="Permanent link">&para;</a></h4>
+<ul>
+<li>The <code>args</code> field specifies the path to the input arguments file for the test case.</li>
+<li>The path should be specified with <code>/autograder/source/</code> prefix, as the input files are located at <code>/autograder/source/</code> in the autograder container.</li>
+<li>Typical name convention is to use <code>/autograder/source/args/test.1.args</code>, but you may replace this with other names, especially when there are multiple problems in the assignment.</li>
+<li>See the <a href="../args/">Test Cases</a> section for more details on how to prepare the input arguments file for test cases.</li>
+</ul>
+<h3 id="optional-fields_1">Optional Fields<a class="headerlink" href="#optional-fields_1" title="Permanent link">&para;</a></h3>
+<p>Each test case may have the following field:</p>
+<ul>
+<li><code>maxtime</code>: Maximum time allowed for the test case in seconds. (default: 10)</li>
+<li><code>maxscore</code>: Maximum score for the test case. (default: 1)</li>
+</ul>
+<h4 id="detail-maxtime-field">Detail : <code>maxtime</code> field<a class="headerlink" href="#detail-maxtime-field" title="Permanent link">&para;</a></h4>
+<ul>
+<li>You may specify <code>maxtime</code> differently for each test case if the expected execution time varies by problem.</li>
+<li>The default value is 10 seconds.</li>
+</ul>
+<h4 id="detail-maxscore-field">Detail : <code>maxscore</code> field<a class="headerlink" href="#detail-maxscore-field" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>maxscore</code> specifies the maximum score for the test case. </li>
+<li>If this value is not set, the default value is 1. </li>
+<li>If you want to assign different points to different test cases, you can specify the <code>maxscore</code> field.</li>
+<li>Note that, if <code>maxscore</code> is not 1, you MUST define your own custom evaluation function to return the score properly. See <a href="../preload/#custom-scoring-function">Custom Scoring Function</a> for more details.</li>
+</ul>
 
 
 

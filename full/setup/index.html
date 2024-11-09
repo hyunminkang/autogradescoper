@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://hyunminkang.github.io/autogradescoper/full/install/">
+        <link rel="canonical" href="https://hyunminkang.github.io/autogradescoper/full/setup/">
       
       
-        <link rel="prev" href="../intro/">
+        <link rel="prev" href="../install/">
       
       
-        <link rel="next" href="../setup/">
+        <link rel="next" href="../run/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Installation - autogradescoper</title>
+        <title>Setup Script - autogradescoper</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#installation" class="md-skip">
+        <a href="#setup-script-for-autogradescoper" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Installation
+              Setup Script
             
           </span>
         </div>
@@ -585,6 +585,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../install/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -601,7 +622,7 @@
           
   
   <span class="md-ellipsis">
-    Installation
+    Setup Script
   </span>
   
 
@@ -612,7 +633,7 @@
         
   
   <span class="md-ellipsis">
-    Installation
+    Setup Script
   </span>
   
 
@@ -634,18 +655,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#installation-not-required" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
-      Installation Not Required
+      Overview
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#installing-autogradescoper-for-development" class="md-nav__link">
+  <a href="#a-typical-example" class="md-nav__link">
     <span class="md-ellipsis">
-      Installing autogradescoper for Development
+      A Typical Example
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-additional-r-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding Additional R Packages
     </span>
   </a>
   
@@ -655,27 +685,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../setup/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Setup Script
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -882,18 +891,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#installation-not-required" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
-      Installation Not Required
+      Overview
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#installing-autogradescoper-for-development" class="md-nav__link">
+  <a href="#a-typical-example" class="md-nav__link">
     <span class="md-ellipsis">
-      Installing autogradescoper for Development
+      A Typical Example
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-additional-r-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding Additional R Packages
     </span>
   </a>
   
@@ -917,44 +935,54 @@
   
 
 
-<h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h1>
-<h2 id="installation-not-required">Installation Not Required<a class="headerlink" href="#installation-not-required" title="Permanent link">&para;</a></h2>
-<p>To use the <code>autogradscoper</code> package, users do NOT need to install <code>autogradescoper</code> in their local computer.</p>
-<p>The package is designed to be downloaded (via GitHub) and executed by the Gradescope Autograder. </p>
-<p>Users only need to prepare the Autograder files and upload them to the Gradescope platform.
-See <a href="../../use_cases/example_assignment/">Example Use Cases</a> or <a href="../../use_cases/new_assignment/">Creating a New Assignment</a> for setup instructions.</p>
-<h2 id="installing-autogradescoper-for-development">Installing <code>autogradescoper</code> for Development<a class="headerlink" href="#installing-autogradescoper-for-development" title="Permanent link">&para;</a></h2>
-<p>If you want to develop the <code>autogradescoper</code> package, you can install the package from the GitHub repository.</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
-<span class="normal"><a href="#__codelineno-0-2">2</a></span>
-<span class="normal"><a href="#__codelineno-0-3">3</a></span>
-<span class="normal"><a href="#__codelineno-0-4">4</a></span>
-<span class="normal"><a href="#__codelineno-0-5">5</a></span>
-<span class="normal"><a href="#__codelineno-0-6">6</a></span>
-<span class="normal"><a href="#__codelineno-0-7">7</a></span>
-<span class="normal"><a href="#__codelineno-0-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="c1"># Install the `autogradescoper` package from GitHub</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/hyunminkang/autogradescoper.git
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="c1"># Change the directory to the `autogradescoper` package</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="nb">cd</span><span class="w"> </span>autogradescoper
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="c1"># Install the package in development mode</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+<h1 id="setup-script-for-autogradescoper">Setup Script for Autogradescoper<a class="headerlink" href="#setup-script-for-autogradescoper" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The <code>setup.sh</code> file is a shell script that installs the necessary software tools and libraries when building the Docker image for the Gradescope Autograder.</p>
+<p>Typically, you do not need to modify the <code>setup.sh</code> file, but you may sometimes need to adjust it to install additional dependencies or libraries.</p>
+<h2 id="a-typical-example">A Typical Example<a class="headerlink" href="#a-typical-example" title="Permanent link">&para;</a></h2>
+<p>Below is a typical example of the <code>setup.sh</code> file for an R programming assignment. These scripts install the required software tools and libraries for the autograder and create a Python virtual environment to run the autograder.</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="ch">#!/usr/bin/env bash</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="c1"># Install Python, R, Git, and other necessary libraries.</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>libxml2-dev<span class="w"> </span>libcurl4-openssl-dev<span class="w"> </span>libssl-dev
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>python3<span class="w"> </span>python3-pip<span class="w"> </span>python3-dev
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>r-base
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>git
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="c1"># Create Python virtual environment</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>pip3<span class="w"> </span>install<span class="w"> </span>virtualenv
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>virtualenv<span class="w"> </span>/venv
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="nb">source</span><span class="w"> </span>/venv/bin/activate
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="c1"># Install autogradescoper from GitHub</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/hyunminkang/autogradescoper.git
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="nb">cd</span><span class="w"> </span>autogradescoper
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </span></code></pre></div></td></tr></table></div>
-<p>This will allow you to modify the <code>autogradescoper</code> package and test the changes locally.</p>
-<p>To check whether the package is installed correctly, you can run the following command:</p>
-<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>autogradescoper<span class="w"> </span>
-</span></code></pre></div></td></tr></table></div>
-<p>Then the following message should appear:</p>
-<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
-<span class="normal"><a href="#__codelineno-2-2">2</a></span>
-<span class="normal"><a href="#__codelineno-2-3">3</a></span>
-<span class="normal"><a href="#__codelineno-2-4">4</a></span>
-<span class="normal"><a href="#__codelineno-2-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>Usage: autogradescoper &lt;command&gt; &lt;args&gt;, autogradescoper &lt;command&gt; -h to see arguments for each command
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>Available commands:
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>    eval_r_func_args
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>    eval_r_func_problem
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>    eval_r_func_probset
+<p>This setup script assumes that the <code>autogradescoper</code> package is installed from the main branch of the <a href="https://github.com/hyunminkang/autogradescoper" target="_blank">GitHub repository</a> to the <code>/autogradescoper</code> directory in the Docker image.</p>
+<p>If you need to modify the autogradescoper source code, you can change the URL in the <code>git clone</code> command to your forked repository.</p>
+<h2 id="adding-additional-r-packages">Adding Additional R Packages<a class="headerlink" href="#adding-additional-r-packages" title="Permanent link">&para;</a></h2>
+<p>Sometimes, you may want to install additional R packages for the autograder. You can install R packages using the <code>install.packages()</code> function in R from the command line.</p>
+<p>For example, to install the <code>package_name</code> R package, you can use the following command:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="c1"># Replace &quot;package_name&quot; with your desired R package name</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>R<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;install.packages(&quot;package_name&quot;, repos=&quot;https://cran.rstudio.com&quot;)&#39;</span>
 </span></code></pre></div></td></tr></table></div>
 
 
