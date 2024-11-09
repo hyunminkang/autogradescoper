@@ -301,7 +301,7 @@ By default, the autograder runs the solution and student's code, and compares th
 
 NOTE that `--skip-solution` option must be turned on in the `run_autograder` script to skip running the solution code.
 
-In order to use this feature, your custom evaluation function should return a list that contains the following output:
+In order to use this feature, your custom evaluation function should return a list that contains the following attributes:
 
 - `score`: the score for the test case
 - `details`: the output message to be shown to the students.
