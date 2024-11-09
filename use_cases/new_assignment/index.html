@@ -1433,7 +1433,7 @@ using arbitrary random seeds. </p>
 <h4 id="custom-scoring-function">Custom Scoring Function<a class="headerlink" href="#custom-scoring-function" title="Permanent link">&para;</a></h4>
 <p>By default, the autograder runs the solution and student's code, and compares the output values to determine the score. However, sometimes you may want to evaluate the output values in a more specific way and assign a score based on the evaluation. In such cases, you can define a custom scoring function in the preload script. </p>
 <p>NOTE that <code>--skip-solution</code> option must be turned on in the <code>run_autograder</code> script to skip running the solution code.</p>
-<p>In order to use this feature, your custom evaluation function should return a list that contains the following output:</p>
+<p>In order to use this feature, your custom evaluation function should return a list that contains the following attributes:</p>
 <ul>
 <li><code>score</code>: the score for the test case</li>
 <li><code>details</code>: the output message to be shown to the students.</li>
