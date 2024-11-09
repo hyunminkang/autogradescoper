@@ -64,9 +64,14 @@ nav:
   - Full Documentation:
     - Introduction: full/intro.md
     - Installation: full/install.md
+    - Setup Script: full/setup.md
+    - Startup Script: full/run.md
     - Configuration Files: full/config.md
-    - Arguments for Test Cases: full/args.md
+    - Test Cases: full/args.md
     - Preload Scripts: full/preload.md
+    - Solution Files: full/solution.md
+    - Testing Autograder: full/test.md
+    - Debugging Autograder: full/debug.md
   - Development: development.md
 
 markdown_extensions:

@@ -1,9 +1,8 @@
 # Use Case : Creating a New Assignment
 
-## Start from the example assignment 
+## Start from the Example Assignment
 
-To create your own assignment, the easiest way is to start from the
-[Example Assignment](example_assignment.md) we used in the previous section.
+To create your own assignment, the easiest way is to start from the [Example Assignment](example_assignment.md) we used in the previous section.
 
 Below is the directory structure of the new example assignment. Each file is commented with the changes you may want to make for the new assignment. The specific changes to be made are described in the following sections.
 
@@ -27,9 +26,7 @@ Note that these autograder source files will be located at `/autograder/source/`
 
 ## setup.sh
 
-Typically, you do not need to modify `setup.sh` file. 
-However, if you want to install additional R packages, 
-see the commented lines in the end of the example below.
+Typically, you do not need to modify the `setup.sh` file. However, if you want to install additional R packages, see the commented lines at the end of the example below.
 
 ```bash linenums="1"
 #!/usr/bin/env bash
@@ -69,31 +66,28 @@ source /venv/bin/activate
 ## use --show-args and --show-details if you want to reveal input arguments and detailed output to students
 autogradescoper eval_r_func_probset --show-args --show-details --show-errors
 ```
-Typically, you do not need to modify this file. However,
-you may want to selectively turn on the following arguments based on your needs (default of off):
 
-- `--show-args` : show the input arguments to the students.
-- `--show-details` : show the detailed output to the students.
-- `--show-errors` : show the error messages to the students.
+Typically, you do not need to modify this file. However, you may want to selectively turn on the following arguments based on your needs (default is off):
 
-Typically, it is strongly recommended to turn on `--show-errors` to help students debug their code.
-Showing the detailed output (`--show-details`) and test arguments (`--show-args`) may help students understand their issues better, but it may allow students to take advantage of the test cases. Depending on the nature of the assignment, you may want to turn them off.
+- `--show-args`: show the input arguments to the students.
+- `--show-details`: show the detailed output to the students.
+- `--show-errors`: show the error messages to the students.
 
-Finally, there is a special option to turn on
+It is strongly recommended to turn on `--show-errors` to help students debug their code. Showing the detailed output (`--show-details`) and test arguments (`--show-args`) may help students understand their issues better, but it may allow students to take advantage of the test cases. Depending on the nature of the assignment, you may want to turn them off.
 
-- `skip-solution` : skip running the solution code. see [Custom Scoring Function](#custom-scoring-function) section for more details. 
+Finally, there is a special option to turn on:
 
-Note that this option requires to use [Custom Scoring Function](#custom-scoring-function). The custom evaluation script must return the score and details in the output.
+- `--skip-solution`: skip running the solution code. See the [Custom Scoring Function](#custom-scoring-function) section for more details.
 
-## Configuration files
+Note that this option requires using a [Custom Scoring Function](#custom-scoring-function). The custom evaluation script must return the score and details in the output.
+
+## Configuration Files
 
 The `config/` directory contains the configuration files for the autograder.
 
-### The General Configuration File
+### General Configuration File
 
-You will need to modify the `config/config.yaml` file to specify the function to be evaluated and the filename of the submission file at the minimum. 
-
-contains the general configuration for the autograder, such as the name of the function to be evaluated and the name of the input arguments file.
+You will need to modify the `config/config.yaml` file to specify the function to be evaluated and the filename of the submission file at the minimum.
 
 ```yaml linenums="1"
 ## config/config.yaml - contains the general configuration for the autograder
@@ -114,29 +108,17 @@ contains the general configuration for the autograder, such as the name of the f
 ##   preload_sol: /autograder/source/config/preload.baseonly.R  
 ```
 
-Here are some key considerations when modifying the `config/config.yaml` file:
+Key considerations when modifying the `config/config.yaml` file:
 
-- The name of the function to be evaluated should be typically the same as the function students are required to implement in the submission file. 
-    - For example, if the students are asked to implement a function named `mypexp()`, you should replace `[replace_me]` with `myexp()`. 
-    - However, sometimes you may want to take the output of the function students implemented and pass it to another function for evaluation. 
-    - For example, you may ask students to implement `my_estimator(data)` function and evaluate the estimator by simulating the data such as `my_evaluator(nreps, nsamples, param1, param2)` function. In this case, you should specify the function name as `my_evaluator` and provide arguments corresponding to `my_evaluator()`.
-- The file name students are required to submit should end with `.R`. 
-    - For example, if the students are asked to submit a file named `prob1.R`, you should replace `[replace_me]` with `prob1`.
-- The `digits` field specifies the number of digits to compare the output. 
-    - For example, if you want to compare the output up to 8 digits, you should replace `[replace_me]` with `8`.
-- The `format` field specifies the format of the output values to compare. 
-    - If you do not specify this value, the default format is `g`, which is typical way R prints out numeric values dynamic as scientific or fixed-point representation. 
-    - If you want to compare the output as a fixed floating point number, you should uncomment the `format` line and set it to `"f"`. 
-    - For example, when `digits` is 8 and the output value is `1.2345678e-07`, using `format: "g"` will compare the output as `1.2345678e-07`, while using `format: "f"` will compare the output as `0.00000012` (i.e. 8 digits below the decimal point).
-    - For example, if you want to force the output to be integer values, you may set when `digits` to be 0 and select `format: "f"`. This will use 0 digits below the decimal point. 
-  - `preload_usr` specifies the preload script for student submissions, and `preload_sol` specifies the preload script for solutions.  
-    - In most cases, you may want to use the same preload file for both submissions and solutions. 
-    - If you want to use different preload files for submissions and solutions, you can specify different preload files for `preload_usr` and `preload_sol`.
-    - You may choose to skip specifying the preload script in  `preload_sol`.
-- If you want to have multiple problems in a single assignment, you can add additional configurations by uncommenting the lines after `## NOTE:`. 
-  - You may add as many configurations as you need by repeating the lines starting with `- func:`.
+- The function name should match the function students are required to implement.
+    - A different function name can be specified if the output of the student's function is passed to another function for evaluation. See the [Custom Evaluation Function](#custom-evaluation-function) section for more details.
+- The filename should end with `.R`.
+- The `digits` field specifies the number of digits to compare the output.
+- The `format` field specifies the format of the output values to compare.
+- `preload_usr` and `preload_sol` specify the preload scripts for submissions and solutions.
+- For multiple problems, add additional configurations by uncommenting the lines after `## NOTE:`.
 
-### The Problem-Specific Configuration File
+### Problem-Specific Configuration File
 
 The `config/config.prob.yaml` file contains the problem-specific configuration for the autograder.
 The YAML file should have a list of each test case, and each test case is typically considered to have 1
@@ -167,25 +149,13 @@ point.
 ```
 
 Each test case should have the following fields:
-- `args`: the path to the input arguments file for the test case. Typically you do not need to change this value.
-- `maxtime`: the maximum time allowed for the test case in seconds. You may need to change this value based on the complexity of the test case.
-- `maxscore`: (optional) the maximum score for the test case. If this is not set, the default value is 1. If you want to assign different points to different test cases, you can specify the `maxscore` field. Note that, if `maxscore` is not 1, you need to define your own evaluation function to return the score (see below for more detailed examples).
+- `args`: the path to the input arguments file for the test case.
+- `maxtime`: the maximum time allowed for the test case in seconds.
+- `maxscore`: (optional) the maximum score for the test case.
 
+### Preload Script
 
-### The Preload Script
-
-The preload script is an important script that loads necessary 
-R packages and functions before running the student's code. It contains the code to
-override some functions to help students conform their submissions to the requirements.
-
-The preload script has a large amount of flexibility in terms of what you can do. 
-Here we will break down into parts to explain the key components of the default preload script
-provided with the [Example Assignment](example_assignment.md). 
-We will also provide additional examples on implementing custom evaluation functions, too.
-
-The following part of the preload script is to prevent students from using 
-disallowed packages and functions. If students are only allowed to use the `base` package,
-you can use the following code to detach all non-base packages.
+The preload script loads necessary R packages and functions before running the student's code.
 
 #### Detaching Disallowed Packages
 
@@ -203,16 +173,7 @@ detach_disallowed_packages <- function(pkgnames) {
 detach_disallowed_packages(c("package:base"))
 ```
 
-If you want to allow students to use `stats` packages, you may want to modify the last line to the following:
-
-```R linenums="1"
-detach_disallowed_packages(c("package:base", "package:stats"))
-```
-
-#### Preventing Users to Load Additional Packages
-
-The following code snipplet prevents students from 
-loading additional packages using `library()` or `require()` functions.
+#### Preventing Users from Loading Additional Packages
 
 ```R linenums="1"
 ## Redefine library() function to prevent loading additional packages
@@ -318,7 +279,7 @@ evaluate_predict <- function(data, coef, true_values) {
 }
 ```
 
-If the score is not 0 to 1 scale, you will need to modify the `config/config.prob.yaml` file to include the `maxscore` field for each test case as follows:
+If the score is not 0 to 1 scale, modify the `config/config.prob.yaml` file to include the `maxscore` field for each test case.
 
 ```yaml linenums="1"
 ## example config/config.prob.yaml 

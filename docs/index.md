@@ -1,25 +1,19 @@
-# Welcome to autogradescoper documentation
+# Welcome to Autogradescoper Documentation
 
-This is the documentation for the `autogradescoper` toolkit. 
+This is the official documentation for the `autogradescoper` toolkit.
 
-## What is autogradescoper?
+## What is Autogradescoper?
 
-`autogradescoper` is a software package that help instructors to 
-create autograded programming assignments for students using [Gradescope](https://www.gradescope.com/){:target="_blank"}.
-Currently, `autogradescoper` supports a specific type of R programming assignments. 
+`autogradescoper` is a software package designed to help instructors create autograded programming assignments for students using [Gradescope](https://www.gradescope.com/){:target="_blank"}. Currently, it supports a specific type of R programming assignments.
 
-## How is autogradescoper different from other related tools?
+## How is Autogradescoper Different from Other Tools?
 
-There are other tools that help instructors to create autograded programming assignments using Gradescope.
-The [Gradescoper Autograder Documentation](https://gradescope-autograders.readthedocs.io/en/latest/){:target="_blank"} provides a language-agnostic guide to creating autograded programming assignments for Gradescope. Several generic examples were provided for [Python](https://gradescope-autograders.readthedocs.io/en/latest/python/){:target="_blank"} and [Java](https://gradescope-autograders.readthedocs.io/en/latest/java/){:target="_blank"}. However, there is no specific example for R programming assignments.
+Several tools assist instructors in creating autograded programming assignments for Gradescope. The [Gradescope Autograder Documentation](https://gradescope-autograders.readthedocs.io/en/latest/){:target="_blank"} offers a language-agnostic guide with examples for [Python](https://gradescope-autograders.readthedocs.io/en/latest/python/){:target="_blank"} and [Java](https://gradescope-autograders.readthedocs.io/en/latest/java/){:target="_blank"}, but lacks specific examples for R programming.
 
-The [gradeR](https://github.com/tbrown122387/gradeR){:target="_blank"} package is a tool that helps instructors to create autograded R programming assignments for Gradescope. However, the `gradeR` package is not sufficient enough to create an autograder for Gradescope. It requires additional setup from a user who very well understand how Gradescope autograding system works.
+The [gradeR](https://github.com/tbrown122387/gradeR){:target="_blank"} package helps create autograded R programming assignments for Gradescope but requires a deep understanding of the Gradescope autograding system.
 
-The `autogradescoper` toolkit is designed for instructors who want to create autograded R programming assignments for Gradescope without the need to completely understand the Gradescope autograding system. 
-The instructors can follow the step-by-step guide provided in this documentation to create autograded R programming assignments for Gradescope.
+`autogradescoper` simplifies this process for instructors by providing a step-by-step guide to create autograded R programming assignments for Gradescope without needing extensive knowledge of the Gradescope autograding system.
 
-## Future of autogradescoper
+## Future of Autogradescoper
 
-Currently, `autogradescoper` supports a specific type of R programming assignments. 
-Future developments may allow us to support other programming languages or assignment types. 
-Please visit the [Development](development.md) section if you are interested in contributing to this repository.
+Currently, `autogradescoper` supports a specific type of R programming assignments. Future developments may expand support to other programming languages or assignment types. If you are interested in contributing, please visit the [Development](development.md) section.

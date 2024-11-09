@@ -1,65 +1,61 @@
-# Use Case : Example Assignment
+# Use Case: Example Assignment
 
 ## Overview
 
-This section describes the [autogradescoper example assignment available in GitHub repository](https://github.com/hyunminkang/autogradescoper/blob/main/examples){:target="_blank"} in detail. 
-If you are interested in running the example assignment without understanding the details first, please see the [Quickstart](../quickstart.md) section.
+This section describes the [autogradescoper example assignment available in GitHub repository](https://github.com/hyunminkang/autogradescoper/blob/main/examples){:target="_blank"} in detail. If you are interested in running the example assignment without understanding the details first, please see the [Quickstart](../quickstart.md) section.
 
 The [Gradescope Autograder Documentation](https://gradescope-autograders.readthedocs.io/en/latest/){:target="_blank"} provides a comprehensive overview of how to use Gradescope. This documentation will not repeat the documentation, but rather focus on the specific use case of using `autogradescoper`.
 
-## The Assignment : Specification
+## The Assignment: Specification
 
-The objective of this example assignment is to reimplement 
-the cumulative density function (CDF) of the expoential distribution from scratch. 
+The objective of this example assignment is to reimplement the cumulative density function (CDF) of the exponential distribution from scratch.
 
 Let $x$ and $\lambda$ be positive real values. We want to evaluate the following quantity:
 
 $$\Pr(X \leq x) = 1 - \exp(-\lambda x)$$
 
-where $X$ is a random variable following the exponential distribution with rate parameter $\lambda$.
-The key requirement is to implement the function robustly against possible numerical precision issues.
+where $X$ is a random variable following the exponential distribution with rate parameter $\lambda$. The key requirement is to implement the function robustly against possible numerical precision issues.
 
-More specifically, the students are expected to write a function `mypexp(x, rate, lower.tail, log.p)` that reproduces the `pexp()` function in R only using the `base` package, where
+More specifically, the students are expected to write a function `mypexp(x, rate, lower.tail, log.p)` that reproduces the `pexp()` function in R only using the `base` package, where:
 
-- `x` : a positive real number (scalar), representing $x$ in the equation above.
-- `rate` : a positive rate number (scalar), representing $\lambda$ in the equation above.
-- `lower.tail` : a logical value (scalar), indicating whether to return $\Pr(X \leq x)$ (`TRUE`) or $\Pr(X > x)$ (`FALSE`).
-- `log.p` : a logical value (scalar), indicating whether to return the natural logarithm of the probability density function (`TRUE`) or the probability density function itself (`FALSE`).
+- `x`: a positive real number (scalar), representing $x$ in the equation above.
+- `rate`: a positive rate number (scalar), representing $\lambda$ in the equation above.
+- `lower.tail`: a logical value (scalar), indicating whether to return $\Pr(X \leq x)$ (`TRUE`) or $\Pr(X > x)$ (`FALSE`).
+- `log.p`: a logical value (scalar), indicating whether to return the natural logarithm of the probability density function (`TRUE`) or the probability density function itself (`FALSE`).
 
-The students are expected to implement the function `mypexp()` in a file named `mypexp.R` and submit it to the autograder. It is important to maintain the precision of the output up to 8 digits, and it is allowed to use the `pexp()` function or any other functions outside the `base` package in the implementation. 
+The students are expected to implement the function `mypexp()` in a file named `mypexp.R` and submit it to the autograder. It is important to maintain the precision of the output up to 8 digits, and it is not allowed to use the `pexp()` function or any other functions outside the `base` package in the implementation.
 
-## The Assignment : A Sample Solution
+## The Assignment: A Sample Solution
 
 Below is an example solution that implements the `mypexp()` function in R.
 
 ```r linenums="1"
 mypexp <- function(x, rate, lower.tail, log.p) {
-  if ( lower.tail ) { ## if lower.tail is TRUE
-    if ( log.p ) {    ## if log.p is TRUE    
-       if ( x*rate > 10 ) {      ## when x*rate is very large 
-         return( -exp(-rate*x) ) ## use approximation: log(1-z) = -z, to avoid underflow
-       }
-       else {                            ## otherwise, 
-         return( log(-expm1(-rate*x) ) ) ## use the exact formula
+  if (lower.tail) { 
+    if (log.p) {    
+      if (x * rate > 10) {      
+        return(-exp(-rate * x)) 
+      } else {                            
+        return(log(-expm1(-rate * x))) 
       }
-    } else {          ## if log.p is FALSE
-       return( -expm1(-rate*x) ) ## use expm1() to avoid numerical issues
+    } else {          
+      return(-expm1(-rate * x)) 
     }
-  } else {                ## if lower.tail is FALSE
-    if ( log.p ) {        ## if log.p is TRUE
-       return( -rate*x )  ## the formula is simple
-    } else {              ## if log.p is FALSE
-       return( exp(-rate*x) ) ## the formula is still simple
+  } else {                
+    if (log.p) {        
+      return(-rate * x)  
+    } else {              
+      return(exp(-rate * x)) 
     }
   }
 }
 ```
 
-## Preparing Files for the Autograder 
+## Preparing Files for the Autograder
 
-The autograder used by `autogradscoper` typically has the following structure of input files:
+The autograder used by `autogradescoper` typically has the following structure of input files:
 
-```
+```plaintext linenums="1"
 |-- setup.sh
 |-- run_autograder
 |-- config/
@@ -75,13 +71,13 @@ The autograder used by `autogradscoper` typically has the following structure of
   `-- test.10.args
 ```
 
-The `[function_name]` in this example is `mypexp`, because the students are expected to implement the `mypexp()` function in the `mypexp.R` file. 
+The `[function_name]` in this example is `mypexp`, because the students are expected to implement the `mypexp()` function in the `mypexp.R` file.
 
 These files can be found in the [GitHub repository](https://github.com/hyunminkang/autogradescoper/tree/main/examples/mypexp/){:target="_blank"}. We will explore the contents of each file one by one.
 
 ### setup.sh
 
-The `setup.sh` file is a script that is used to build the Docker image for the autograder. It contains the commands to install necessary software tools and libraries based on a base image of Ubuntu 20.04. 
+The `setup.sh` file is a script that is used to build the Docker image for the autograder. It contains the commands to install necessary software tools and libraries based on a base image of Ubuntu 20.04.
 
 ```bash linenums="1"
 #!/usr/bin/env bash
@@ -105,9 +101,7 @@ pip install -e .
 
 ### run_autograder
 
-The `run_autograder` is a script that is used to run the autograder. 
-In `autogradescoper`, it simply runs the main `autogradescoper` command with specific arguments. 
-Everything else is handled by the configuration files and the input files.
+The `run_autograder` is a script that is used to run the autograder. In `autogradescoper`, it simply runs the main `autogradescoper` command with specific arguments. Everything else is handled by the configuration files and the input files.
 
 ```bash linenums="1"
 #!/usr/bin/env bash
@@ -162,18 +156,15 @@ The `config/config.prob.yaml` file contains the problem-specific configuration f
   maxtime: 1
 ```
 
-The `config/preload.baseonly.R` file contains the R script that is loaded before the submission file.
-This file can be used in various purposes to limit the scope of students code to break the required conditions. For example, you can:
+The `config/preload.baseonly.R` file contains the R script that is loaded before the submission file. This file can be used for various purposes to limit the scope of students' code to break the required conditions. For example, you can:
 
 - Restrict students from using functions only from specific packages (e.g. `base` package)
-    - For example, in case students are disallowed to use `lm()` function, for example, limiting the use of `stats` package can be a solution.
 - Restrict students from installing custom packages
-- Restrict students from call functions from disallowed packages using `::` operators.
-- Restrict students from setting the random seed arbitrarily. 
-- Define a wrapper function of the function to be implemented by students to check the correctness of implementation.
+- Restrict students from calling functions from disallowed packages using `::` operators
+- Restrict students from setting the random seed arbitrarily
+- Define a wrapper function of the function to be implemented by students to check the correctness of implementation
 
-In this example assignment, the 
-preload script restricts students from using any packages other than the `base` package.
+In this example assignment, the preload script restricts students from using any packages other than the `base` package.
 
 ```r linenums="1"
 ## config/preload.baseonly.R - contains the R script to load before the submission file
@@ -184,7 +175,7 @@ detach_disallowed_packages <- function(pkgnames) {
   attached_packages <- search()
 
   # Keep only the base package + other essential packages
-  allowed_package <- c(pkgnames,"package:utils", ".GlobalEnv","Autoloads")
+  allowed_package <- c(pkgnames, "package:utils", ".GlobalEnv", "Autoloads")
   
   # Identify packages that are not the base package
   disallowed_packages <- setdiff(attached_packages, allowed_package)
@@ -215,7 +206,7 @@ source <- function(file) {
   contains_double_colon <- any(grepl("::", file_content))
   contains_triple_colon <- any(grepl(":::", file_content))
 
-  if ( contains_double_colon || contains_triple_colon ) {
+  if (contains_double_colon || contains_triple_colon) {
     stop("Use of :: or ::: is not allowed")
   }
 
@@ -231,9 +222,7 @@ source <- function(file) {
 
 ### Input Argument Files
 
-The input arguments for each test case are stored in the `args/` directory.
-Each line represents a single argument that is passed to the function to be evaluated.
-The number of arguments must match to the number of arguments used in the function to be evaluated.
+The input arguments for each test case are stored in the `args/` directory. Each line represents a single argument that is passed to the function to be evaluated. The number of arguments must match the number of arguments used in the function to be evaluated.
 
 In this example assignment, the function `mypexp()` takes four arguments: `x`, `rate`, `lower.tail`, and `log.p`. Each argument must be specified in separate lines, in the format of `[type]:[value]` as in the following `args/test.1.args` file.
 
@@ -248,9 +237,9 @@ Other than `numeric` types, you may also define `int`, `str`, `df` (for TSV), `r
 
 ### Solution File
 
-The solution file contains the gold standard solution whose output used to compare output from the students' submissions. The instructors do not have to provide the expected output individually. Instead, the `autogradescoper` will run the solution file and student's submission file separately on the same input arguments, and compare the output to evaluate the correctness of the student's submission.
+The solution file contains the gold standard solution whose output is used to compare the output from the students' submissions. The instructors do not have to provide the expected output individually. Instead, the `autogradescoper` will run the solution file and student's submission file separately on the same input arguments, and compare the output to evaluate the correctness of the student's submission.
 
-In `mypexp()` example, the function should behave exactly the same as `pexp()` function. Therefore, the solution file `solution/mypexp.R` simply calls the `pexp()` function from the `stats` package.
+In the `mypexp()` example, the function should behave exactly the same as the `pexp()` function. Therefore, the solution file `solution/mypexp.R` simply calls the `pexp()` function from the `stats` package.
 
 ```r linenums="1"
 ## solution/mypexp.R - contains the solution file
@@ -262,21 +251,17 @@ mypexp <- function(x, rate, lower.tail, log.p) {
 
 Note that this is NOT a correct solution, because the students are disallowed to use the `stats` package in their submission.
 
-However, because the results of the function should exactly
-match to the behavior of `stats::pexp()` function,
-this will serve as a gold standard to compare the output with a submitted code.
+However, because the results of the function should exactly match the behavior of the `stats::pexp()` function, this will serve as a gold standard to compare the output with a submitted code.
 
-The students will not be able to use stats::pexp() in their submission because
-the preload script in the configuration prevents loading any functions outside the "base" package.
+The students will not be able to use `stats::pexp()` in their submission because the preload script in the configuration prevents loading any functions outside the "base" package.
 
-The autograder will run both the solution and submission code for each test case
-and compare the output to check the correctness. 
+The autograder will run both the solution and submission code for each test case and compare the output to check the correctness.
 
 ### Creating a zip file for Autograder
 
 To create a zip file for the autograder, you need to create a zip file that contains all the files and directories in the structure given previously:
 
-```
+```plaintext linenums="1"
 |-- setup.sh
 |-- run_autograder
 |-- config/
@@ -292,8 +277,8 @@ To create a zip file for the autograder, you need to create a zip file that cont
   `-- test.10.args
 ```
 
-It is important NOT to include the parent directory in the zip file. When compressed these files should NOT be contained in another directory. 
+It is important NOT to include the parent directory in the zip file. When compressed, these files should NOT be contained in another directory.
 
-## Testing the Example Assignment in Gradescope.
+## Testing the Example Assignment in Gradescope
 
 Using this Autograder file, you can create your course, create your assignment, and test your assignment as described in the [Quickstart](../quickstart.md) page.

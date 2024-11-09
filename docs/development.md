@@ -1,3 +1,5 @@
-# Contributing to the Development of autogradescoper
+# Contributing to autogradescoper
 
-If you are interested in contributing to the development of autogradescoper, please contact Hyun Min Kang (hmkang@umich.edu). You may submit a pull request to the repository to suggest changes or additions to the codebase. 
+Interested in contributing to autogradescoper? Contact Hyun Min Kang at hmkang@umich.edu.
+
+You can also suggest changes or additions by submitting a pull request to the repository.

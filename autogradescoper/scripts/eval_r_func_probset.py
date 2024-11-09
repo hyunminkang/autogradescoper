@@ -8,12 +8,12 @@ def parse_arguments(_args):
     parser = argparse.ArgumentParser(prog=f"autogradescoper eval_r_func_probset", description="Automatic grading of multiple problem sets implementing R functions")
 
     inout_params = parser.add_argument_group("Required Input/Output Parameters", "Input/output directory/files.")
-    inout_params.add_argument('--config', type=str, default="/autograder/source/config/config.yaml", help='JSON/YAML files containing "func", "config", "digits", "preload" for each problem')
+    inout_params.add_argument('--config', type=str, default="/autograder/source/config/config.yaml", help='JSON/YAML files containing "func", "config", "digits", "preload" for each problem (default:/autograder/source/config/config.yaml)')
 
     key_params = parser.add_argument_group("Key Parameters with default values", "Key parameters frequently used by users")
-    key_params.add_argument('--solution-dir', type=str, default="/autograder/source/solution", help='R script containing the correct solution')
-    key_params.add_argument('--submission-dir', type=str, default="/autograder/submission", help='R script containing the submitted solution')
-    key_params.add_argument('--out-prefix', type=str, default="/autograder/results/results", help='Prefix of output files')
+    key_params.add_argument('--solution-dir', type=str, default="/autograder/source/solution", help='R script containing the correct solution (default: /autograder/source/solution)')
+    key_params.add_argument('--submission-dir', type=str, default="/autograder/submission", help='R script containing the submitted solution (default: /autograder/submission)')
+    key_params.add_argument('--out-prefix', type=str, default="/autograder/results/results", help='Prefix of output files (default: /autograder/results/results)')
     key_params.add_argument('--log', action='store_true', default=False, help='Write log to file')
     key_params.add_argument('--show-args', action='store_true', default=False, help='Show the arguments to user output')
     key_params.add_argument('--show-details', action='store_true', default=False, help='Show the correct and incorrect output to user output')
