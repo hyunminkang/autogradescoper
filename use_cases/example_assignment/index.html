@@ -556,8 +556,53 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#configuration-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#input-argument-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Input Argument Files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solution-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution File
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-zip-file-for-autograder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating a zip file for Autograder
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-the-example-assignment-in-gradescope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing the Example Assignment in Gradescope.
+    </span>
+  </a>
   
 </li>
       
@@ -863,8 +908,53 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#configuration-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#input-argument-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Input Argument Files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solution-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution File
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-zip-file-for-autograder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating a zip file for Autograder
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-the-example-assignment-in-gradescope" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing the Example Assignment in Gradescope.
+    </span>
+  </a>
   
 </li>
       
@@ -890,6 +980,7 @@
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>This section describes the <a href="https://github.com/hyunminkang/autogradescoper/blob/main/examples" target="_blank">autogradescoper example assignment available in GitHub repository</a> in detail. 
 If you are interested in running the example assignment without understanding the details first, please see the <a href="../../quickstart/">Quickstart</a> section.</p>
+<p>The <a href="https://gradescope-autograders.readthedocs.io/en/latest/" target="_blank">Gradescope Autograder Documentation</a> provides a comprehensive overview of how to use Gradescope. This documentation will not repeat the documentation, but rather focus on the specific use case of using <code>autogradescoper</code>.</p>
 <h2 id="the-assignment-specification">The Assignment : Specification<a class="headerlink" href="#the-assignment-specification" title="Permanent link">&para;</a></h2>
 <p>The objective of this example assignment is to reimplement 
 the cumulative density function (CDF) of the expoential distribution from scratch. </p>
@@ -907,79 +998,350 @@ The key requirement is to implement the function robustly against possible numer
 <p>The students are expected to implement the function <code>mypexp()</code> in a file named <code>mypexp.R</code> and submit it to the autograder. It is important to maintain the precision of the output up to 8 digits, and it is allowed to use the <code>pexp()</code> function or any other functions outside the <code>base</code> package in the implementation. </p>
 <h2 id="the-assignment-a-sample-solution">The Assignment : A Sample Solution<a class="headerlink" href="#the-assignment-a-sample-solution" title="Permanent link">&para;</a></h2>
 <p>Below is an example solution that implements the <code>mypexp()</code> function in R.</p>
-<div class="highlight"><pre><span></span><code><span class="n">mypexp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">rate</span><span class="p">,</span><span class="w"> </span><span class="n">lower.tail</span><span class="p">,</span><span class="w"> </span><span class="n">log.p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nf">if </span><span class="p">(</span><span class="w"> </span><span class="n">lower.tail</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">## if lower.tail is TRUE</span>
-<span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="w"> </span><span class="n">log.p</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">    </span><span class="c1">## if log.p is TRUE    </span>
-<span class="w">       </span><span class="nf">if </span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="o">*</span><span class="n">rate</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">      </span><span class="c1">## when x*rate is very large </span>
-<span class="w">         </span><span class="nf">return</span><span class="p">(</span><span class="w"> </span><span class="o">-</span><span class="nf">exp</span><span class="p">(</span><span class="o">-</span><span class="n">rate</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="c1">## use approximation: log(1-z) = -z, to avoid underflow</span>
-<span class="w">       </span><span class="p">}</span>
-<span class="w">       </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w">                            </span><span class="c1">## otherwise, </span>
-<span class="w">         </span><span class="nf">return</span><span class="p">(</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="o">-</span><span class="nf">expm1</span><span class="p">(</span><span class="o">-</span><span class="n">rate</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="c1">## use the exact formula</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w">          </span><span class="c1">## if log.p is FALSE</span>
-<span class="w">       </span><span class="nf">return</span><span class="p">(</span><span class="w"> </span><span class="o">-</span><span class="nf">expm1</span><span class="p">(</span><span class="o">-</span><span class="n">rate</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="c1">## use expm1() to avoid numerical issues</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w">                </span><span class="c1">## if lower.tail is FALSE</span>
-<span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="w"> </span><span class="n">log.p</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">        </span><span class="c1">## if log.p is TRUE</span>
-<span class="w">       </span><span class="nf">return</span><span class="p">(</span><span class="w"> </span><span class="o">-</span><span class="n">rate</span><span class="o">*</span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w">  </span><span class="c1">## the formula is simple</span>
-<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w">              </span><span class="c1">## if log.p is FALSE</span>
-<span class="w">       </span><span class="nf">return</span><span class="p">(</span><span class="w"> </span><span class="nf">exp</span><span class="p">(</span><span class="o">-</span><span class="n">rate</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="c1">## the formula is still simple</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
+<div class="language-r highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="n">mypexp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">rate</span><span class="p">,</span><span class="w"> </span><span class="n">lower.tail</span><span class="p">,</span><span class="w"> </span><span class="n">log.p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">  </span><span class="nf">if </span><span class="p">(</span><span class="w"> </span><span class="n">lower.tail</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">## if lower.tail is TRUE</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="w"> </span><span class="n">log.p</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">    </span><span class="c1">## if log.p is TRUE    </span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="w">       </span><span class="nf">if </span><span class="p">(</span><span class="w"> </span><span class="n">x</span><span class="o">*</span><span class="n">rate</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">      </span><span class="c1">## when x*rate is very large </span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="w">         </span><span class="nf">return</span><span class="p">(</span><span class="w"> </span><span class="o">-</span><span class="nf">exp</span><span class="p">(</span><span class="o">-</span><span class="n">rate</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="c1">## use approximation: log(1-z) = -z, to avoid underflow</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w">       </span><span class="p">}</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w">       </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w">                            </span><span class="c1">## otherwise, </span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="w">         </span><span class="nf">return</span><span class="p">(</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="o">-</span><span class="nf">expm1</span><span class="p">(</span><span class="o">-</span><span class="n">rate</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="c1">## use the exact formula</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="w">      </span><span class="p">}</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w">          </span><span class="c1">## if log.p is FALSE</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">       </span><span class="nf">return</span><span class="p">(</span><span class="w"> </span><span class="o">-</span><span class="nf">expm1</span><span class="p">(</span><span class="o">-</span><span class="n">rate</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="c1">## use expm1() to avoid numerical issues</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w">                </span><span class="c1">## if lower.tail is FALSE</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="w">    </span><span class="nf">if </span><span class="p">(</span><span class="w"> </span><span class="n">log.p</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">        </span><span class="c1">## if log.p is TRUE</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="w">       </span><span class="nf">return</span><span class="p">(</span><span class="w"> </span><span class="o">-</span><span class="n">rate</span><span class="o">*</span><span class="n">x</span><span class="w"> </span><span class="p">)</span><span class="w">  </span><span class="c1">## the formula is simple</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">else</span><span class="w"> </span><span class="p">{</span><span class="w">              </span><span class="c1">## if log.p is FALSE</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="w">       </span><span class="nf">return</span><span class="p">(</span><span class="w"> </span><span class="nf">exp</span><span class="p">(</span><span class="o">-</span><span class="n">rate</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="c1">## the formula is still simple</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
 <h2 id="preparing-files-for-the-autograder">Preparing Files for the Autograder<a class="headerlink" href="#preparing-files-for-the-autograder" title="Permanent link">&para;</a></h2>
 <p>The autograder used by <code>autogradscoper</code> typically has the following structure of input files:</p>
-<div class="highlight"><pre><span></span><code>|-- setup.sh
-|-- run_autograder
-|-- config/
-| |-- config.yaml
-| |-- config.prob.yaml
-| `-- preload.baseonly.R
-|-- solution/
-| `-- [function_name].R 
-`-- args/
-  |-- test.1.args
-  |-- test.2.args
-  |-- ...
-  `-- test.10.args
-</code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>|-- setup.sh
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>|-- run_autograder
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>|-- config/
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>| |-- config.yaml
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>| |-- config.prob.yaml
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>| `-- preload.baseonly.R
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>|-- solution/
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>| `-- [function_name].R 
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>`-- args/
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>  |-- test.1.args
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>  |-- test.2.args
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>  |-- ...
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>  `-- test.10.args
+</span></code></pre></div>
 <p>The <code>[function_name]</code> in this example is <code>mypexp</code>, because the students are expected to implement the <code>mypexp()</code> function in the <code>mypexp.R</code> file. </p>
 <p>These files can be found in the <a href="https://github.com/hyunminkang/autogradescoper/tree/main/examples/mypexp/" target="_blank">GitHub repository</a>. We will explore the contents of each file one by one.</p>
 <h3 id="setupsh">setup.sh<a class="headerlink" href="#setupsh" title="Permanent link">&para;</a></h3>
 <p>The <code>setup.sh</code> file is a script that is used to build the Docker image for the autograder. It contains the commands to install necessary software tools and libraries based on a base image of Ubuntu 20.04. </p>
-<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
-
-<span class="c1">## install python, R, git, and other necessary libraries.</span>
-apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>libxml2-dev<span class="w"> </span>libcurl4-openssl-dev<span class="w"> </span>libssl-dev
-apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>python3<span class="w"> </span>python3-pip<span class="w"> </span>python3-dev
-apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>r-base
-apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>git
-
-<span class="c1">## create python virtual environment</span>
-pip3<span class="w"> </span>install<span class="w"> </span>virtualenv
-virtualenv<span class="w"> </span>/venv
-<span class="nb">source</span><span class="w"> </span>/venv/bin/activate
-
-<span class="c1">## install autogradescoper from GitHub</span>
-git<span class="w"> </span>clone<span class="w"> </span>https://github.com/hyunminkang/autogradescoper.git
-<span class="nb">cd</span><span class="w"> </span>autogradescoper
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
-</code></pre></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="ch">#!/usr/bin/env bash</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="c1">## install python, R, git, and other necessary libraries.</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>libxml2-dev<span class="w"> </span>libcurl4-openssl-dev<span class="w"> </span>libssl-dev
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>python3<span class="w"> </span>python3-pip<span class="w"> </span>python3-dev
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>r-base
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>git
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="c1">## create python virtual environment</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>pip3<span class="w"> </span>install<span class="w"> </span>virtualenv
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a>virtualenv<span class="w"> </span>/venv
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="nb">source</span><span class="w"> </span>/venv/bin/activate
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13"></a>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="c1">## install autogradescoper from GitHub</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/hyunminkang/autogradescoper.git
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="nb">cd</span><span class="w"> </span>autogradescoper
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</span></code></pre></div></td></tr></table></div>
 <h3 id="run_autograder">run_autograder<a class="headerlink" href="#run_autograder" title="Permanent link">&para;</a></h3>
 <p>The <code>run_autograder</code> is a script that is used to run the autograder. 
 In <code>autogradescoper</code>, it simply runs the main <code>autogradescoper</code> command with specific arguments. 
 Everything else is handled by the configuration files and the input files.</p>
-<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
-
-<span class="c1">## activate python virtual environment</span>
-<span class="nb">source</span><span class="w"> </span>/venv/bin/activate
-
-<span class="c1">## run autogradescoper</span>
-<span class="c1">## use --show-args and --show-details if you want to reveal input arguments and detailed output to students</span>
-autogradescoper<span class="w"> </span>eval_r_func_probset<span class="w"> </span>--show-args<span class="w"> </span>--show-details<span class="w"> </span>--show-errors
-</code></pre></div>
-<p>(To be continued...)</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span>
+<span class="normal"><a href="#__codelineno-3-5">5</a></span>
+<span class="normal"><a href="#__codelineno-3-6">6</a></span>
+<span class="normal"><a href="#__codelineno-3-7">7</a></span>
+<span class="normal"><a href="#__codelineno-3-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="ch">#!/usr/bin/env bash</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="c1">## activate python virtual environment</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="nb">source</span><span class="w"> </span>/venv/bin/activate
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="c1">## run autogradescoper</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="c1">## use --show-args and --show-details if you want to reveal input arguments and detailed output to students</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>autogradescoper<span class="w"> </span>eval_r_func_probset<span class="w"> </span>--show-args<span class="w"> </span>--show-details<span class="w"> </span>--show-errors
+</span></code></pre></div></td></tr></table></div>
+<h3 id="configuration-files">Configuration files<a class="headerlink" href="#configuration-files" title="Permanent link">&para;</a></h3>
+<p>The <code>config/</code> directory contains the configuration files for the autograder.</p>
+<p>The <code>config/config.yaml</code> file contains the general configuration for the autograder, such as the name of the function to be evaluated and the name of the input arguments file.</p>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span>
+<span class="normal"><a href="#__codelineno-4-4">4</a></span>
+<span class="normal"><a href="#__codelineno-4-5">5</a></span>
+<span class="normal"><a href="#__codelineno-4-6">6</a></span>
+<span class="normal"><a href="#__codelineno-4-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c1">## config/config.yaml - contains the general configuration for the autograder</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">func</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;mypexp&quot;</span><span class="w">      </span><span class="c1">## function to evaluate, e.g. mypexp() </span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="w">  </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;mypexp&quot;</span><span class="w">  </span><span class="c1">## submission file name, e.g. mypexp.R</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="w">  </span><span class="nt">digits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span><span class="w">  </span><span class="c1">## number of digits to compare the output</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="w">  </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/config/config.prob.yaml</span><span class="w">  </span><span class="c1">## problem-specific configuration</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="w">  </span><span class="nt">preload_usr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/config/preload.baseonly.R</span><span class="w"> </span><span class="c1">## script to load before loading submission file</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="c1"># preload_sol: /autograder/source/config/preload.baseonly.R ## uncomment this line if you want to apply preload script in the solution file too</span>
+</span></code></pre></div></td></tr></table></div>
+<p>The <code>config/config.prob.yaml</code> file contains the problem-specific configuration for the autograder, such as the input argument for each test case and the time limit.</p>
+<div class="language-yaml highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span>
+<span class="normal"><a href="#__codelineno-5-13">13</a></span>
+<span class="normal"><a href="#__codelineno-5-14">14</a></span>
+<span class="normal"><a href="#__codelineno-5-15">15</a></span>
+<span class="normal"><a href="#__codelineno-5-16">16</a></span>
+<span class="normal"><a href="#__codelineno-5-17">17</a></span>
+<span class="normal"><a href="#__codelineno-5-18">18</a></span>
+<span class="normal"><a href="#__codelineno-5-19">19</a></span>
+<span class="normal"><a href="#__codelineno-5-20">20</a></span>
+<span class="normal"><a href="#__codelineno-5-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="c1">## config/config.prob.yaml - contains the problem-specific configuration for the autograder</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.1.args</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.2.args</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.3.args</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.4.args</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.5.args</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.6.args</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.7.args</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.8.args</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.9.args</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20"></a><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/autograder/source/args/test.10.args</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21"></a><span class="w">  </span><span class="nt">maxtime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+</span></code></pre></div></td></tr></table></div>
+<p>The <code>config/preload.baseonly.R</code> file contains the R script that is loaded before the submission file.
+This file can be used in various purposes to limit the scope of students code to break the required conditions. For example, you can:</p>
+<ul>
+<li>Restrict students from using functions only from specific packages (e.g. <code>base</code> package)<ul>
+<li>For example, in case students are disallowed to use <code>lm()</code> function, for example, limiting the use of <code>stats</code> package can be a solution.</li>
+</ul>
+</li>
+<li>Restrict students from installing custom packages</li>
+<li>Restrict students from call functions from disallowed packages using <code>::</code> operators.</li>
+<li>Restrict students from setting the random seed arbitrarily. </li>
+<li>Define a wrapper function of the function to be implemented by students to check the correctness of implementation.</li>
+</ul>
+<p>In this example assignment, the 
+preload script restricts students from using any packages other than the <code>base</code> package.</p>
+<div class="language-r highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-6-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-6-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-6-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-6-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-6-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-6-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-6-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-6-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-6-10">10</a></span>
+<span class="normal"><a href="#__codelineno-6-11">11</a></span>
+<span class="normal"><a href="#__codelineno-6-12">12</a></span>
+<span class="normal"><a href="#__codelineno-6-13">13</a></span>
+<span class="normal"><a href="#__codelineno-6-14">14</a></span>
+<span class="normal"><a href="#__codelineno-6-15">15</a></span>
+<span class="normal"><a href="#__codelineno-6-16">16</a></span>
+<span class="normal"><a href="#__codelineno-6-17">17</a></span>
+<span class="normal"><a href="#__codelineno-6-18">18</a></span>
+<span class="normal"><a href="#__codelineno-6-19">19</a></span>
+<span class="normal"><a href="#__codelineno-6-20">20</a></span>
+<span class="normal"><a href="#__codelineno-6-21">21</a></span>
+<span class="normal"><a href="#__codelineno-6-22">22</a></span>
+<span class="normal"><a href="#__codelineno-6-23">23</a></span>
+<span class="normal"><a href="#__codelineno-6-24">24</a></span>
+<span class="normal"><a href="#__codelineno-6-25">25</a></span>
+<span class="normal"><a href="#__codelineno-6-26">26</a></span>
+<span class="normal"><a href="#__codelineno-6-27">27</a></span>
+<span class="normal"><a href="#__codelineno-6-28">28</a></span>
+<span class="normal"><a href="#__codelineno-6-29">29</a></span>
+<span class="normal"><a href="#__codelineno-6-30">30</a></span>
+<span class="normal"><a href="#__codelineno-6-31">31</a></span>
+<span class="normal"><a href="#__codelineno-6-32">32</a></span>
+<span class="normal"><a href="#__codelineno-6-33">33</a></span>
+<span class="normal"><a href="#__codelineno-6-34">34</a></span>
+<span class="normal"><a href="#__codelineno-6-35">35</a></span>
+<span class="normal"><a href="#__codelineno-6-36">36</a></span>
+<span class="normal"><a href="#__codelineno-6-37">37</a></span>
+<span class="normal"><a href="#__codelineno-6-38">38</a></span>
+<span class="normal"><a href="#__codelineno-6-39">39</a></span>
+<span class="normal"><a href="#__codelineno-6-40">40</a></span>
+<span class="normal"><a href="#__codelineno-6-41">41</a></span>
+<span class="normal"><a href="#__codelineno-6-42">42</a></span>
+<span class="normal"><a href="#__codelineno-6-43">43</a></span>
+<span class="normal"><a href="#__codelineno-6-44">44</a></span>
+<span class="normal"><a href="#__codelineno-6-45">45</a></span>
+<span class="normal"><a href="#__codelineno-6-46">46</a></span>
+<span class="normal"><a href="#__codelineno-6-47">47</a></span>
+<span class="normal"><a href="#__codelineno-6-48">48</a></span>
+<span class="normal"><a href="#__codelineno-6-49">49</a></span>
+<span class="normal"><a href="#__codelineno-6-50">50</a></span>
+<span class="normal"><a href="#__codelineno-6-51">51</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c1">## config/preload.baseonly.R - contains the R script to load before the submission file</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="c1">##</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="c1">## This function allows students to use only specific packages</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="n">detach_disallowed_packages</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">pkgnames</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="w">  </span><span class="c1"># Get the list of all attached packages</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a><span class="w">  </span><span class="n">attached_packages</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">search</span><span class="p">()</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8"></a><span class="w">  </span><span class="c1"># Keep only the base package + other essential packages</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9"></a><span class="w">  </span><span class="n">allowed_package</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="n">pkgnames</span><span class="p">,</span><span class="s">&quot;package:utils&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;.GlobalEnv&quot;</span><span class="p">,</span><span class="s">&quot;Autoloads&quot;</span><span class="p">)</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10"></a>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11"></a><span class="w">  </span><span class="c1"># Identify packages that are not the base package</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12"></a><span class="w">  </span><span class="n">disallowed_packages</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">setdiff</span><span class="p">(</span><span class="n">attached_packages</span><span class="p">,</span><span class="w"> </span><span class="n">allowed_package</span><span class="p">)</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13"></a>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14"></a><span class="w">  </span><span class="c1"># Detach each disallowed package</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15"></a><span class="w">  </span><span class="nf">for </span><span class="p">(</span><span class="n">pkg</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">disallowed_packages</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16"></a><span class="w">    </span><span class="nf">try</span><span class="p">(</span><span class="nf">detach</span><span class="p">(</span><span class="n">pkg</span><span class="p">,</span><span class="w"> </span><span class="n">character.only</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">),</span><span class="w"> </span><span class="n">silent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18"></a><span class="p">}</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19"></a>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20"></a><span class="c1">## allow only base package</span>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21"></a><span class="nf">detach_disallowed_packages</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;package:base&quot;</span><span class="p">))</span>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22"></a>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23"></a><span class="c1">## Redefine library() function to prevent loading additional packages</span>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24"></a><span class="n">library</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="kc">...</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25"></a><span class="w">  </span><span class="nf">stop</span><span class="p">(</span><span class="s">&quot;Loading additional packages is not allowed.&quot;</span><span class="p">)</span>
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26"></a><span class="p">}</span>
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27"></a>
+</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28"></a><span class="c1">## Redefine require() function to prevent loading additional packages</span>
+</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29"></a><span class="n">require</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="kc">...</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30"></a><span class="w">  </span><span class="nf">stop</span><span class="p">(</span><span class="s">&quot;Loading additional packages is not allowed.&quot;</span><span class="p">)</span>
+</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31"></a><span class="p">}</span>
+</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32"></a>
+</span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33"></a><span class="c1">## Redefine source() function to check a disallowed pattern in the submitted file</span>
+</span><span id="__span-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34"></a><span class="n">source</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-35"><a id="__codelineno-6-35" name="__codelineno-6-35"></a><span class="w">  </span><span class="n">file_content</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">readLines</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</span><span id="__span-6-36"><a id="__codelineno-6-36" name="__codelineno-6-36"></a><span class="w">  </span><span class="c1"># Check if the file contains &quot;::&quot; or &quot;:::&quot;</span>
+</span><span id="__span-6-37"><a id="__codelineno-6-37" name="__codelineno-6-37"></a><span class="w">  </span><span class="n">contains_double_colon</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">any</span><span class="p">(</span><span class="nf">grepl</span><span class="p">(</span><span class="s">&quot;::&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">file_content</span><span class="p">))</span>
+</span><span id="__span-6-38"><a id="__codelineno-6-38" name="__codelineno-6-38"></a><span class="w">  </span><span class="n">contains_triple_colon</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">any</span><span class="p">(</span><span class="nf">grepl</span><span class="p">(</span><span class="s">&quot;:::&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">file_content</span><span class="p">))</span>
+</span><span id="__span-6-39"><a id="__codelineno-6-39" name="__codelineno-6-39"></a>
+</span><span id="__span-6-40"><a id="__codelineno-6-40" name="__codelineno-6-40"></a><span class="w">  </span><span class="nf">if </span><span class="p">(</span><span class="w"> </span><span class="n">contains_double_colon</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">contains_triple_colon</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-41"><a id="__codelineno-6-41" name="__codelineno-6-41"></a><span class="w">    </span><span class="nf">stop</span><span class="p">(</span><span class="s">&quot;Use of :: or ::: is not allowed&quot;</span><span class="p">)</span>
+</span><span id="__span-6-42"><a id="__codelineno-6-42" name="__codelineno-6-42"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-6-43"><a id="__codelineno-6-43" name="__codelineno-6-43"></a>
+</span><span id="__span-6-44"><a id="__codelineno-6-44" name="__codelineno-6-44"></a><span class="w">  </span><span class="n">expr</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</span><span id="__span-6-45"><a id="__codelineno-6-45" name="__codelineno-6-45"></a><span class="w">  </span><span class="nf">eval</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span><span class="w"> </span><span class="n">envir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">globalenv</span><span class="p">())</span>
+</span><span id="__span-6-46"><a id="__codelineno-6-46" name="__codelineno-6-46"></a><span class="p">}</span>
+</span><span id="__span-6-47"><a id="__codelineno-6-47" name="__codelineno-6-47"></a>
+</span><span id="__span-6-48"><a id="__codelineno-6-48" name="__codelineno-6-48"></a><span class="c1">## You may also redefine set.seed() function to prevent setting the random seed</span>
+</span><span id="__span-6-49"><a id="__codelineno-6-49" name="__codelineno-6-49"></a>
+</span><span id="__span-6-50"><a id="__codelineno-6-50" name="__codelineno-6-50"></a><span class="c1">## You may also define a wrapper function to evaluate user&#39;s function in more specific way.</span>
+</span><span id="__span-6-51"><a id="__codelineno-6-51" name="__codelineno-6-51"></a><span class="c1">## In this case, you need to specify the wrapper function as &#39;func&#39; in the config.yaml file.</span>
+</span></code></pre></div></td></tr></table></div>
+<h3 id="input-argument-files">Input Argument Files<a class="headerlink" href="#input-argument-files" title="Permanent link">&para;</a></h3>
+<p>The input arguments for each test case are stored in the <code>args/</code> directory.
+Each line represents a single argument that is passed to the function to be evaluated.
+The number of arguments must match to the number of arguments used in the function to be evaluated.</p>
+<p>In this example assignment, the function <code>mypexp()</code> takes four arguments: <code>x</code>, <code>rate</code>, <code>lower.tail</code>, and <code>log.p</code>. Each argument must be specified in separate lines, in the format of <code>[type]:[value]</code> as in the following <code>args/test.1.args</code> file.</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>numeric:1 
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>numeric:10
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>numeric:TRUE
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a>numeric:FALSE
+</span></code></pre></div></td></tr></table></div>
+<p>Other than <code>numeric</code> types, you may also define <code>int</code>, <code>str</code>, <code>df</code> (for TSV), <code>rds</code> (for RDS), <code>eval</code> (for function). See <a href="../new_assignment/">Creating a New Assignment</a> or the <a href="../../full/intro/">Full documentation</a> to see more details.</p>
+<h3 id="solution-file">Solution File<a class="headerlink" href="#solution-file" title="Permanent link">&para;</a></h3>
+<p>The solution file contains the gold standard solution whose output used to compare output from the students' submissions. The instructors do not have to provide the expected output individually. Instead, the <code>autogradescoper</code> will run the solution file and student's submission file separately on the same input arguments, and compare the output to evaluate the correctness of the student's submission.</p>
+<p>In <code>mypexp()</code> example, the function should behave exactly the same as <code>pexp()</code> function. Therefore, the solution file <code>solution/mypexp.R</code> simply calls the <code>pexp()</code> function from the <code>stats</code> package.</p>
+<div class="language-r highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span>
+<span class="normal"><a href="#__codelineno-8-3">3</a></span>
+<span class="normal"><a href="#__codelineno-8-4">4</a></span>
+<span class="normal"><a href="#__codelineno-8-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c1">## solution/mypexp.R - contains the solution file</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="n">mypexp</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">rate</span><span class="p">,</span><span class="w"> </span><span class="n">lower.tail</span><span class="p">,</span><span class="w"> </span><span class="n">log.p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="w">  </span><span class="c1">## simply calls pexp() function from stats package</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="w">  </span><span class="nf">return</span><span class="p">(</span><span class="nf">pexp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">rate</span><span class="p">,</span><span class="w"> </span><span class="n">lower.tail</span><span class="p">,</span><span class="w"> </span><span class="n">log.p</span><span class="p">))</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Note that this is NOT a correct solution, because the students are disallowed to use the <code>stats</code> package in their submission.</p>
+<p>However, because the results of the function should exactly
+match to the behavior of <code>stats::pexp()</code> function,
+this will serve as a gold standard to compare the output with a submitted code.</p>
+<p>The students will not be able to use stats::pexp() in their submission because
+the preload script in the configuration prevents loading any functions outside the "base" package.</p>
+<p>The autograder will run both the solution and submission code for each test case
+and compare the output to check the correctness. </p>
+<h3 id="creating-a-zip-file-for-autograder">Creating a zip file for Autograder<a class="headerlink" href="#creating-a-zip-file-for-autograder" title="Permanent link">&para;</a></h3>
+<p>To create a zip file for the autograder, you need to create a zip file that contains all the files and directories in the structure given previously:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>|-- setup.sh
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>|-- run_autograder
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>|-- config/
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>| |-- config.yaml
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>| |-- config.prob.yaml
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>| `-- preload.baseonly.R
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>|-- solution/
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>| `-- [function_name].R 
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>`-- args/
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>  |-- test.1.args
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>  |-- test.2.args
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>  |-- ...
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>  `-- test.10.args
+</span></code></pre></div>
+<p>It is important NOT to include the parent directory in the zip file. When compressed these files should NOT be contained in another directory. </p>
+<h2 id="testing-the-example-assignment-in-gradescope">Testing the Example Assignment in Gradescope.<a class="headerlink" href="#testing-the-example-assignment-in-gradescope" title="Permanent link">&para;</a></h2>
+<p>Using this Autograder file, you can create your course, create your assignment, and test your assignment as described in the <a href="../../quickstart/">Quickstart</a> page.</p>
 
 
 
