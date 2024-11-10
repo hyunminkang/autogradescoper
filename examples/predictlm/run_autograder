@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+source /venv/bin/activate
+autogradescoper eval_r_func_probset --skip-solution --show-args --show-details --show-errors
