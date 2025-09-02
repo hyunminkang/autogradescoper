@@ -149,6 +149,8 @@ def params2str(in_params):
                 str_param = f"arg{n_args} ({type}) = {value}"
             elif type == "eval":
                 str_param = f"arg{n_args} ({type}) = {value}"
+            elif type == "asis":
+                str_param = f"arg{n_args} ({type}) = {value}"
             else:
                 raise ValueError(f"Unknown type {type}")
             str_params.append(str_param)
@@ -186,6 +188,8 @@ def write_r_eval_func_script(func_name, out_prefix, in_func_path, in_params, out
 #                    include_read_binary_matrix = True
                 elif type == "eval":
                     cmd = f"arg{n_args} <- (function()" + "{" + value + "})()"
+                elif type == "asis":
+                    cmd = f"arg{n_args} <- ( " + value + " )"
                 else:
                     raise ValueError(f"Unknown type {type}")
                 out_cmds.append(cmd)
