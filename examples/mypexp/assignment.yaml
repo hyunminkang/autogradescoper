@@ -1,0 +1,33 @@
+defaults:
+  digits: 8
+  format: g
+  maxtime: 10
+name: examples
+problems:
+- cases:
+  - args: args/test.1.args
+    maxtime: 1
+  - args: args/test.2.args
+    maxtime: 1
+  - args: args/test.3.args
+    maxtime: 1
+  - args: args/test.4.args
+    maxtime: 1
+  - args: args/test.5.args
+    maxtime: 1
+  - args: args/test.6.args
+    maxtime: 1
+  - args: args/test.7.args
+    maxtime: 1
+  - args: args/test.8.args
+    maxtime: 1
+  - args: args/test.9.args
+    maxtime: 1
+  - args: args/test.10.args
+    maxtime: 1
+  digits: 8
+  func: mypexp
+  lang: r
+  name: mypexp
+  preload: config/preload.baseonly.R
+version: 1

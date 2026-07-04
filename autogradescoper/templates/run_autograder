@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Gradescope entry point. The autograder zip should contain:
+#   setup.sh  run_autograder  assignment.yaml  solution/  args/  [preload files]
+source /venv/bin/activate 2>/dev/null || true
+autogradescoper eval \
+  --config /autograder/source/assignment.yaml \
+  --solution-dir /autograder/source/solution \
+  --submission-dir /autograder/submission \
+  --out-prefix /autograder/results/results \
+  --show-args --show-details
