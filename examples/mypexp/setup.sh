@@ -9,6 +9,6 @@ apt-get install -y git
 pip3 install virtualenv
 virtualenv /venv
 source /venv/bin/activate
-git clone https://github.com/hyunminkang/autogradescoper.git
+git clone -b dev https://github.com/hyunminkang/autogradescoper.git
 cd autogradescoper
 pip install -e .
