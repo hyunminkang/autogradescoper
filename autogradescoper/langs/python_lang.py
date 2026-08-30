@@ -19,7 +19,8 @@ from __future__ import annotations
 
 import os
 
-from autogradescoper.langs.base import LanguageBackend
+from autogradescoper.langs.base import (LanguageBackend, format_arg_value,
+                                        parse_bool_token)
 
 _ASSETS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets")
 
@@ -128,6 +129,9 @@ def _py_arg_stmt(typ: str, value: str) -> str:
         if len(vals) == 1:
             return f"_args.append({cast}({vals[0]}))"
         return f"_args.append([{cast}(v) for v in {vals!r}])"
+    if typ == "bool":
+        vals = [parse_bool_token(v) for v in value.replace(",", " ").split()]
+        return f"_args.append({vals[0]!r})" if len(vals) == 1 else f"_args.append({vals!r})"
     if typ == "str":
         vals = value.split()
         return f"_args.append({vals[0]!r})" if len(vals) == 1 else f"_args.append({vals!r})"
@@ -174,5 +178,5 @@ class PythonBackend(LanguageBackend):
     def describe_args(self, args_path):
         descs = []
         for i, (typ, value) in enumerate(_parse_arg_lines(args_path), 1):
-            descs.append(f"arg{i} ({typ}) = {value}")
+            descs.append(f"arg{i} ({typ}) = {format_arg_value(typ, value)}")
         return f"{len(descs)} argument(s):\n" + "\n".join(descs)

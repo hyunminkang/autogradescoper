@@ -14,12 +14,18 @@ One argument per line, `type:value`:
 |---|---|---|---|
 | `numeric` | scalar or comma/space-separated vector | `c(...)` double | float or list of floats |
 | `int` | integer scalar/vector | `c(...)` | int or list of ints |
+| `bool` | logical scalar/vector (`TRUE`/`FALSE`, `T`/`F`, `1`/`0`) | `c(TRUE, ...)` | bool or list of bools |
 | `str` | whitespace-separated string(s) | character vector | str or list of str |
 | `df` | path to a table with header row | `read.table(header=TRUE)` | dict of columns (lists) |
 | `json` | path to a JSON file | `jsonlite::fromJSON` | `json.load` |
 | `eval` | language-native expression | evaluated in a function | `eval()` |
 | `asis` | language-native literal | inserted verbatim | inserted verbatim |
 | `rds` | path to an .rds file | `readRDS` | *(R family only)* |
+
+With `--show-args`, each argument value shown to students is truncated to
+120 characters (cut at a token boundary), followed by
+`... [truncated; N values in total]` — so very long input vectors do not
+flood the feedback while students still see the input size.
 
 `eval`/`asis` values are language-specific — problems using them are tied to
 one language. For cross-language problems, prefer `numeric`/`int`/`str` and

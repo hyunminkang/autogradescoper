@@ -23,6 +23,8 @@ type       meaning
 =========  =====================================================
 numeric    scalar or comma/space-separated numeric vector
 int        scalar or comma/space-separated integer vector
+bool       scalar or comma/space-separated logical vector
+           (TRUE/FALSE, T/F, 1/0, case-insensitive)
 str        one or more whitespace-separated strings
 df         path to a TSV/whitespace table with a header row
 json       path to a JSON file
@@ -35,6 +37,40 @@ rds        (R family only) path to an .rds file
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+
+#: max characters of a single argument value shown in student-visible output
+ARG_DISPLAY_MAX = 120
+
+
+def format_arg_value(typ: str, value: str, max_chars: int = ARG_DISPLAY_MAX) -> str:
+    """Render one argument value for student-visible display.
+
+    Long values (e.g. a 1,000-element vector) are truncated to
+    ``max_chars`` characters at a token boundary, with a note giving the
+    total number of values so students still know the full input size.
+    """
+    value = value.strip()
+    if len(value) <= max_chars:
+        return value
+    n_values = len(value.replace(",", " ").split())
+    cut = value[:max_chars]
+    # do not cut in the middle of a token
+    for sep in (",", " "):
+        pos = cut.rfind(sep)
+        if pos > 0:
+            cut = cut[:pos]
+            break
+    return f"{cut}, ... [truncated; {n_values} values in total]"
+
+
+def parse_bool_token(v: str) -> bool:
+    """Parse one bool-type token (TRUE/FALSE, T/F, 1/0; case-insensitive)."""
+    u = v.strip().upper()
+    if u in ("TRUE", "T", "1"):
+        return True
+    if u in ("FALSE", "F", "0"):
+        return False
+    raise ValueError(f"Invalid bool token: {v!r}")
 
 
 class LanguageBackend(ABC):

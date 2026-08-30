@@ -13,7 +13,8 @@ from __future__ import annotations
 
 import os
 
-from autogradescoper.langs.base import LanguageBackend
+from autogradescoper.langs.base import (LanguageBackend, format_arg_value,
+                                        parse_bool_token)
 
 _ASSETS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets")
 
@@ -32,6 +33,10 @@ def _r_literal(typ: str, value: str, argname: str) -> str:
     if typ in ("numeric", "int"):
         vals = value.replace(",", " ").split()
         return f"{argname} <- c(" + ",".join(vals) + ")"
+    if typ == "bool":
+        vals = value.replace(",", " ").split()
+        return (f"{argname} <- c(" +
+                ",".join("TRUE" if parse_bool_token(v) else "FALSE" for v in vals) + ")")
     if typ == "str":
         vals = value.split()
         return f"{argname} <- c(" + ",".join(f"'{v}'" for v in vals) + ")"
@@ -83,7 +88,7 @@ class RBackend(LanguageBackend):
     def describe_args(self, args_path):
         descs = []
         for i, (typ, value) in enumerate(_parse_arg_lines(args_path), 1):
-            descs.append(f"arg{i} ({typ}) = {value}")
+            descs.append(f"arg{i} ({typ}) = {format_arg_value(typ, value)}")
         return f"{len(descs)} argument(s):\n" + "\n".join(descs)
 
 
