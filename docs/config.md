@@ -47,6 +47,10 @@ problems:
   comparison — so choose `digits` such that the correct answer is stable.
 - **Statuses**: `pass`, `incorrect`, `timeout`, `error` (submission crashed),
   plus `MISSING FILE` at the problem level if the expected file is absent.
+  Filename matching tolerates case: `foo.r` or `Foo.R` is accepted for an
+  expected `foo.R` (a note in the feedback asks for the exact name next
+  time). When nothing matches, the `MISSING FILE` message lists the files
+  that were actually submitted.
 - **Multi-language assignments**: list the same conceptual problem twice with
   different `lang`/`func` values. YAML anchors keep case lists in sync:
 
