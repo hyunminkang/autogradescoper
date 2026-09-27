@@ -82,8 +82,13 @@ class LanguageBackend(ABC):
     @abstractmethod
     def write_harness(self, func: str, out_prefix: str, source_path: str,
                       args_path: str, digits: int, out_format: str,
-                      preload_paths: list[str | None]) -> str:
-        """Write the driver script; return its path."""
+                      preload_paths: list[str | None],
+                      entry_path: str | None = None) -> str:
+        """Write the driver script; return its path.
+
+        `entry_path`, when given, is a file of given code loaded after the
+        submission; `func` is looked up there instead of in the submission.
+        """
 
     @abstractmethod
     def command(self, harness_path: str) -> list[str]:

@@ -24,6 +24,10 @@ An assignment is described by a single YAML (or JSON) file:
         preload_sol: null          # sourced before the SOLUTION
         solution_file: null        # override solution path (default:
                                    # <solution_dir>/<file>.<ext>)
+        entry: null                # optional GIVEN-CODE file, shipped with the
+                                   # assignment, loaded AFTER the submission /
+                                   # solution; `func` is then taken from it. Keeps
+                                   # entry points and helpers out of student files.
         cases:                     # inline test cases ...
           - args: args/case1.args
             maxtime: 2
@@ -69,6 +73,7 @@ class Problem:
     preload: str | None = None
     preload_sol: str | None = None
     solution_file: str | None = None
+    entry: str | None = None
     cases: list[Case] = field(default_factory=list)
 
     @property
@@ -140,6 +145,9 @@ def load_assignment(config_path: str) -> Assignment:
                 maxscore=float(c.get("maxscore", 1)),
             ))
 
+        entry_path = _resolve(base_dir, p.get("entry", defaults.get("entry")))
+        if entry_path and not os.path.isfile(entry_path):
+            raise ConfigError(f"problems[{i}] ({p['func']}): entry file not found: {entry_path}")
         problems.append(Problem(
             func=p["func"],
             lang=lang,
@@ -151,6 +159,7 @@ def load_assignment(config_path: str) -> Assignment:
             preload=_resolve(base_dir, p.get("preload", defaults.get("preload"))),
             preload_sol=_resolve(base_dir, p.get("preload_sol", defaults.get("preload_sol"))),
             solution_file=_resolve(base_dir, p.get("solution_file")),
+            entry=entry_path,
             cases=cases,
         ))
 

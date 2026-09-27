@@ -58,13 +58,15 @@ class RBackend(LanguageBackend):
     load_template = "source('{path}')"
 
     def write_harness(self, func, out_prefix, source_path, args_path,
-                      digits, out_format, preload_paths):
+                      digits, out_format, preload_paths, entry_path=None):
         harness_path = f"{out_prefix}.harness.R"
         lines = [f"source('{os.path.join(_ASSETS, 'autogradescoper_utils.R')}')"]
         for p in preload_paths:
             if p:
                 lines.append(f"source('{p}')")
         lines.append(self.load_template.format(path=os.path.abspath(source_path)))
+        if entry_path:   # given code (entry point + helpers), after the submission
+            lines.append(f"source('{os.path.abspath(entry_path)}')")
 
         argnames = []
         for i, (typ, value) in enumerate(_parse_arg_lines(args_path), 1):

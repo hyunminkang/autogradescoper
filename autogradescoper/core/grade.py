@@ -35,7 +35,8 @@ def grade_case(problem: Problem, case: Case, solution_path: str,
         sol_prefix = f"{out_prefix}.sol"
         harness = backend.write_harness(
             problem.func, sol_prefix, solution_path, case.args,
-            problem.digits, problem.format, [problem.preload_sol])
+            problem.digits, problem.format, [problem.preload_sol],
+            entry_path=problem.entry)
         elapsed, code, err = run_command(backend.command(harness),
                                          f"{sol_prefix}.stdout", maxtime=None)
         if code != 0:
@@ -53,7 +54,8 @@ def grade_case(problem: Problem, case: Case, solution_path: str,
     try:
         harness = backend.write_harness(
             problem.func, usr_prefix, submission_path, case.args,
-            problem.digits, problem.format, [problem.preload])
+            problem.digits, problem.format, [problem.preload],
+            entry_path=problem.entry)
     except ValueError as e:
         return {"status": "error", "elapsed": 0.0, "score": 0.0,
                 "details": f"ERROR building test harness: {e}", "diffs": "", "errors": str(e)}

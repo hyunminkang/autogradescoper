@@ -100,7 +100,17 @@ for _pre in {preloads!r}:
 _spec = importlib.util.spec_from_file_location("_submission", {source_path!r})
 _mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_mod)
-_func = getattr(_mod, {func!r})
+# register the submission under its file name so that a given-code entry file
+# can `import <stem>` regardless of the working directory
+sys.modules.setdefault({submission_name!r}, _mod)
+_entry = {entry_path!r}
+if _entry:
+    _espec = importlib.util.spec_from_file_location("_entry", _entry)
+    _emod = importlib.util.module_from_spec(_espec)
+    _espec.loader.exec_module(_emod)
+    _func = getattr(_emod, {func!r})
+else:
+    _func = getattr(_mod, {func!r})
 
 # ---- arguments --------------------------------------------------------------
 _args = []
@@ -152,7 +162,7 @@ class PythonBackend(LanguageBackend):
     extension = "py"
 
     def write_harness(self, func, out_prefix, source_path, args_path,
-                      digits, out_format, preload_paths):
+                      digits, out_format, preload_paths, entry_path=None):
         harness_path = f"{out_prefix}.harness.py"
         arg_lines = []
         for typ, value in _parse_arg_lines(args_path):
@@ -166,6 +176,8 @@ class PythonBackend(LanguageBackend):
                 out_format=out_format,
                 preloads=[p for p in preload_paths if p],
                 source_path=os.path.abspath(source_path),
+                submission_name=os.path.splitext(os.path.basename(source_path))[0],
+                entry_path=os.path.abspath(entry_path) if entry_path else None,
                 func=func,
                 arg_lines="\n".join(arg_lines),
                 out_path=f"{out_prefix}.out",

@@ -1,7 +1,10 @@
 # Language backends
 
 A backend generates a small harness script per test case and runs it. The
-harness: executes preloads → loads the submission (or solution) → parses the
+harness: executes preloads → loads the submission (or solution) → loads the
+optional `entry` file of given code (R: `source()`; Python: imported after the
+submission is registered in `sys.modules` under its file stem, so the entry file
+can `from <stem> import <func>`) → parses the
 args file → calls the function → writes the result to a text file. Grading
 compares that text against the solution's. Because comparison is always
 same-language, formatting only needs to be deterministic within a language.

@@ -26,6 +26,9 @@ problems:
     exact: false          # informational; string outputs compare exactly anyway
     preload: jail.R       # sourced/executed BEFORE the submission (sandboxing)
     preload_sol: null     # sourced/executed before the solution
+    entry: null           # optional given-code file loaded AFTER the submission;
+                          # `func` is taken from it (keeps entry points, data
+                          # readers and simulators out of student files)
     solution_file: null   # override the solution path
                           # (default: <solution-dir>/<file>.<ext>)
     cases:                # inline cases, and/or ...
