@@ -1,0 +1,45 @@
+version: 1
+name: "BIOSTAT615 FA26 HW3 (dual-language example)"
+defaults:
+  maxtime: 10
+problems:
+  - name: topFreqItems
+    lang: r
+    func: topFreqItems
+    exact: true
+    preload: preload.baseonly.R
+    cases: &topfreq_cases
+      - {args: args/topFreqItems.1.args, maxtime: 2}
+      - {args: args/topFreqItems.2.args, maxtime: 2}
+      - {args: args/topFreqItems.3.args, maxtime: 2}
+      - {args: args/topFreqItems.4.args, maxtime: 2}
+      - {args: args/topFreqItems.5.args, maxtime: 2}
+      - {args: args/topFreqItems.6.args, maxtime: 10}
+      - {args: args/topFreqItems.7.args, maxtime: 10}
+      - {args: args/topFreqItems.8.args, maxtime: 10}
+  - name: top_freq_items
+    lang: python
+    func: top_freq_items
+    exact: true
+    preload: preload_stdlib_only.py
+    cases: *topfreq_cases
+  - name: runningMedian
+    lang: r
+    func: runningMedian
+    digits: 6
+    preload: preload.baseonly.R
+    cases: &median_cases
+      - {args: args/runningMedian.1.args, maxtime: 2}
+      - {args: args/runningMedian.2.args, maxtime: 2}
+      - {args: args/runningMedian.3.args, maxtime: 2}
+      - {args: args/runningMedian.4.args, maxtime: 2}
+      - {args: args/runningMedian.5.args, maxtime: 2}
+      - {args: args/runningMedian.6.args, maxtime: 20}
+      - {args: args/runningMedian.7.args, maxtime: 20}
+      - {args: args/runningMedian.8.args, maxtime: 20}
+  - name: running_median
+    lang: python
+    func: running_median
+    digits: 6
+    preload: preload_stdlib_only.py
+    cases: *median_cases

@@ -7,4 +7,4 @@ autogradescoper eval \
   --solution-dir /autograder/source/solution \
   --submission-dir /autograder/submission \
   --out-prefix /autograder/results/results \
-  --show-args --show-details --show-errors
+  --show-args --show-details
