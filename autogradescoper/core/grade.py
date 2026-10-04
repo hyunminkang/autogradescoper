@@ -52,18 +52,16 @@ def grade_case(problem: Problem, case: Case, solution_path: str,
     # --- solution side (cached across submissions during `validate`) --------
     cache_key = (solution_path, case.args)
     sol_out = None
-    sol_time = None
     if solution_out_cache is not None:
         sol_out = solution_out_cache.get(cache_key)
-        sol_time = solution_out_cache.get(("time",) + cache_key)
     if sol_out is None:
         sol_prefix = f"{out_prefix}.sol"
         harness = backend.write_harness(
             problem.func, sol_prefix, solution_path, case.args,
             problem.digits, problem.format, [problem.preload_sol],
             entry_path=problem.entry)
-        elapsed, code, err, sol_time = _run_with_timing(backend.command(harness),
-                                                        sol_prefix, maxtime=None)
+        elapsed, code, err, _ = _run_with_timing(backend.command(harness),
+                                                 sol_prefix, maxtime=None)
         if code != 0:
             raise RuntimeError(
                 f"SOLUTION failed on {os.path.basename(case.args)} "
@@ -73,7 +71,6 @@ def grade_case(problem: Problem, case: Case, solution_path: str,
             sol_out = fh.read().strip()
         if solution_out_cache is not None:
             solution_out_cache[cache_key] = sol_out
-            solution_out_cache[("time",) + cache_key] = sol_time
 
     # --- submission side -----------------------------------------------------
     usr_prefix = f"{out_prefix}.usr"
@@ -92,7 +89,7 @@ def grade_case(problem: Problem, case: Case, solution_path: str,
                                                      maxtime=run_limit)
 
     result = {"elapsed": round(elapsed, 3), "diffs": "", "errors": "",
-              "func_time": func_time, "sol_func_time": sol_time}
+              "func_time": func_time}
     if code == TIMEOUT_EXIT_CODE or elapsed >= run_limit:
         result.update(status="timeout", score=0.0, details=(
             f"TIMEOUT: the whole run was stopped at {elapsed:.2f}s (safety limit: "
@@ -206,8 +203,6 @@ def grade_problem(problem: Problem, solution_dir: str, submission_dir: str,
         chunk = f"Case {i}: {r['status']} ({r['score']}/{case.maxscore}) in {r['elapsed']}s"
         if ft is not None:
             chunk += f"; your function {ft:.3f}s"
-            if r.get("sol_func_time") is not None:
-                chunk += f" (reference {r['sol_func_time']:.3f}s)"
         if show.get("args"):
             chunk += "\n" + backend.describe_args(case.args)
         if show.get("details") and r["details"]:

@@ -125,7 +125,8 @@ beta = _timed_call(lambda: np.asarray(student_function(X, y), dtype=float))
   killed at `wallcap` x `maxtime` (default 3), so even a faked time cannot rescue a hopelessly slow
   submission. If no time is reported (the given code was bypassed, or the run crashed), the whole
   run is timed against `maxtime`, as with `timelimit: wall`.
-- Each case's feedback shows "your function X s (reference Y s)".
+- Each case's feedback shows "your function X s". The solution's time is not shown; the
+  leaderboard is the place for comparisons.
 
 These safeguards stop casual tampering (redefining the clock, patching the time module, writing
 the report file). Code running in the same interpreter can always defeat in-process measures with
