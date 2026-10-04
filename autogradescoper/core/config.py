@@ -28,6 +28,14 @@ An assignment is described by a single YAML (or JSON) file:
                                    # assignment, loaded AFTER the submission /
                                    # solution; `func` is then taken from it. Keeps
                                    # entry points and helpers out of student files.
+        timelimit: wall            # wall: `maxtime` limits the whole run (default).
+                                   # function: `maxtime` limits the student's function
+                                   # call alone, as timed by the given entry point
+                                   # through the harness's timer (.agsTimed in R,
+                                   # __ags_timed__ in Python); the whole run is
+                                   # stopped at `wallcap` x maxtime; if no time is
+                                   # reported the whole run is timed instead.
+        wallcap: 3                 # safety cap factor for timelimit: function
         leaderboard: null          # optional Gradescope leaderboard column name,
                                    # e.g. "hw6a R time (s)": the problem's time
                                    # summed over its cases (lower is better); a
@@ -84,6 +92,8 @@ class Problem:
     solution_file: str | None = None
     entry: str | None = None
     leaderboard: str | None = None
+    timelimit: str = "wall"
+    wallcap: float = 3.0
     cases: list[Case] = field(default_factory=list)
 
     @property
@@ -156,6 +166,9 @@ def load_assignment(config_path: str) -> Assignment:
                 maxscore=float(c.get("maxscore", 1)),
             ))
 
+        timelimit = str(p.get("timelimit", defaults.get("timelimit", "wall"))).lower()
+        if timelimit not in ("wall", "function"):
+            raise ConfigError(f"problems[{i}] ({p['func']}): timelimit must be 'wall' or 'function'.")
         entry_path = _resolve(base_dir, p.get("entry", defaults.get("entry")))
         if entry_path and not os.path.isfile(entry_path):
             raise ConfigError(f"problems[{i}] ({p['func']}): entry file not found: {entry_path}")
@@ -172,6 +185,8 @@ def load_assignment(config_path: str) -> Assignment:
             solution_file=_resolve(base_dir, p.get("solution_file")),
             entry=entry_path,
             leaderboard=p.get("leaderboard"),
+            timelimit=timelimit,
+            wallcap=float(p.get("wallcap", defaults.get("wallcap", 3.0))),
             cases=cases,
         ))
 

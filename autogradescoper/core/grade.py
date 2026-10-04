@@ -7,6 +7,7 @@ dictionary (https://gradescope-autograders.readthedocs.io/en/latest/specs/).
 from __future__ import annotations
 
 import os
+import secrets
 import shutil
 
 from autogradescoper.core.config import Assignment, Case, Problem
@@ -16,18 +17,18 @@ from autogradescoper.langs.base import get_backend
 
 MAX_SHOW_CHARS = 500
 
-# Given code (an `entry:` file) may report the time of the student's function alone by writing
-# a number of seconds to the file named in this environment variable; the leaderboard and the
-# per-case feedback use it instead of the wall time of the whole case (interpreter start-up,
-# data simulation and output formatting included).
+# The time of the student's function alone. The harness (langs/r.py, langs/python_lang.py) creates
+# a timer before any submission code runs -- .agsTimed() in R, __ags_timed__ in Python -- that the
+# given entry point wraps around the call; it writes the seconds to the file named in this
+# environment variable, which the harness reads and removes from the environment before loading
+# the submission. The file name carries a random token so submission code cannot guess it. Used for
+# `timelimit: function`, the per-case feedback and the leaderboard; otherwise the wall time counts.
 TIMING_ENV = "AUTOGRADESCOPER_TIMING_FILE"
 
 
 def _run_with_timing(cmd: list[str], out_prefix: str, maxtime: float | None):
     """run_command plus the optional function time reported through TIMING_ENV."""
-    timing_path = f"{out_prefix}.timing"
-    if os.path.exists(timing_path):
-        os.remove(timing_path)
+    timing_path = f"{out_prefix}.{secrets.token_hex(8)}.timing"
     elapsed, code, err = run_command(cmd, f"{out_prefix}.stdout", maxtime=maxtime,
                                      env={TIMING_ENV: os.path.abspath(timing_path)})
     func_time = None
@@ -85,19 +86,30 @@ def grade_case(problem: Problem, case: Case, solution_path: str,
         return {"status": "error", "elapsed": 0.0, "score": 0.0,
                 "details": f"ERROR building test harness: {e}", "diffs": "", "errors": str(e)}
 
+    func_mode = problem.timelimit == "function"
+    run_limit = case.maxtime * problem.wallcap if func_mode else case.maxtime
     elapsed, code, err, func_time = _run_with_timing(backend.command(harness), usr_prefix,
-                                                     maxtime=case.maxtime)
+                                                     maxtime=run_limit)
 
     result = {"elapsed": round(elapsed, 3), "diffs": "", "errors": "",
               "func_time": func_time, "sol_func_time": sol_time}
-    if code == TIMEOUT_EXIT_CODE or elapsed >= case.maxtime:
+    if code == TIMEOUT_EXIT_CODE or elapsed >= run_limit:
         result.update(status="timeout", score=0.0, details=(
-            f"TIMEOUT: terminated at {elapsed:.2f}s "
-            f"(limit: {case.maxtime}s)."))
+            f"TIMEOUT: the whole run was stopped at {elapsed:.2f}s (safety limit: "
+            f"{run_limit:g}s = {problem.wallcap:g} x the {case.maxtime:g}s limit on your function)."
+            if func_mode else
+            f"TIMEOUT: terminated at {elapsed:.2f}s (limit: {case.maxtime}s)."))
     elif code != 0:
         result.update(status="error", score=0.0,
                       details=f"ERROR: the code exited with code {code}.",
                       errors=truncate(err, MAX_SHOW_CHARS))
+    elif func_mode and func_time is not None and func_time > case.maxtime:
+        result.update(status="timeout", score=0.0, details=(
+            f"TIMEOUT: your function took {func_time:.3f}s (limit: {case.maxtime:g}s)."))
+    elif func_mode and func_time is None and elapsed >= case.maxtime:
+        result.update(status="timeout", score=0.0, details=(
+            f"TIMEOUT: terminated at {elapsed:.2f}s (limit: {case.maxtime:g}s; no function "
+            f"time was reported, so the whole run was timed)."))
     else:
         try:
             with open(f"{usr_prefix}.out") as fh:

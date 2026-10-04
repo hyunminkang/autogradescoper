@@ -18,6 +18,33 @@ from autogradescoper.langs.base import (LanguageBackend, format_arg_value,
 
 _ASSETS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets")
 
+# Timer for the student's function call, created BEFORE the preload and the submission are loaded
+# (see TIMING_ENV in core/grade.py). It reads the report file's name from the environment and
+# removes it, captures the clock and the writer (so redefining proc.time or writeLines later has no
+# effect), resolves every name from base (its environment's parent is baseenv(), so definitions in
+# the global environment are skipped), and is bound to the locked global .agsTimed. Given entry
+# points call .agsTimed(function() <student call>) when it exists.
+_R_TIMER = r'''local({
+  path <- Sys.getenv("AUTOGRADESCOPER_TIMING_FILE")
+  Sys.unsetenv("AUTOGRADESCOPER_TIMING_FILE")
+  state <- new.env(parent = baseenv())
+  state$path <- path
+  state$clock <- proc.time
+  state$write <- writeLines
+  state$fmt <- sprintf
+  timed <- function(f) {
+    t0 <- clock()[[3L]]
+    r <- f()
+    dt <- clock()[[3L]] - t0
+    if (nzchar(path)) write(fmt("%.6f", dt), path)
+    r
+  }
+  environment(timed) <- state
+  lockEnvironment(state, bindings = TRUE)
+  assign(".agsTimed", timed, envir = globalenv())
+  lockBinding(".agsTimed", globalenv())
+})'''
+
 
 def _parse_arg_lines(args_path: str):
     with open(args_path) as fh:
@@ -60,7 +87,7 @@ class RBackend(LanguageBackend):
     def write_harness(self, func, out_prefix, source_path, args_path,
                       digits, out_format, preload_paths, entry_path=None):
         harness_path = f"{out_prefix}.harness.R"
-        lines = [f"source('{os.path.join(_ASSETS, 'autogradescoper_utils.R')}')"]
+        lines = [f"source('{os.path.join(_ASSETS, 'autogradescoper_utils.R')}')", _R_TIMER]
         for p in preload_paths:
             if p:
                 lines.append(f"source('{p}')")

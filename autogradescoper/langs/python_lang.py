@@ -90,35 +90,64 @@ def _load_df(path):
             cols[k] = vals
     return cols
 
+# ---- timer for the student's function call (see TIMING_ENV in core/grade.py) ------
+# Created before any submission code runs: it removes the report file's name from the
+# environment and captures the clock and open(), so patching time.perf_counter or os.environ
+# later has no effect. It is handed to the given entry module as __ags_timed__ and otherwise
+# lives only in a local variable of _ags_main().
+def _ags_make_timed():
+    import os as _os
+    import time as _time
+    path = _os.environ.pop("AUTOGRADESCOPER_TIMING_FILE", None)
+    clock = _time.perf_counter
+    _open = open
+    def timed(f):
+        t0 = clock()
+        r = f()
+        dt = clock() - t0
+        if path:
+            with _open(path, "w") as fh:
+                fh.write("%.6f\\n" % dt)
+        return r
+    return timed
+
 # ---- preloads (may install an import jail) --------------------------------
 for _pre in {preloads!r}:
     if _pre:
         with open(_pre) as _fh:
             exec(compile(_fh.read(), _pre, "exec"), {{"__name__": "__preload__"}})
 
-# ---- load the target module ------------------------------------------------
-_spec = importlib.util.spec_from_file_location("_submission", {source_path!r})
-_mod = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(_mod)
-# register the submission under its file name so that a given-code entry file
-# can `import <stem>` regardless of the working directory
-sys.modules.setdefault({submission_name!r}, _mod)
-_entry = {entry_path!r}
-if _entry:
-    _espec = importlib.util.spec_from_file_location("_entry", _entry)
-    _emod = importlib.util.module_from_spec(_espec)
-    _espec.loader.exec_module(_emod)
-    _func = getattr(_emod, {func!r})
-else:
-    _func = getattr(_mod, {func!r})
 
-# ---- arguments --------------------------------------------------------------
-_args = []
+def _ags_main(_ags_timed):
+    # ---- load the target module ------------------------------------------------
+    _spec = importlib.util.spec_from_file_location("_submission", {source_path!r})
+    _mod = importlib.util.module_from_spec(_spec)
+    _entry = {entry_path!r}
+    if not _entry:   # legacy layout: the graded entry point lives in the submission file itself
+        _mod.__ags_timed__ = _ags_timed
+    _spec.loader.exec_module(_mod)
+    # register the submission under its file name so that a given-code entry file
+    # can `import <stem>` regardless of the working directory
+    sys.modules.setdefault({submission_name!r}, _mod)
+    if _entry:
+        _espec = importlib.util.spec_from_file_location("_entry", _entry)
+        _emod = importlib.util.module_from_spec(_espec)
+        _emod.__ags_timed__ = _ags_timed
+        _espec.loader.exec_module(_emod)
+        _func = getattr(_emod, {func!r})
+    else:
+        _func = getattr(_mod, {func!r})
+
+    # ---- arguments --------------------------------------------------------------
+    _args = []
 {arg_lines}
 
-# ---- run and write ----------------------------------------------------------
-_rst = _func(*_args)
-write_result(_rst, {out_path!r})
+    # ---- run and write ----------------------------------------------------------
+    _rst = _func(*_args)
+    write_result(_rst, {out_path!r})
+
+
+_ags_main(_ags_make_timed())
 '''
 
 
@@ -179,7 +208,7 @@ class PythonBackend(LanguageBackend):
                 submission_name=os.path.splitext(os.path.basename(source_path))[0],
                 entry_path=os.path.abspath(entry_path) if entry_path else None,
                 func=func,
-                arg_lines="\n".join(arg_lines),
+                arg_lines="\n".join("    " + line for line in arg_lines),
                 out_path=f"{out_prefix}.out",
             ))
         return harness_path

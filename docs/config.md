@@ -31,6 +31,11 @@ problems:
                           # readers and simulators out of student files)
     solution_file: null   # override the solution path
                           # (default: <solution-dir>/<file>.<ext>)
+    timelimit: wall       # wall: maxtime limits the whole run (default);
+                          # function: maxtime limits the student's function
+                          # call alone (see "Timing the student's function")
+    wallcap: 3            # timelimit: function -- the whole run is stopped
+                          # at wallcap x maxtime
     leaderboard: null     # optional Gradescope leaderboard column, e.g.
                           # "hw3 R time (s)" (see "Leaderboard" below)
     cases:                # inline cases, and/or ...
@@ -83,26 +88,49 @@ pseudonym). autogradescoper always writes a `Score` column, and adds:
   a missing file counts as the sum of all `maxtime`s;
 - a `leaderboard_total` column, if named: the sum of those problem times.
 
-**Which time.** By default, the wall time of each case (interpreter start-up,
-preload, input construction and the function call). To time the student's
-function alone, the given `entry:` code can measure it and write the number of
-seconds to the file named in the environment variable
-`AUTOGRADESCOPER_TIMING_FILE` (set for every run, solution and submission);
-it is then used for the leaderboard and shown in each case's feedback next to
-the reference's time. R:
+The leaderboard uses the student's function time when the given code reports it (below), the
+wall time of each case otherwise.
+
+## Timing the student's function
+
+By default `maxtime` limits the **whole run** of a case: interpreter start-up, preload, loading the
+submission and the given code, building the arguments (reading files, simulating data), the call
+and writing the output. With `timelimit: function`, `maxtime` limits **the student's function call
+alone**:
+
+- The harness creates a timer **before** the preload and the submission are loaded: `.agsTimed`
+  in R (a locked global binding), `__ags_timed__` in the given Python module. It captures the clock
+  and the writer, so redefining `proc.time`/`writeLines` or patching `time.perf_counter` later
+  has no effect.
+- The given entry point wraps the student's call, including any conversion of the result, so no
+  work can be deferred past the timed window:
 
 ```r
-t0 <- proc.time()[["elapsed"]]
-res <- studentFunction(x)
-f <- Sys.getenv("AUTOGRADESCOPER_TIMING_FILE")
-if (nzchar(f)) writeLines(sprintf("%.6f", proc.time()[["elapsed"]] - t0), f)
+timedCall <- function(f) if (exists(".agsTimed")) .agsTimed(f) else f()   # plain call outside the autograder
+beta <- timedCall(function() as.numeric(studentFunction(X, y)))
 ```
 
-Python: `os.environ.get("AUTOGRADESCOPER_TIMING_FILE")` and
-`time.perf_counter()` in the same way. Outside the autograder the variable is
-unset and nothing is written. The time is self-reported by code that runs in
-the same process as the submission, so it is not tamper-proof: use it for
-feedback and leaderboards, not for scores.
+```python
+def _timed_call(f):
+    timed = globals().get("__ags_timed__")      # set by the harness; absent outside the autograder
+    return timed(f) if timed is not None else f()
+
+beta = _timed_call(lambda: np.asarray(student_function(X, y), dtype=float))
+```
+
+- The timer writes the seconds to a file whose randomly named path the grader passes in
+  `AUTOGRADESCOPER_TIMING_FILE`; the harness reads it and removes it from the environment before the
+  submission is loaded, so submission code cannot find the file to write a fake time.
+- A case is a timeout when the reported function time exceeds `maxtime`. The whole run is still
+  killed at `wallcap` x `maxtime` (default 3), so even a faked time cannot rescue a hopelessly slow
+  submission. If no time is reported (the given code was bypassed, or the run crashed), the whole
+  run is timed against `maxtime`, as with `timelimit: wall`.
+- Each case's feedback shows "your function X s (reference Y s)".
+
+These safeguards stop casual tampering (redefining the clock, patching the time module, writing
+the report file). Code running in the same interpreter can always defeat in-process measures with
+deliberate effort (for example rebinding functions inside R's base environment), so treat the
+reported time as a fair-play measure, as with the preloads.
 
 ## Directory layout convention
 
