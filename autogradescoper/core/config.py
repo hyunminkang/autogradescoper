@@ -28,11 +28,20 @@ An assignment is described by a single YAML (or JSON) file:
                                    # assignment, loaded AFTER the submission /
                                    # solution; `func` is then taken from it. Keeps
                                    # entry points and helpers out of student files.
+        leaderboard: null          # optional Gradescope leaderboard column name,
+                                   # e.g. "hw6a R time (s)": the problem's time
+                                   # summed over its cases (lower is better); a
+                                   # case that does not pass counts as its maxtime.
+                                   # The time is the one the entry point reports
+                                   # through $AUTOGRADESCOPER_TIMING_FILE (e.g. the
+                                   # student's function alone), else the wall time.
         cases:                     # inline test cases ...
           - args: args/case1.args
             maxtime: 2
             maxscore: 1
         cases_file: null           # ... or a separate YAML list of cases
+    leaderboard_total: null        # optional: name of a leaderboard column with the
+                                   # sum of all problems' leaderboard times
 
 All relative paths are resolved against the directory containing the config
 file, so an assignment directory is self-contained and relocatable (no
@@ -74,6 +83,7 @@ class Problem:
     preload_sol: str | None = None
     solution_file: str | None = None
     entry: str | None = None
+    leaderboard: str | None = None
     cases: list[Case] = field(default_factory=list)
 
     @property
@@ -89,6 +99,7 @@ class Assignment:
     name: str
     problems: list[Problem]
     base_dir: str
+    leaderboard_total: str | None = None
 
 
 def _resolve(base_dir: str, path: str | None) -> str | None:
@@ -160,6 +171,7 @@ def load_assignment(config_path: str) -> Assignment:
             preload_sol=_resolve(base_dir, p.get("preload_sol", defaults.get("preload_sol"))),
             solution_file=_resolve(base_dir, p.get("solution_file")),
             entry=entry_path,
+            leaderboard=p.get("leaderboard"),
             cases=cases,
         ))
 
@@ -167,4 +179,5 @@ def load_assignment(config_path: str) -> Assignment:
         name=raw.get("name", os.path.basename(base_dir)),
         problems=problems,
         base_dir=base_dir,
+        leaderboard_total=raw.get("leaderboard_total"),
     )

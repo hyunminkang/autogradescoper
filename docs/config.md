@@ -31,11 +31,16 @@ problems:
                           # readers and simulators out of student files)
     solution_file: null   # override the solution path
                           # (default: <solution-dir>/<file>.<ext>)
+    leaderboard: null     # optional Gradescope leaderboard column, e.g.
+                          # "hw3 R time (s)" (see "Leaderboard" below)
     cases:                # inline cases, and/or ...
       - args: args/case1.args
         maxtime: 2        # seconds; enforced with coreutils `timeout`
         maxscore: 1       # points for this case (default 1)
     cases_file: null      # ... a YAML file containing a list of cases
+
+leaderboard_total: null   # optional leaderboard column with the sum of all
+                          # problems' leaderboard times, e.g. "Total time (s)"
 ```
 
 ## Semantics
@@ -65,6 +70,39 @@ problems:
     func: running_median
     cases: *shared_cases
 ```
+
+## Leaderboard
+
+Gradescope shows `results.json`'s `leaderboard` entries as sortable columns once
+the leaderboard is enabled in the assignment settings (students pick a
+pseudonym). autogradescoper always writes a `Score` column, and adds:
+
+- one column per problem with a `leaderboard:` name: the problem's time summed
+  over its cases, `order: asc` (lower ranks higher). A case that does not pass
+  counts as its `maxtime`, so a fast but wrong submission cannot top the board;
+  a missing file counts as the sum of all `maxtime`s;
+- a `leaderboard_total` column, if named: the sum of those problem times.
+
+**Which time.** By default, the wall time of each case (interpreter start-up,
+preload, input construction and the function call). To time the student's
+function alone, the given `entry:` code can measure it and write the number of
+seconds to the file named in the environment variable
+`AUTOGRADESCOPER_TIMING_FILE` (set for every run, solution and submission);
+it is then used for the leaderboard and shown in each case's feedback next to
+the reference's time. R:
+
+```r
+t0 <- proc.time()[["elapsed"]]
+res <- studentFunction(x)
+f <- Sys.getenv("AUTOGRADESCOPER_TIMING_FILE")
+if (nzchar(f)) writeLines(sprintf("%.6f", proc.time()[["elapsed"]] - t0), f)
+```
+
+Python: `os.environ.get("AUTOGRADESCOPER_TIMING_FILE")` and
+`time.perf_counter()` in the same way. Outside the autograder the variable is
+unset and nothing is written. The time is self-reported by code that runs in
+the same process as the submission, so it is not tamper-proof: use it for
+feedback and leaderboards, not for scores.
 
 ## Directory layout convention
 
