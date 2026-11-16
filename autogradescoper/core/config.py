@@ -43,13 +43,30 @@ An assignment is described by a single YAML (or JSON) file:
                                    # The time is the one the entry point reports
                                    # through $AUTOGRADESCOPER_TIMING_FILE (e.g. the
                                    # student's function alone), else the wall time.
+                                   # With scoring: proportional the column shows the
+                                   # mean value in percent instead (higher is better).
+        scoring: match             # match: a case scores maxscore when the output
+                                   # equals the solution's (default).
+                                   # proportional: the entry point prints ONE number
+                                   # in [0, 1] (e.g. a clustering accuracy) that it
+                                   # computes from the student's result; no solution
+                                   # output is compared. The problem scores
+                                   # (sum of maxscore) x min(1, mean / fullat), the
+                                   # mean taken over its cases; a case that times out
+                                   # or fails counts as 0.
+        fullat: 1.0                # proportional only: the mean that earns full credit
         cases:                     # inline test cases ...
           - args: args/case1.args
             maxtime: 2
             maxscore: 1
         cases_file: null           # ... or a separate YAML list of cases
     leaderboard_total: null        # optional: name of a leaderboard column with the
-                                   # sum of all problems' leaderboard times
+                                   # sum of all problems' leaderboard times (problems
+                                   # with scoring: proportional are not included)
+    maxtotal: null                 # optional time budget (seconds) for grading the
+                                   # whole submission: later cases get only the time
+                                   # left, and cases reached after it runs out are not
+                                   # run (they score 0 as timeouts)
 
 All relative paths are resolved against the directory containing the config
 file, so an assignment directory is self-contained and relocatable (no
@@ -94,6 +111,8 @@ class Problem:
     leaderboard: str | None = None
     timelimit: str = "wall"
     wallcap: float = 3.0
+    scoring: str = "match"
+    fullat: float = 1.0
     cases: list[Case] = field(default_factory=list)
 
     @property
@@ -110,6 +129,7 @@ class Assignment:
     problems: list[Problem]
     base_dir: str
     leaderboard_total: str | None = None
+    maxtotal: float | None = None
 
 
 def _resolve(base_dir: str, path: str | None) -> str | None:
@@ -169,6 +189,15 @@ def load_assignment(config_path: str) -> Assignment:
         timelimit = str(p.get("timelimit", defaults.get("timelimit", "wall"))).lower()
         if timelimit not in ("wall", "function"):
             raise ConfigError(f"problems[{i}] ({p['func']}): timelimit must be 'wall' or 'function'.")
+        scoring = str(p.get("scoring", defaults.get("scoring", "match"))).lower()
+        if scoring not in ("match", "proportional"):
+            raise ConfigError(f"problems[{i}] ({p['func']}): scoring must be 'match' or 'proportional'.")
+        try:
+            fullat = float(p.get("fullat", defaults.get("fullat", 1.0)))
+        except (TypeError, ValueError):
+            fullat = -1.0
+        if not 0 < fullat <= 1:
+            raise ConfigError(f"problems[{i}] ({p['func']}): fullat must be in (0, 1].")
         entry_path = _resolve(base_dir, p.get("entry", defaults.get("entry")))
         if entry_path and not os.path.isfile(entry_path):
             raise ConfigError(f"problems[{i}] ({p['func']}): entry file not found: {entry_path}")
@@ -187,12 +216,24 @@ def load_assignment(config_path: str) -> Assignment:
             leaderboard=p.get("leaderboard"),
             timelimit=timelimit,
             wallcap=float(p.get("wallcap", defaults.get("wallcap", 3.0))),
+            scoring=scoring,
+            fullat=fullat,
             cases=cases,
         ))
+
+    maxtotal = raw.get("maxtotal")
+    if maxtotal is not None:
+        try:
+            maxtotal = float(maxtotal)
+        except (TypeError, ValueError):
+            maxtotal = -1.0
+        if maxtotal <= 0:
+            raise ConfigError("'maxtotal' must be a positive number of seconds.")
 
     return Assignment(
         name=raw.get("name", os.path.basename(base_dir)),
         problems=problems,
         base_dir=base_dir,
         leaderboard_total=raw.get("leaderboard_total"),
+        maxtotal=maxtotal,
     )

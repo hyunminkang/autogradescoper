@@ -9,10 +9,11 @@ from __future__ import annotations
 import os
 import secrets
 import shutil
+import time
 
 from autogradescoper.core.config import Assignment, Case, Problem
 from autogradescoper.core.io import diff_texts, truncate
-from autogradescoper.core.runner import TIMEOUT_EXIT_CODE, run_command
+from autogradescoper.core.runner import RUN_OVERHEAD, TIMEOUT_EXIT_CODE, run_command
 from autogradescoper.langs.base import get_backend
 
 MAX_SHOW_CHARS = 500
@@ -40,19 +41,44 @@ def _run_with_timing(cmd: list[str], out_prefix: str, maxtime: float | None):
     return elapsed, code, err, func_time
 
 
+class Budget:
+    """The time budget for grading a whole submission (`maxtotal` in the config)."""
+
+    def __init__(self, maxtotal: float):
+        self.maxtotal = maxtotal
+        self.deadline = time.monotonic() + maxtotal
+
+    def remaining(self) -> float:
+        """Seconds a run may still be given, keeping room for a timed-out run to be killed."""
+        return self.deadline - time.monotonic() - RUN_OVERHEAD
+
+
+def _not_run(budget: Budget) -> dict:
+    return {"status": "timeout", "elapsed": 0.0, "score": 0.0, "func_time": None,
+            "details": (f"NOT RUN: the {budget.maxtotal:g}s time budget for grading the whole "
+                        f"submission was used up by earlier cases."),
+            "diffs": "", "errors": ""}
+
+
 def grade_case(problem: Problem, case: Case, solution_path: str,
                submission_path: str, out_prefix: str,
-               solution_out_cache: dict | None = None) -> dict:
+               solution_out_cache: dict | None = None,
+               budget: Budget | None = None) -> dict:
     """Grade one test case; returns a result dict.
 
-    status: pass | incorrect | timeout | error
+    status: pass | incorrect | timeout | error, or scored (scoring: proportional,
+    with the printed number in `value`)
     """
     backend = get_backend(problem.lang)
+    if budget is not None and budget.remaining() < 1:
+        return _not_run(budget)
 
     # --- solution side (cached across submissions during `validate`) --------
+    # scoring: proportional compares nothing with the solution, so it is not run.
+    proportional = problem.scoring == "proportional"
     cache_key = (solution_path, case.args)
-    sol_out = None
-    if solution_out_cache is not None:
+    sol_out = "" if proportional else None
+    if solution_out_cache is not None and not proportional:
         sol_out = solution_out_cache.get(cache_key)
     if sol_out is None:
         sol_prefix = f"{out_prefix}.sol"
@@ -85,12 +111,23 @@ def grade_case(problem: Problem, case: Case, solution_path: str,
 
     func_mode = problem.timelimit == "function"
     run_limit = case.maxtime * problem.wallcap if func_mode else case.maxtime
+    budget_cut = False
+    if budget is not None:
+        left = budget.remaining()
+        if left < 1:
+            return _not_run(budget)
+        if left < run_limit:
+            run_limit, budget_cut = round(left, 2), True
     elapsed, code, err, func_time = _run_with_timing(backend.command(harness), usr_prefix,
                                                      maxtime=run_limit)
 
     result = {"elapsed": round(elapsed, 3), "diffs": "", "errors": "",
               "func_time": func_time}
-    if code == TIMEOUT_EXIT_CODE or elapsed >= run_limit:
+    if budget_cut and (code == TIMEOUT_EXIT_CODE or elapsed >= run_limit):
+        result.update(status="timeout", score=0.0, details=(
+            f"TIMEOUT: stopped at {elapsed:.2f}s, when the {budget.maxtotal:g}s time budget "
+            f"for grading the whole submission ran out."))
+    elif code == TIMEOUT_EXIT_CODE or elapsed >= run_limit:
         result.update(status="timeout", score=0.0, details=(
             f"TIMEOUT: the whole run was stopped at {elapsed:.2f}s (safety limit: "
             f"{run_limit:g}s = {problem.wallcap:g} x the {case.maxtime:g}s limit on your function)."
@@ -113,7 +150,16 @@ def grade_case(problem: Problem, case: Case, solution_path: str,
                 usr_out = fh.read().strip()
         except FileNotFoundError:
             usr_out = ""
-        if usr_out == sol_out:
+        if proportional:
+            value = _parse_value(usr_out)
+            if value is None:
+                result.update(status="error", score=0.0, value=0.0, details=(
+                    "ERROR: the entry point did not print a number in [0, 1].\n"
+                    f"Observed: {truncate(usr_out, MAX_SHOW_CHARS)}"))
+            else:
+                result.update(status="scored", score=0.0, value=value,
+                              details=f"VALUE: {value:.4f}")
+        elif usr_out == sol_out:
             result.update(status="pass", score=case.maxscore,
                           details="PASS: output matches the expected output.")
         else:
@@ -123,6 +169,15 @@ def grade_case(problem: Problem, case: Case, solution_path: str,
                                    f"Observed: {truncate(usr_out, MAX_SHOW_CHARS)}"),
                           diffs=diff_texts(sol_out, usr_out, MAX_SHOW_CHARS))
     return result
+
+
+def _parse_value(text: str) -> float | None:
+    """The first token of an output as a number in [0, 1], else None."""
+    try:
+        value = float(text.split()[0])
+    except (IndexError, ValueError):
+        return None
+    return value if 0.0 <= value <= 1.0 else None
 
 
 def find_submission_file(submission_dir: str, expected: str):
@@ -158,7 +213,8 @@ def find_submission_file(submission_dir: str, expected: str):
 
 def grade_problem(problem: Problem, solution_dir: str, submission_dir: str,
                   out_prefix: str, show: dict | None = None,
-                  solution_out_cache: dict | None = None) -> dict:
+                  solution_out_cache: dict | None = None,
+                  budget: Budget | None = None) -> dict:
     """Grade all cases of one problem; returns a Gradescope test entry."""
     show = show or {}
     backend = get_backend(problem.lang)
@@ -173,7 +229,8 @@ def grade_problem(problem: Problem, solution_dir: str, submission_dir: str,
                 "output": (f"MISSING FILE: expected a submission named "
                            f"'{problem.submission_filename()}'." + note),
                 "status": "failed",
-                "_leaderboard_time": sum(c.maxtime for c in problem.cases)}
+                "_leaderboard_time": sum(c.maxtime for c in problem.cases),
+                "_leaderboard_value": 0.0}
     if note:
         # A case-insensitive match (e.g. 'foo.PY'): grade a copy under the
         # expected name so every language backend sees the suffix it expects
@@ -183,13 +240,13 @@ def grade_problem(problem: Problem, solution_dir: str, submission_dir: str,
         shutil.copyfile(submission_path, normalized)
         submission_path = normalized
 
-    total, chunks = 0.0, []
+    total, chunks, values = 0.0, [], []
     elapsed_sum = 0.0
     lb_time = 0.0       # leaderboard time: a case that does not pass counts as its maxtime
     for i, case in enumerate(problem.cases, 1):
         try:
             r = grade_case(problem, case, solution_path, submission_path,
-                           f"{out_prefix}.{i}", solution_out_cache)
+                           f"{out_prefix}.{i}", solution_out_cache, budget)
         except RuntimeError as e:
             # Solution-side failure: an authoring/infrastructure error.
             # Score 0 for the case but keep grading; surface the cause in the
@@ -200,7 +257,11 @@ def grade_problem(problem: Problem, solution_dir: str, submission_dir: str,
         elapsed_sum += r["elapsed"]
         ft = r.get("func_time")
         lb_time += (ft if ft is not None else r["elapsed"]) if r["status"] == "pass" else case.maxtime
-        chunk = f"Case {i}: {r['status']} ({r['score']}/{case.maxscore}) in {r['elapsed']}s"
+        if problem.scoring == "proportional":
+            values.append(r.get("value", 0.0))
+            chunk = f"Case {i}: {r['status']} (value {values[-1]:.4f}) in {r['elapsed']}s"
+        else:
+            chunk = f"Case {i}: {r['status']} ({r['score']}/{case.maxscore}) in {r['elapsed']}s"
         if ft is not None:
             chunk += f"; your function {ft:.3f}s"
         if show.get("args"):
@@ -214,8 +275,15 @@ def grade_problem(problem: Problem, solution_dir: str, submission_dir: str,
         chunks.append(chunk)
 
     max_score = sum(c.maxscore for c in problem.cases)
-    lb_note = (f" | leaderboard time: {lb_time:.3f}s (a case that does not pass counts as "
-               f"its time limit)" if problem.leaderboard else "")
+    mean_value = None
+    if problem.scoring == "proportional":
+        mean_value = sum(values) / len(values)
+        total = round(max_score * min(1.0, mean_value / problem.fullat), 2)
+        lb_note = (f" | mean value: {mean_value:.4f} (full credit at {problem.fullat:g}; "
+                   f"a case that times out or fails counts as 0)")
+    else:
+        lb_note = (f" | leaderboard time: {lb_time:.3f}s (a case that does not pass counts as "
+                   f"its time limit)" if problem.leaderboard else "")
     return {
         "name": f"{problem.name} ({problem.lang})",
         "score": total,
@@ -225,6 +293,7 @@ def grade_problem(problem: Problem, solution_dir: str, submission_dir: str,
                    + "\n--------------------------------\n".join(chunks)),
         "status": "passed" if total == max_score else "failed",
         "_leaderboard_time": lb_time,
+        "_leaderboard_value": mean_value,
     }
 
 
@@ -234,19 +303,25 @@ def grade_assignment(assignment: Assignment, solution_dir: str,
                      solution_out_cache: dict | None = None) -> dict:
     """Grade the whole assignment; returns the Gradescope results dict."""
     os.makedirs(os.path.dirname(os.path.abspath(out_prefix)), exist_ok=True)
+    budget = Budget(assignment.maxtotal) if assignment.maxtotal else None
     tests = []
     for problem in assignment.problems:
         tests.append(grade_problem(
             problem, solution_dir, submission_dir,
-            f"{out_prefix}.{problem.file}", show, solution_out_cache))
+            f"{out_prefix}.{problem.file}", show, solution_out_cache, budget))
 
     score = sum(t["score"] for t in tests)
     max_score = sum(t["max_score"] for t in tests)
     leaderboard = [{"name": "Score", "value": score}]
     lb_total = 0.0
     for problem, t in zip(assignment.problems, tests):
-        lb_time = t.pop("_leaderboard_time", None)   # private key: not part of Gradescope's format
-        if problem.leaderboard and lb_time is not None:
+        lb_time = t.pop("_leaderboard_time", None)   # private keys: not part of Gradescope's format
+        lb_value = t.pop("_leaderboard_value", None)
+        if problem.scoring == "proportional":
+            if problem.leaderboard:                  # the mean value in percent, higher is better
+                leaderboard.append({"name": problem.leaderboard,
+                                    "value": round(100 * (lb_value or 0.0), 2), "order": "desc"})
+        elif problem.leaderboard and lb_time is not None:
             leaderboard.append({"name": problem.leaderboard, "value": round(lb_time, 3),
                                 "order": "asc"})
             lb_total += lb_time

@@ -38,6 +38,9 @@ problems:
                           # at wallcap x maxtime
     leaderboard: null     # optional Gradescope leaderboard column, e.g.
                           # "hw3 R time (s)" (see "Leaderboard" below)
+    scoring: match        # match (default) | proportional (see "Proportional
+                          # scoring" below)
+    fullat: 1.0           # proportional: the mean value that earns full credit
     cases:                # inline cases, and/or ...
       - args: args/case1.args
         maxtime: 2        # seconds; enforced with coreutils `timeout`
@@ -46,6 +49,8 @@ problems:
 
 leaderboard_total: null   # optional leaderboard column with the sum of all
                           # problems' leaderboard times, e.g. "Total time (s)"
+maxtotal: null            # optional time budget (seconds) for grading the whole
+                          # submission, e.g. 300 (see "Total time budget")
 ```
 
 ## Semantics
@@ -86,7 +91,10 @@ pseudonym). autogradescoper always writes a `Score` column, and adds:
   over its cases, `order: asc` (lower ranks higher). A case that does not pass
   counts as its `maxtime`, so a fast but wrong submission cannot top the board;
   a missing file counts as the sum of all `maxtime`s;
-- a `leaderboard_total` column, if named: the sum of those problem times.
+- a `leaderboard_total` column, if named: the sum of those problem times;
+- for a problem with `scoring: proportional`, its `leaderboard:` column shows
+  the mean value over its cases in percent instead, `order: desc` (higher ranks
+  higher); it is not part of `leaderboard_total`.
 
 The leaderboard uses the student's function time when the given code reports it (below), the
 wall time of each case otherwise.
@@ -132,6 +140,51 @@ These safeguards stop casual tampering (redefining the clock, patching the time 
 the report file). Code running in the same interpreter can always defeat in-process measures with
 deliberate effort (for example rebinding functions inside R's base environment), so treat the
 reported time as a fair-play measure, as with the preloads.
+
+## Proportional scoring
+
+For a problem without a single right answer (for example a clustering whose
+quality is measured against known labels), `scoring: proportional` grades a
+number instead of comparing outputs:
+
+- The given entry point computes the number from the student's result and
+  prints it alone: a value in [0, 1], such as an accuracy. The solution is not
+  run for these cases.
+- The problem scores `(sum of maxscore) x min(1, mean / fullat)`, the mean taken
+  over its cases and rounded to 2 decimals; `fullat: 0.9` gives full credit at a
+  mean of 0.9 and proportional credit below.
+- A case that times out, fails, or prints anything other than a number in
+  [0, 1] counts as 0.
+- The per-case feedback shows each value; the problem line shows the mean.
+- `validate` still requires the reference solution to earn full credit.
+
+```yaml
+  - name: hw8c_r
+    func: mnistEMAt
+    file: mnistEM
+    entry: given/hw8c_given.R
+    scoring: proportional
+    fullat: 0.9
+    leaderboard: "hw8c R accuracy (%)"
+```
+
+## Total time budget
+
+`maxtotal: 300` caps the time spent grading one submission, so a submission that times out on
+every case still finishes in about five minutes:
+
+- Cases run in order; each run is limited to the smaller of its own limit and the budget left.
+- A run cut short by the budget is a timeout whose feedback names the budget.
+- Cases reached after the budget runs out are not run; they score 0 as timeouts and count as their
+  time limit on the leaderboard.
+- The budget includes the reference solution's runs and the start-up of every case.
+
+Independently of the budget, every case runs in its own process session. When a run ends, the
+grader kills anything left in that session, so a background process started by a submission
+cannot keep running into later cases or stall the grader.
+
+For a last-resort guard against anything else hanging, wrap the call in `run_autograder` with
+coreutils `timeout` (a little above `maxtotal`) and write a fallback `results.json` when it fires.
 
 ## Directory layout convention
 
