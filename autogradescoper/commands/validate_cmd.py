@@ -5,7 +5,9 @@ Runs, without any Gradescope involvement:
 1. **Solution self-test**: the reference solution is graded as if it were a
    submission. It must score 100% — anything else is an authoring bug
    (nondeterminism, bad args file, formatting mismatch, or a solution that
-   misses its own time limits).
+   misses its own time limits). A problem with ``scoring: proportional`` need
+   not earn full credit (its reference may be a simple method); it must only
+   finish every case without an error or a timeout.
 2. **Example answers**: every directory under ``examples/`` is graded and
    reported. Name directories with their intent, e.g. ``v1_slow`` (expected
    to time out on large cases) or ``v2_incorrect`` (expected to fail some
@@ -18,6 +20,8 @@ iterates. Exit code 0 = solution self-test passed.
 
 from __future__ import annotations
 
+import re
+
 import os
 import tempfile
 import time
@@ -26,6 +30,14 @@ from autogradescoper.core.config import load_assignment
 from autogradescoper.core.grade import grade_assignment
 from autogradescoper.core.io import create_custom_logger
 
+
+
+def _selftest_ok(problem, test: dict) -> bool:
+    """Full credit, or, for scoring: proportional, every case scored (no error or timeout)."""
+    if getattr(problem, "scoring", "match") == "proportional":
+        return not re.search(r"Case \d+: (timeout|error)", test.get("output", "")) and \
+            not test.get("output", "").startswith("MISSING FILE")
+    return test["score"] == test["max_score"]
 
 def _summarize(results: dict) -> str:
     lines = []
@@ -55,7 +67,7 @@ def run_validate(args) -> int:
                 assignment, solution_dir, solution_dir,
                 os.path.join(tmp, "selftest"),
                 show={"details": True}, solution_out_cache=cache)
-            full = all(t["score"] == t["max_score"] for t in results["tests"])
+            full = all(_selftest_ok(p, t) for p, t in zip(assignment.problems, results["tests"]))
             ok = ok and full
             report += ["## 1. Solution self-test",
                        "" if full else
@@ -66,8 +78,8 @@ def run_validate(args) -> int:
                        "", "| problem | score | status |", "|---|---|---|",
                        _summarize(results), ""]
             if not full:
-                for t in results["tests"]:
-                    if t["score"] != t["max_score"]:
+                for p, t in zip(assignment.problems, results["tests"]):
+                    if not _selftest_ok(p, t):
                         report += [f"### Details: {t['name']}", "```",
                                    t["output"], "```", ""]
         except Exception as e:  # authoring errors (solution crashed, etc.)

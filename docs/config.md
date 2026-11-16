@@ -156,7 +156,9 @@ number instead of comparing outputs:
 - A case that times out, fails, or prints anything other than a number in
   [0, 1] counts as 0.
 - The per-case feedback shows each value; the problem line shows the mean.
-- `validate` still requires the reference solution to earn full credit.
+- `validate` does not require the reference solution to earn full credit on such a problem
+  (a simple reference may fall short of `fullat`); it must finish every case without an error
+  or a timeout.
 
 ```yaml
   - name: hw8c_r
